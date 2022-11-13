@@ -20,21 +20,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".LogInActivity"
+            android:name=".LoginAndRegistration.LogInActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".RegisterActivity"
+            android:name=".LoginAndRegistration.RegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginOrRegisterActivity"
+            android:name=".LoginAndRegistration.LoginOrRegisterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

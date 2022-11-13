@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-package com.example.abm;
+package com.example.abm.LoginAndRegistration;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.abm.R;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
