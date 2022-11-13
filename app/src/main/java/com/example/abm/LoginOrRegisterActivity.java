@@ -17,18 +17,40 @@
 package com.example.abm;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
  */
 public class LoginOrRegisterActivity extends Activity {
 
+    private Button registerButton;
+    private Button logInButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_or_register_activity);
+        setContentView(R.layout.activity_login_or_register);
 
+        this.registerButton = findViewById(R.id.registerButton);
+        this.logInButton = findViewById(R.id.logInButton);
 
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginOrRegisterActivity.this, RegisterActivity.class));
+                finish();
+            }
+        });
+        logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(LoginOrRegisterActivity.this, LogInActivity.class));
+                finish();
+            }
+        });
     }
 }

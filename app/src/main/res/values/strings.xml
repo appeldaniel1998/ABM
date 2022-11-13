@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">ABM</string>
+    <string name="e_mail">e-mail</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
 </resources>
