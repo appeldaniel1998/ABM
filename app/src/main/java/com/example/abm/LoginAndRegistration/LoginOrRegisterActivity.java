@@ -37,8 +37,8 @@ public class LoginOrRegisterActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_or_register);
 
-        this.registerButton = findViewById(R.id.registerButton);
-        this.logInButton = findViewById(R.id.logInButton);
+        registerButton = findViewById(R.id.registerButton);
+        logInButton = findViewById(R.id.logInButton);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
