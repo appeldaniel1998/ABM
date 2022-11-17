@@ -7,4 +7,10 @@
 
     <string name="openNavDrawer">Navigation Drawer Open</string>
     <string name="closeNavDrawer">Navigation Drawer Close</string>
+    <string name="login_register">Login/Register</string>
+    <string name="appointments">Appointments</string>
+    <string name="products">Products</string>
+    <string name="clients">Clients</string>
+    <string name="analytics">Analytics</string>
+    <string name="cart">Cart</string>
 </resources>

@@ -4,15 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NavigationDrawer"
+    tools:context=".Clients.ClientsMainActivity"
     android:id="@+id/drawer_layout">
-
-    <com.google.android.material.navigation.NavigationView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:menu="@menu/nav_menu"
-        android:id="@+id/nav_view"
-        android:layout_gravity="start"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,10 +25,23 @@
                 android:background="@android:color/white"/>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <!--Your include layout file-->
-<!--        <include layout="@layout/............"/> -->
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clients"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AppBar" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-    
 
+    <com.google.android.material.navigation.NavigationView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:menu="@menu/nav_menu"
+        android:id="@+id/nav_view"
+        android:layout_gravity="start"/>
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Title">
-        <menu>
-
-            <item android:title="Register/Login"
-                android:icon="@drawable/login"/>
-            <item android:title="Appointments"
-                android:icon="@drawable/login"/>
-            <item android:title="Products"
-                android:icon="@drawable/products"/>
-            <item android:title="Clients"
-                android:icon="@drawable/login"/>
-            <item android:title="Cart"
-                android:icon="@drawable/login"/>
-            <item android:title="Analytics"
-                android:icon="@drawable/login"/>
-        </menu>
-    </item>
-
+    <item android:title="@string/login_register"
+        android:id="@+id/menuItemLogReg"
+        android:icon="@drawable/login"/>
+    <item android:title="@string/appointments"
+        android:id="@+id/menuItemAppointments"
+        android:icon="@drawable/login"/>
+    <item android:title="@string/products"
+        android:id="@+id/menuItemProducts"
+        android:icon="@drawable/products"/>
+    <item android:title="@string/clients"
+        android:id="@+id/menuItemClients"
+        android:icon="@drawable/login"/>
+    <item android:title="@string/analytics"
+        android:id="@+id/menuItemAnalytics"
+        android:icon="@drawable/login"/>
+    <item android:title="@string/cart"
+        android:id="@+id/menuItemCart"
+        android:icon="@drawable/login"/>
 </menu>
