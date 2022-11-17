@@ -18,7 +18,6 @@ package com.example.abm.LoginAndRegistration;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -84,41 +83,24 @@ public class LogReg_LoginOrRegisterActivity extends AppCompatActivity implements
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawers();
-        if (item.getItemId() == R.id.menuItemLogReg)
-        {
+        if (item.getItemId() == R.id.menuItemLogReg) {
             return true;
-        }
-        else if (item.getItemId() == R.id.menuItemAppointments)
-        {
+        } else if (item.getItemId() == R.id.menuItemAppointments) {
             startActivity(new Intent(this, AppointmentsMainActivity.class));
             return true;
-        }
-        else if (item.getItemId() == R.id.menuItemProducts)
-        {
+        } else if (item.getItemId() == R.id.menuItemProducts) {
             startActivity(new Intent(this, ProductsMainActivity.class));
             return true;
-        }
-        else if (item.getItemId() == R.id.menuItemClients)
-        {
+        } else if (item.getItemId() == R.id.menuItemClients) {
             startActivity(new Intent(this, ClientsMainActivity.class));
             return true;
-        }
-        else if (item.getItemId() == R.id.menuItemAnalytics)
-        {
+        } else if (item.getItemId() == R.id.menuItemAnalytics) {
             startActivity(new Intent(this, AnalyticsMainActivity.class));
             return true;
-        }
-        else if (item.getItemId() == R.id.menuItemCart)
-        {
+        } else if (item.getItemId() == R.id.menuItemCart) {
             startActivity(new Intent(this, CartMainActivity.class));
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.nav_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 }
