@@ -55,11 +55,11 @@ public class LogReg_RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser(String email, String password) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(LogReg_RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(LogReg_RegisterActivity.this, "Registration was successful", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LogReg_RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(LogReg_RegisterActivity.this, AppointmentsMainActivity.class));
                     finish();
                 } else {
@@ -68,4 +68,5 @@ public class LogReg_RegisterActivity extends AppCompatActivity {
             }
         });
     }
+
 }

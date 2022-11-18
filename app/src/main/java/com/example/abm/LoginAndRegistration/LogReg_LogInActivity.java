@@ -48,10 +48,10 @@ public class LogReg_LogInActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Toast.makeText(LogReg_LogInActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LogReg_LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(LogReg_LogInActivity.this, AppointmentsMainActivity.class));
                 finish();
             }
-        });
+        }).addOnFailureListener(e -> Toast.makeText(LogReg_LogInActivity.this, "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }
