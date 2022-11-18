@@ -18,50 +18,26 @@ package com.example.abm.LoginAndRegistration;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import com.example.abm.Appointments.AppointmentsMainActivity;
-import com.example.abm.Cart.CartMainActivity;
-import com.example.abm.Clients.ClientsMainActivity;
-import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
-import com.example.abm.Products.ProductsMainActivity;
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
-import com.google.android.material.navigation.NavigationView;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
  */
 
-public class LogReg_LoginOrRegisterActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class LogReg_LoginOrRegisterActivity extends BaseActivity {
 
     private Button registerButton;
     private Button logInButton;
-    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logreg_login_or_register);
-
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
-
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openNavDrawer, R.string.closeNavDrawer);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-
+        super.initMenuSideBar();
 
         registerButton = findViewById(R.id.registerButton);
         logInButton = findViewById(R.id.logInButton);
@@ -79,28 +55,4 @@ public class LogReg_LoginOrRegisterActivity extends AppCompatActivity implements
             }
         });
     }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        drawerLayout.closeDrawers();
-        if (item.getItemId() == R.id.menuItemLogReg) {
-            return true;
-        } else if (item.getItemId() == R.id.menuItemAppointments) {
-            startActivity(new Intent(this, AppointmentsMainActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemProducts) {
-            startActivity(new Intent(this, ProductsMainActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemClients) {
-            startActivity(new Intent(this, ClientsMainActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemAnalytics) {
-            startActivity(new Intent(this, AnalyticsMainActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemCart) {
-            startActivity(new Intent(this, CartMainActivity.class));
-            return true;
-        } else return false;
-    }
-
 }
