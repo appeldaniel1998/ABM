@@ -19,4 +19,7 @@
     <item android:title="@string/cart"
         android:id="@+id/menuItemCart"
         android:icon="@drawable/login"/>
+    <item android:title="@string/sign_out"
+        android:id="@+id/menuItemSignOut"
+        android:icon="@drawable/login"/>
 </menu>

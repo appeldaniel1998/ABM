@@ -7,21 +7,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.example.abm.Appointments.AppointmentsMainActivity;
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
-public class LogReg_LogInActivity extends AppCompatActivity {
+public class LogReg_LogInActivity extends BaseActivity {
 
     private EditText email;
     private EditText password;
     private Button logIn;
 
-    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +28,6 @@ public class LogReg_LogInActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         logIn = findViewById(R.id.logInButton);
-
-        auth = FirebaseAuth.getInstance();
 
         logIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,7 +40,7 @@ public class LogReg_LogInActivity extends AppCompatActivity {
     }
 
     private void loginUser(String email, String password) {
-        auth.signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+        super.getAuth().signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
                 Toast.makeText(LogReg_LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
