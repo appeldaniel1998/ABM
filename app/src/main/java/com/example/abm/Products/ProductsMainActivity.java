@@ -1,8 +1,11 @@
 package com.example.abm.Products;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,11 +20,15 @@ import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.LoginAndRegistration.LogReg_LoginOrRegisterActivity;
 import com.example.abm.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProductsMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawerLayout;
+    private FirebaseAuth auth;
+    private ImageView image;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +44,11 @@ public class ProductsMainActivity extends AppCompatActivity implements Navigatio
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        auth = FirebaseAuth.getInstance();
+        image = findViewById(R.id.Polish1);
+
+
 
         //Code here!
     }

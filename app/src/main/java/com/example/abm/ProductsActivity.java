@@ -1,7 +1,6 @@
 package com.example.abm;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -57,9 +55,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             return true;
         } else if (item.getItemId() == R.id.menuItemCart) {
             startActivity(new Intent(this, CartMainActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemSignOut) {
-            FirebaseAuth.getInstance().signOut();
             return true;
         } else return false;
     }
