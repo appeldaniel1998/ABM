@@ -21,14 +21,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.abm.ProductsActivity;
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
  */
 
-public class LogReg_LoginOrRegisterActivity extends ProductsActivity {
+public class LogReg_LoginOrRegisterActivity extends BaseActivity {
 
     private Button registerButton;
     private Button logInButton;

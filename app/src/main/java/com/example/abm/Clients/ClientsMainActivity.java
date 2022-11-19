@@ -2,10 +2,10 @@ package com.example.abm.Clients;
 
 import android.os.Bundle;
 
-import com.example.abm.ProductsActivity;
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
-public class ClientsMainActivity extends ProductsActivity {
+public class ClientsMainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
