@@ -32,14 +32,14 @@ public class LogReg_LoginOrRegisterActivity extends BaseActivity {
 
     private Button registerButton;
     private Button logInButton;
-    private boolean isCheckedForAuth;
+//    private boolean isCheckedForAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logreg_login_or_register);
         super.initMenuSideBar();
-        this.isCheckedForAuth = false;
+//        this.isCheckedForAuth = false;
 
         registerButton = findViewById(R.id.registerButton);
         logInButton = findViewById(R.id.logInButton);
