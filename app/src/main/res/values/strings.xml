@@ -1,9 +1,5 @@
 <resources>
     <string name="app_name">ABM</string>
-    <string name="e_mail">e-mail</string>
-    <string name="register">Register</string>
-    <string name="password">Password</string>
-    <string name="log_in">Log In</string>
 
     <string name="openNavDrawer">Navigation Drawer Open</string>
     <string name="closeNavDrawer">Navigation Drawer Close</string>
