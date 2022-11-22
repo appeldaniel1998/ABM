@@ -1,30 +1,37 @@
 package com.example.abm.LoginAndRegistration;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.abm.Appointments.AppointmentsMainActivity;
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class LogReg_RegisterActivity extends AppCompatActivity {
+import java.util.Calendar;
 
+public class LogReg_RegisterActivity extends BaseActivity {
+
+    private EditText firstName;
+    private EditText lastName;
     private EditText email;
     private EditText password;
+    private EditText retypePassword;
     private Button register;
-
-    private FirebaseAuth auth;
+    private TextView birthdayDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +41,21 @@ public class LogReg_RegisterActivity extends AppCompatActivity {
         email = findViewById(R.id.email);
         password = findViewById(R.id.password);
         register = findViewById(R.id.registerButton);
+        birthdayDate = findViewById(R.id.birthdayDatePicker);
 
-        auth = FirebaseAuth.getInstance();
+//        birthdayDate.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Calendar calendar = Calendar.getInstance();
+//
+//                //get current date
+//                int currYear = calendar.get(Calendar.YEAR);
+//                int currMonth = calendar.get(Calendar.MONTH);
+//                int currDay = calendar.get(Calendar.DAY_OF_MONTH);
+//
+//                DatePickerDialog datePickerDialog = new DatePickerDialog(this, )
+//            }
+//        });
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +75,7 @@ public class LogReg_RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser(String email, String password) {
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        super.getAuth().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
@@ -68,5 +88,4 @@ public class LogReg_RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
 }
