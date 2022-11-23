@@ -18,24 +18,26 @@ import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private FirebaseAuth auth;
+    private FirebaseFirestore database;
 
-    public FirebaseAuth getAuth() {
+    public FirebaseAuth getCurrFirebaseAuth() {
         return auth;
     }
-
-    public void setAuth(FirebaseAuth auth) {
-        this.auth = auth;
+    public FirebaseFirestore getCurrDatabase() {
+        return database;
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.auth = FirebaseAuth.getInstance();
+        this.database = FirebaseFirestore.getInstance();
     }
 
     @Override

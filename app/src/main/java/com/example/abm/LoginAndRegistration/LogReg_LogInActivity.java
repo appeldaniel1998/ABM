@@ -40,7 +40,7 @@ public class LogReg_LogInActivity extends BaseActivity {
     }
 
     private void loginUser(String email, String password) {
-        super.getAuth().signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+        super.getCurrFirebaseAuth().signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
                 Toast.makeText(LogReg_LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
