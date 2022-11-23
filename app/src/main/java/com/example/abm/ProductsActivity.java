@@ -60,7 +60,7 @@ public class ProductsActivity extends AppCompatActivity implements NavigationVie
 
 
     public void initMenuSideBar() {
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.ProductsRecycleView);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);

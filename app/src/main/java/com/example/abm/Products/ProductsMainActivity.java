@@ -2,7 +2,6 @@ package com.example.abm.Products;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageView;
@@ -12,6 +11,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.Cart.CartMainActivity;
@@ -26,7 +28,7 @@ public class ProductsMainActivity extends AppCompatActivity implements Navigatio
 
     private DrawerLayout drawerLayout;
     private FirebaseAuth auth;
-    private ImageView image;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -34,7 +36,7 @@ public class ProductsMainActivity extends AppCompatActivity implements Navigatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_main);
 
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.ProductsRecycleView);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -46,12 +48,17 @@ public class ProductsMainActivity extends AppCompatActivity implements Navigatio
         navigationView.setNavigationItemSelectedListener(this);
 
         auth = FirebaseAuth.getInstance();
-        image = findViewById(R.id.Polish1);
+        replaceFragment(new CartProductsFragments());
 
-
-
-        //Code here!
     }
+    private void replaceFragment(Fragment fragment) {
+        //getSupportFragmentManager().beginTransaction().replace(R.id.constraint_layout, fragment).commit();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.drawer_layout, fragment);
+        fragmentTransaction.commit();
+    }
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
