@@ -14,8 +14,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.Appointments.AppointmentsMainActivity;
+import com.example.abm.BaseActivity;
 import com.example.abm.Cart.CartMainActivity;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
@@ -24,10 +27,15 @@ import com.example.abm.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-public class ProductsMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import java.util.ArrayList;
+
+public class ProductsMainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private DrawerLayout drawerLayout;
-    private FirebaseAuth auth;
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
+
 
 
     @SuppressLint("MissingInflatedId")
@@ -35,51 +43,33 @@ public class ProductsMainActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_main);
+        super.initMenuSideBar();
 
-        Toolbar toolbar = findViewById(R.id.ProductsRecycleView);
-        setSupportActionBar(toolbar);
+        //creata a list of products for the recycler view
+        ArrayList<Product> products = new ArrayList<>();
+        products.add(new Product("Red",R.drawable.canni1));
+        products.add(new Product("Blue",R.drawable.canni2));
+        products.add(new Product("Green",R.drawable.canni3));
+        products.add(new Product("Yellow",R.drawable.canni4));
+        products.add(new Product("Purple",R.drawable.canni5));
+        products.add(new Product("Orange",R.drawable.canni6));
 
-        drawerLayout = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        //create the recycler view and set the adapter and layout manager for it
+        recyclerView = findViewById(R.id.recycleView); //recycleView is the id of the recycleView in the xml file
+        recyclerView.setHasFixedSize(true); //recycler view will not change in size
+        layoutManager = new LinearLayoutManager(this); //layout manager is the way the items are displayed
+        adapter = new RecycleAdapter(products); //adapter is the way the data is displayed in the recycler view
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.openNavDrawer, R.string.closeNavDrawer);
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
-        navigationView.setNavigationItemSelectedListener(this);
-
-        auth = FirebaseAuth.getInstance();
-        replaceFragment(new CartProductsFragments());
+        //add all the products to the database
+        for (Product product : products) {
+            super.getCurrDatabase().collection("Products").document(product.getColor_name()).set(product);
+        }
 
     }
-    private void replaceFragment(Fragment fragment) {
-        //getSupportFragmentManager().beginTransaction().replace(R.id.constraint_layout, fragment).commit();
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.drawer_layout, fragment);
-        fragmentTransaction.commit();
-    }
 
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        drawerLayout.closeDrawers();
-        if (item.getItemId() == R.id.menuItemLogReg) {
-            startActivity(new Intent(this, LogReg_LoginOrRegisterActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemAppointments) {
-            startActivity(new Intent(this, AppointmentsMainActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemProducts) {
-            return true;
-        } else if (item.getItemId() == R.id.menuItemClients) {
-            startActivity(new Intent(this, ClientsMainActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemAnalytics) {
-            startActivity(new Intent(this, AnalyticsMainActivity.class));
-            return true;
-        } else if (item.getItemId() == R.id.menuItemCart) {
-            startActivity(new Intent(this, CartMainActivity.class));
-            return true;
-        } else return false;
-    }
+
+
 }

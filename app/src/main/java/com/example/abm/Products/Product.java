@@ -2,7 +2,7 @@ package com.example.abm.Products;
 
 public class Product {
 
-private String color_name;
+    private String color_name;
     private int image;
 
     public Product(String color_name, int image) {
@@ -25,6 +25,8 @@ private String color_name;
     public void setImage(int image) {
         this.image = image;
     }
+
+
 
 
 }
