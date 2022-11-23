@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -17,23 +18,27 @@ import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ProductsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private FirebaseAuth auth;
+    private FirebaseFirestore database;
 
-    //write on create method
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_products_main);
-        auth = FirebaseAuth.getInstance();
-        initMenuSideBar();
+    public FirebaseAuth getCurrFirebaseAuth() {
+        return auth;
+    }
+    public FirebaseFirestore getCurrDatabase() {
+        return database;
     }
 
-
-
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.auth = FirebaseAuth.getInstance();
+        this.database = FirebaseFirestore.getInstance();
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {

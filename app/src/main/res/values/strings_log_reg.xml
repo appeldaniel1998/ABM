@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="e_mail">e-mail</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="retype_password">Retype Password</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="address">Address (Optional)</string>
+    <string name="birthday_text">Your birthday:</string>
+</resources>

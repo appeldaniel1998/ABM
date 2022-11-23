@@ -1,19 +1,19 @@
 <resources>
     <string name="app_name">ABM</string>
-    <string name="e_mail">e-mail</string>
-    <string name="register">Register</string>
-    <string name="password">Password</string>
-    <string name="log_in">Log In</string>
 
     <string name="openNavDrawer">Navigation Drawer Open</string>
     <string name="closeNavDrawer">Navigation Drawer Close</string>
-    <string name="login_register">Login/Register</string>
+    <string name="login_register">Login or Register</string>
     <string name="appointments">Appointments</string>
     <string name="products">Products</string>
     <string name="clients">Clients</string>
     <string name="analytics">Analytics</string>
     <string name="cart">Cart</string>
+<<<<<<< HEAD
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pink">Pink</string>
+=======
+    <string name="sign_out">Sign Out</string>
+>>>>>>> 91a2c60a63dbb2d352f2f2981cdc39305b655670
 </resources>

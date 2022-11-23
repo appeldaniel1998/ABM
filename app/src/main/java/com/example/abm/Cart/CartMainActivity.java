@@ -2,10 +2,10 @@ package com.example.abm.Cart;
 
 import android.os.Bundle;
 
-import com.example.abm.ProductsActivity;
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
-public class CartMainActivity extends ProductsActivity {
+public class CartMainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

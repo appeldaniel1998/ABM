@@ -21,33 +21,30 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.abm.ProductsActivity;
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
  */
 
-public class LogReg_LoginOrRegisterActivity extends ProductsActivity {
+public class LogReg_LoginOrRegisterActivity extends BaseActivity {
 
     private Button registerButton;
     private Button logInButton;
+//    private boolean isCheckedForAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logreg_login_or_register);
         super.initMenuSideBar();
+//        this.isCheckedForAuth = false;
 
         registerButton = findViewById(R.id.registerButton);
         logInButton = findViewById(R.id.logInButton);
 
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, LogReg_RegisterActivity.class));
-            }
-        });
+        registerButton.setOnClickListener(v -> startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, LogReg_RegisterActivity.class)));
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,4 +52,17 @@ public class LogReg_LoginOrRegisterActivity extends ProductsActivity {
             }
         });
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//
+//        // if user logged in, go to appointments (no login necessary)
+//        if (super.getAuth().getCurrentUser() != null && !this.isCheckedForAuth) {
+//            this.isCheckedForAuth = true;
+//            Toast.makeText(this, "User logged in!!", Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, AppointmentsMainActivity.class));
+//            finish();
+//        }
+//    }
 }
