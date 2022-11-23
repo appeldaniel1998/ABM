@@ -6,13 +6,13 @@
         android:icon="@drawable/login"/>
     <item android:title="@string/appointments"
         android:id="@+id/menuItemAppointments"
-        android:icon="@drawable/login"/>
+        android:icon="@drawable/calendar"/>
     <item android:title="@string/products"
         android:id="@+id/menuItemProducts"
         android:icon="@drawable/products"/>
     <item android:title="@string/clients"
         android:id="@+id/menuItemClients"
-        android:icon="@drawable/login"/>
+        android:icon="@drawable/person_icon"/>
     <item android:title="@string/analytics"
         android:id="@+id/menuItemAnalytics"
         android:icon="@drawable/login"/>
