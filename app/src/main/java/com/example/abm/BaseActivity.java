@@ -25,12 +25,22 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private FirebaseAuth auth;
     private FirebaseFirestore database;
+    private String clientIndexUID;
 
     public FirebaseAuth getCurrFirebaseAuth() {
         return auth;
     }
+
     public FirebaseFirestore getCurrDatabase() {
         return database;
+    }
+
+    public String getClientIndex() {
+        return clientIndexUID;
+    }
+
+    public void setClientIndex(String clientIndex) {
+        this.clientIndexUID = clientIndex;
     }
 
     @Override
