@@ -16,7 +16,6 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Products.ProductsClickcardActivity"
             android:name=".Clients.ClientsSingleClientViewActivity"
             android:exported="false">
             <meta-data
@@ -37,6 +36,8 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+
         <activity
             android:name=".Clients.ClientsMainActivity"
             android:exported="false">
@@ -53,6 +54,13 @@
         </activity>
         <activity
             android:name=".Products.ProductsMainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Products.ProductsClickcardActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
