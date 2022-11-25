@@ -25,16 +25,54 @@ import java.util.ArrayList;
  */
 public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHolder> {
     private ArrayList<Product> products;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+        void onAddClick(int position);
+    }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+
+        mListener = listener;
+    }
 
     //This is a static class that is a subclass of RecyclerView.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
         public TextView textView;
+        public ImageView addToCart;
 
-        public ViewHolder(View itemView) {
+
+        public ViewHolder(View itemView, OnItemClickListener listener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.Polish1);
             textView = itemView.findViewById(R.id.Polish1Color);
+            addToCart = itemView.findViewById(R.id.Polish1Add);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(position);
+                        }
+                    }
+                    //mListener.onItemClick(getAdapterPosition());
+                }
+            });
+
+            addToCart.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onAddClick(position);
+                        }
+                    }
+                    //mListener.onItemClick(getAdapterPosition());
+                }
+            });
         }
     }
 
@@ -47,7 +85,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     //This method is called when the recycler view is created and it creates the view holder
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_products_polish_cardview, parent, false);
-        ViewHolder viewHolder = new ViewHolder(v);
+        ViewHolder viewHolder = new ViewHolder(v, mListener);
         return viewHolder;
     }
 

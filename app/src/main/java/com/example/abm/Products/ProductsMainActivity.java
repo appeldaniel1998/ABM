@@ -33,8 +33,9 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
 
     private DrawerLayout drawerLayout;
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter adapter;
+    private RecycleAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
+    private ArrayList<Product> products = new ArrayList<>();
 
 
 
@@ -44,9 +45,14 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_main);
         super.initMenuSideBar();
+        createProductsList();
+        buildRecyclerView();
 
+
+    }
+
+    private void createProductsList() {
         //creata a list of products for the recycler view
-        ArrayList<Product> products = new ArrayList<>();
         products.add(new Product("Red",R.drawable.canni1));
         products.add(new Product("Blue",R.drawable.canni2));
         products.add(new Product("Green",R.drawable.canni3));
@@ -54,6 +60,13 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         products.add(new Product("Purple",R.drawable.canni5));
         products.add(new Product("Orange",R.drawable.canni6));
 
+        //add all the products to the database
+        for (Product product : products) {
+            super.getCurrDatabase().collection("Products").document(product.getColor_name()).set(product);
+        }
+    }
+
+    private void buildRecyclerView() {
         //create the recycler view and set the adapter and layout manager for it
         recyclerView = findViewById(R.id.recycleView); //recycleView is the id of the recycleView in the xml file
         recyclerView.setHasFixedSize(true); //recycler view will not change in size
@@ -61,14 +74,28 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         adapter = new RecycleAdapter(products); //adapter is the way the data is displayed in the recycler view
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new RecycleAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                //when an item is clicked, open the product details activity
+//                products.get(position);
+//                Intent intent = new Intent(ProductsMainActivity.this, ProductsSingleAddtocartActivity.class);
+//                intent.putExtra("product", (CharSequence) products.get(position));
+//                startActivity(intent);
 
-        //add all the products to the database
-        for (Product product : products) {
-            super.getCurrDatabase().collection("Products").document(product.getColor_name()).set(product);
-        }
+                startActivity(new Intent(ProductsMainActivity.this, ProductsClickcardActivity.class));
+                adapter.notifyItemChanged(position);
 
+            }
+
+            @Override
+            public void onAddClick(int position) {
+                //when the add button is clicked, add the product to the cart
+                startActivity(new Intent(ProductsMainActivity.this, ProductsClickcardActivity.class));
+                //Todo: add the product to the FabAcctionButton
+            }
+        });
     }
-
 
 
 
