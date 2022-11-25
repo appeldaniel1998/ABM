@@ -1,19 +1,16 @@
 package com.example.abm.Clients;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -44,28 +41,30 @@ public class ClientsMainActivity extends BaseActivity {
 
         super.getCurrDatabase().collection("Clients")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> data = document.getData();
-                                String name = data.get("firstName") + " " + data.get("lastName");
-                                String email = (String) data.get("email");
-                                clients.add(new ClientItemRecycleView(name, email));
-                            }
-                            recyclerViewAdapter = new ClientsRecycleAdapter(clients);
-                            recyclerView.setAdapter(recyclerViewAdapter);
-                            progressDialog.dismiss();
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Map<String, Object> data = document.getData();
+                            String name = data.get("firstName") + " " + data.get("lastName");
+                            String email = (String) data.get("email");
+                            String uid = (String) data.get("uid");
+                            clients.add(new ClientItemRecycleView(name, email, uid));
                         }
+                        recyclerViewAdapter = new ClientsRecycleAdapter(clients);
+                        recyclerView.setAdapter(recyclerViewAdapter);
+                        progressDialog.dismiss();
+
+                        recyclerViewAdapter.setOnItemClickListener(new ClientsRecycleAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+//                                ClientsMainActivity.super.setClientIndex(clients.get(position).getUID());
+
+                                Intent myIntent = new Intent(ClientsMainActivity.this, ClientsSingleClientViewActivity.class);
+                                myIntent.putExtra("clientUID", clients.get(position).getUID()); //Optional parameters
+                                ClientsMainActivity.this.startActivity(myIntent);
+                            }
+                        });
                     }
                 });
-
-        recyclerViewAdapter.setOnItemClickListener(new ClientsRecycleAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-
-            }
-        });
     }
 }
