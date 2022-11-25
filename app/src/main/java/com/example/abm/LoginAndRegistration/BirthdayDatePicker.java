@@ -1,5 +1,6 @@
 package com.example.abm.LoginAndRegistration;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.widget.TextView;
 
@@ -26,7 +27,7 @@ public class BirthdayDatePicker {
         return makeDateString(day, month, year);
     }
 
-    public static DatePickerDialog initDatePicker(TextView birthdayDate, LogReg_RegisterActivity logReg_registerActivity) {
+    public static DatePickerDialog initDatePicker(TextView birthdayDate, Activity activity) {
         DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
             String date = makeDateString(day, month, year);
@@ -40,7 +41,7 @@ public class BirthdayDatePicker {
 
         int style = android.R.style.Theme_DeviceDefault_Light_Dialog; //Can change style at will
 
-        return new DatePickerDialog(logReg_registerActivity, style, dateSetListener, year, month, day);
+        return new DatePickerDialog(activity, style, dateSetListener, year, month, day);
 //        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());  // Can set max/min date with this line of code
     }
 

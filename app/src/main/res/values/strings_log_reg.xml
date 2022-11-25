@@ -10,4 +10,5 @@
     <string name="phone_number">Phone Number</string>
     <string name="address">Address (Optional)</string>
     <string name="birthday_text">Your birthday:</string>
+    <string name="is_a_manager">Is a Manager</string>
 </resources>

@@ -44,6 +44,8 @@ public class LogReg_RegisterActivity extends BaseActivity {
         address = findViewById(R.id.address);
         password = findViewById(R.id.password);
         retypePassword = findViewById(R.id.retypePassword);
+        findViewById(R.id.AppBar).setVisibility(View.GONE);
+        findViewById(R.id.isManagerCheckBox).setVisibility(View.GONE);
 
 
         register = findViewById(R.id.registerButton);

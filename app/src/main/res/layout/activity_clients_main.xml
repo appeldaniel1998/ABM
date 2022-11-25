@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".Clients.ClientsMainActivity">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -26,7 +26,7 @@
                 android:background="@android:color/white">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/clients"
                     android:textColor="@color/cardview_dark_background"
@@ -35,16 +35,32 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
+        <Button
+            android:id="@+id/addClient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/AppBar"
+            android:backgroundTint="#F8F3CDDA"
+            android:fontFamily="sans-serif-condensed"
+            android:shadowColor="#E91E63"
+            android:text="@string/add_client_manager"
+            android:textColor="#607D8B"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AppBar" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewClients"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/AppBar"
+            android:layout_below="@id/addClient"
             android:background="@android:color/darker_gray"
             android:padding="4dp"
-            android:scrollbars="vertical" />
+            android:scrollbars="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/addClient" />
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
