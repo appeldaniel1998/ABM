@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.BaseActivity;
-import com.example.abm.Clients.User;
+import com.example.abm.Clients.Client;
 import com.example.abm.R;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -87,7 +87,7 @@ public class LogReg_RegisterActivity extends BaseActivity {
                 FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
                 String userUID = user.getUid();
 
-                User userToAdd = new User(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate); //creating a new user
+                Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, userUID); //creating a new user
                 super.getCurrDatabase().collection("Clients").document(userUID).set(userToAdd); //adding user data to database
 
                 Toast.makeText(LogReg_RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();

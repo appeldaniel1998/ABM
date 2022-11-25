@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="placeholder">Placeholder</string>
+    <string name="full_name">Full Name:</string>
+    <string name="email">Email:</string>
+    <string name="birthday">Birthday:</string>
+    <string name="phone_number_colon">Phone Number:</string>
+    <string name="address_colon">Address:</string>
+</resources>

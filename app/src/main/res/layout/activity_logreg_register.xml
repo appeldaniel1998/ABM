@@ -107,7 +107,8 @@
             android:layout_height="18sp"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="16dp"
-            android:src="@drawable/calendar" />
+            android:src="@drawable/calendar"
+            android:contentDescription="@string/birthday_text" />
     </LinearLayout>
 
     <EditText
@@ -189,6 +190,7 @@
         android:backgroundTint="#F8F3CDDA"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/register"
+        android:textColor="#607D8B"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
