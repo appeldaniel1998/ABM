@@ -16,8 +16,6 @@ public class Client {
     public Client() {
     }
 
-    ;
-
     /**
      * Constructor to be called while registering the user. All users registered are not managers
      *
@@ -37,29 +35,6 @@ public class Client {
         this.birthdayDate = birthdayDate;
         this.UID = uid;
         this.isManager = false;
-    }
-
-    /**
-     * Constructor to be called when a manager is manually registering a new user, with the option of making him/her a manager.
-     *
-     * @param firstName    first name
-     * @param lastName     last name
-     * @param email        email
-     * @param phoneNumber  phone number
-     * @param address      address
-     * @param birthdayDate birthdayDate
-     * @param uid          unique identifier of a client
-     * @param isManager    if the new user is a manager
-     */
-    public Client(String firstName, String lastName, String email, String phoneNumber, String address, String birthdayDate, boolean isManager, String uid) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        this.birthdayDate = birthdayDate;
-        this.UID = uid;
-        this.isManager = isManager;
     }
 
     public String getFirstName() {

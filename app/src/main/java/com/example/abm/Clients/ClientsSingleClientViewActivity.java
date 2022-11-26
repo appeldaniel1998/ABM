@@ -3,12 +3,11 @@ package com.example.abm.Clients;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 public class ClientsSingleClientViewActivity extends BaseActivity {
 
@@ -22,6 +21,8 @@ public class ClientsSingleClientViewActivity extends BaseActivity {
     private TextView phoneNumber;
     private TextView address;
 
+    private Button editClientButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,21 +35,7 @@ public class ClientsSingleClientViewActivity extends BaseActivity {
         Intent intent = getIntent();
         clientUID = intent.getStringExtra("clientUID");
 
-        super.getCurrDatabase().collection("Clients").document(clientUID)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        client = documentSnapshot.toObject(Client.class);
-                        initValuesOfLayout();
-                        progressDialog.dismiss();
-                    }
-                });
-
-
-    }
-
-    private void initValuesOfLayout() {
+        editClientButton = findViewById(R.id.editClientButton);
         titleName = findViewById(R.id.titleFullName);
         name = findViewById(R.id.fullNamePlaceholder);
         email = findViewById(R.id.emailPlaceholder);
@@ -56,6 +43,22 @@ public class ClientsSingleClientViewActivity extends BaseActivity {
         phoneNumber = findViewById(R.id.phoneNumberPlaceholder);
         address = findViewById(R.id.addressPlaceholder);
 
+        super.getCurrDatabase().collection("Clients").document(clientUID).get().addOnSuccessListener(documentSnapshot -> { // If client info retrieved successfully from the DB
+            client = documentSnapshot.toObject(Client.class);
+            initValuesOfLayout();
+            progressDialog.dismiss();
+
+            editClientButton.setOnClickListener(v -> {
+                Intent myIntent = new Intent(ClientsSingleClientViewActivity.this, ClientsSingleClientViewActivity.class);
+                myIntent.putExtra("clientUID", clientUID); //Optional parameters
+                ClientsSingleClientViewActivity.this.startActivity(myIntent);
+            });
+        });
+
+
+    }
+
+    private void initValuesOfLayout() {
         String fullName = client.getFirstName() + " " + this.client.getLastName();
         titleName.setText(fullName);
         name.setText(fullName);
