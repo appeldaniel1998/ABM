@@ -78,13 +78,13 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
             @Override
             public void onItemClick(int position) {
                 //when an item is clicked, open the product details activity
-//                products.get(position);
-//                Intent intent = new Intent(ProductsMainActivity.this, ProductsSingleAddtocartActivity.class);
-//                intent.putExtra("product", (CharSequence) products.get(position));
-//                startActivity(intent);
+                products.get(position);
+                Intent intent = new Intent(ProductsMainActivity.this, ProductsClickcardActivity.class);
 
-                startActivity(new Intent(ProductsMainActivity.this, ProductsClickcardActivity.class));
-                adapter.notifyItemChanged(position);
+                intent.putExtra("Product", (CharSequence) products.get(position).getColor_name());
+                startActivity(intent);
+//                startActivity(new Intent(ProductsMainActivity.this, ProductsClickcardActivity.class));
+//                adapter.notifyItemChanged(position);
 
             }
 

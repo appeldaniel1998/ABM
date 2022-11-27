@@ -9,6 +9,12 @@ public class Product {
         this.color_name = color_name;
         this.image = image;
     }
+    public Product(String color_name) {
+        this.color_name = color_name;
+    }
+    public Product() {
+
+    }
 
     public String getColor_name() {
         return color_name;

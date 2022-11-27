@@ -67,15 +67,12 @@
                     android:layout_centerHorizontal="true"
                     android:orientation="horizontal">
 
-
                     <Button
-                        android:id="@+id/plus"
+                        android:id= "@+id/PlusPolish"
                         android:layout_width="50dp"
                         android:layout_height="48dp"
-                        android:backgroundTint="@color/material_dynamic_neutral60"
-
-
-                        android:text="+" />
+                        android:text="+"
+                        android:backgroundTint="@color/black"/>
 
                     <TextView
                         android:id="@+id/quantity"
@@ -88,11 +85,13 @@
                         android:textSize="18sp" />
 
                     <Button
-                        android:id="@+id/minus"
+                        android:id= "@+id/MinusPolish"
                         android:layout_width="50dp"
                         android:layout_height="48dp"
-                        android:backgroundTint="@color/material_dynamic_neutral60"
-                        android:text="-" />
+                        android:text="-"
+                        android:backgroundTint="@color/black"/>
+
+
 
                 </LinearLayout>
 
@@ -105,6 +104,8 @@
                     android:layout_marginTop="20dp"
                     android:backgroundTint="@color/pink"
                     android:text="Add to Cart" />
+
+
 
 
             </RelativeLayout>
