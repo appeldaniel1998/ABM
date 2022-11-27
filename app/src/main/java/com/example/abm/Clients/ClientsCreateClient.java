@@ -1,11 +1,14 @@
 package com.example.abm.Clients;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.LoginAndRegistration.BirthdayDatePicker;
@@ -19,10 +22,9 @@ public class ClientsCreateClient extends BaseActivity {
     private EditText email;
     private EditText phoneNumber;
     private EditText address;
-    private EditText password;
-    private EditText retypePassword;
-
     private TextView birthdayDate;
+    private TextView title;
+
     private DatePickerDialog datePickerDialog;
 
     private FirebaseFirestore database;
@@ -44,6 +46,7 @@ public class ClientsCreateClient extends BaseActivity {
         address = findViewById(R.id.address);
         birthdayDate = findViewById(R.id.birthdayDatePicker);
         addClient = findViewById(R.id.registerButton);
+        title = findViewById(R.id.title);
 
         findViewById(R.id.password).setVisibility(View.GONE); //remove password inputs from the layout.
         findViewById(R.id.retypePassword).setVisibility(View.GONE);
@@ -52,12 +55,23 @@ public class ClientsCreateClient extends BaseActivity {
         datePickerDialog = BirthdayDatePicker.initDatePicker(birthdayDate, this);
         birthdayDate.setText(BirthdayDatePicker.getTodayDate()); // Set initial date to today's date
 
-        addClient.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Client userToAdd = new Client(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
-                        phoneNumber.getText().toString(), address.getText().toString(), birthdayDate.getText().toString(), ""); //creating a new user
-                database.collection("Clients").document().set(userToAdd); //adding user data to database
+        addClient.setOnClickListener(v -> {
+            //Converting fields to text
+            String textFirstName = firstName.getText().toString();
+            String textLastName = lastName.getText().toString();
+            String textEmail = email.getText().toString();
+            String textPhoneNumber = phoneNumber.getText().toString();
+            String textAddress = address.getText().toString();
+            String textBirthdayDate = birthdayDate.getText().toString();
+
+            if (TextUtils.isEmpty(textFirstName) || TextUtils.isEmpty(textEmail)) {
+                Toast.makeText(ClientsCreateClient.this, "Empty email or first name!", Toast.LENGTH_SHORT).show();
+            } else {
+                String uid = String.valueOf(java.util.UUID.randomUUID()); //Create a random UID for the new client
+                Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, uid); //creating a new user
+                database.collection("Clients").document(uid).set(userToAdd); //adding user data to database
+                Toast.makeText(ClientsCreateClient.this, "Client added successfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ClientsCreateClient.this, ClientsMainActivity.class));
             }
         });
 

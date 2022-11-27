@@ -14,6 +14,7 @@ import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class LogReg_RegisterActivity extends BaseActivity {
@@ -45,7 +46,6 @@ public class LogReg_RegisterActivity extends BaseActivity {
         password = findViewById(R.id.password);
         retypePassword = findViewById(R.id.retypePassword);
         findViewById(R.id.AppBar).setVisibility(View.GONE);
-        findViewById(R.id.isManagerCheckBox).setVisibility(View.GONE);
 
 
         register = findViewById(R.id.registerButton);
@@ -76,17 +76,19 @@ public class LogReg_RegisterActivity extends BaseActivity {
             } else if (!textPassword.equals(textRetypePassword)) {
                 Toast.makeText(LogReg_RegisterActivity.this, "The passwords do not match!", Toast.LENGTH_SHORT).show();
             } else {
-                registerUser(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textPassword, textBirthdayDate);
+                registerUser(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textPassword, textBirthdayDate, super.getCurrFirebaseAuth());
             }
         });
     }
 
 
-    private void registerUser(String textFirstName, String textLastName, String textEmail, String textPhoneNumber, String textAddress,
-                              String textPassword, String textBirthdayDate) {
-        super.getCurrFirebaseAuth().createUserWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(task -> {
+    public void registerUser(String textFirstName, String textLastName, String textEmail, String textPhoneNumber, String textAddress,
+                             String textPassword, String textBirthdayDate, FirebaseAuth auth) {
+        auth.createUserWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
+                FirebaseUser user = auth.getCurrentUser();
+
+                assert user != null;
                 String userUID = user.getUid();
 
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, userUID); //creating a new user

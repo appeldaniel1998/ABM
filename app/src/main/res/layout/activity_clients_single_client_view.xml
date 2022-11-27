@@ -234,7 +234,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/registerButton"
+            android:id="@+id/editClientButton"
             android:layout_width="wrap_content"
             android:layout_height="52dp"
             android:layout_marginStart="16dp"
