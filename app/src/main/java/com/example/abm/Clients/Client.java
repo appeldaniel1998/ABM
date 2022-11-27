@@ -7,8 +7,8 @@ public class Client {
     private String phoneNumber;
     private String address;
     private String birthdayDate;
-    private String UID;
-    private boolean isManager;
+    private String uid;
+    private boolean manager;
 
     /**
      * Default constructor for the class
@@ -33,8 +33,8 @@ public class Client {
         this.phoneNumber = phoneNumber;
         this.address = address;
         this.birthdayDate = birthdayDate;
-        this.UID = uid;
-        this.isManager = false;
+        this.uid = uid;
+        this.manager = false;
     }
 
     public String getFirstName() {
@@ -61,11 +61,11 @@ public class Client {
         return birthdayDate;
     }
 
-    public boolean isManager() {
-        return isManager;
+    public boolean getManager() {
+        return manager;
     }
 
-    public String getUID() {
-        return UID;
+    public String getUid() {
+        return uid;
     }
 }
