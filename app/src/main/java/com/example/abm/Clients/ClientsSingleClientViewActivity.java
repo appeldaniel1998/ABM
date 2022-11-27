@@ -49,13 +49,11 @@ public class ClientsSingleClientViewActivity extends BaseActivity {
             progressDialog.dismiss();
 
             editClientButton.setOnClickListener(v -> {
-                Intent myIntent = new Intent(ClientsSingleClientViewActivity.this, ClientsSingleClientViewActivity.class);
+                Intent myIntent = new Intent(ClientsSingleClientViewActivity.this, ClientsEditClientActivity.class);
                 myIntent.putExtra("clientUID", clientUID); //Optional parameters
                 ClientsSingleClientViewActivity.this.startActivity(myIntent);
             });
         });
-
-
     }
 
     private void initValuesOfLayout() {
