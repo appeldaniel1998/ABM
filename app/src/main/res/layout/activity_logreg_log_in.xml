@@ -9,8 +9,8 @@
 
     <EditText
         android:id="@+id/email"
-        android:layout_width="245dp"
-        android:layout_height="61dp"
+        android:layout_width="304dp"
+        android:layout_height="67dp"
         android:autofillHints="emailAddress"
         android:ems="10"
         android:hint="@string/e_mail"
@@ -25,8 +25,8 @@
 
     <EditText
         android:id="@+id/password"
-        android:layout_width="247dp"
-        android:layout_height="51dp"
+        android:layout_width="312dp"
+        android:layout_height="67dp"
         android:autofillHints="password"
         android:ems="10"
         android:hint="@string/password"
@@ -39,8 +39,8 @@
 
     <Button
         android:id="@+id/logInButton"
-        android:layout_width="137dp"
-        android:layout_height="60dp"
+        android:layout_width="164dp"
+        android:layout_height="61dp"
         android:backgroundTint="#F8F3CDDA"
         android:fontFamily="sans-serif-condensed"
         android:text="@string/log_in"
@@ -49,7 +49,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.204" />
+        app:layout_constraintVertical_bias="0.178" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

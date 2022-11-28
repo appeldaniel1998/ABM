@@ -47,7 +47,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
             super(itemView);
             imageView = itemView.findViewById(R.id.Polish1);
             textView = itemView.findViewById(R.id.Polish1Color);
-            addToCart = itemView.findViewById(R.id.Polish1Add);
+            //addToCart = itemView.findViewById(R.id.Polish1Add);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -61,18 +61,18 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
                 }
             });
 
-            addToCart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null) {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION) {
-                            listener.onAddClick(position);
-                        }
-                    }
-                    //mListener.onItemClick(getAdapterPosition());
-                }
-            });
+//            addToCart.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (listener != null) {
+//                        int position = getAdapterPosition();
+//                        if (position != RecyclerView.NO_POSITION) {
+//                            listener.onAddClick(position);
+//                        }
+//                    }
+//                    //mListener.onItemClick(getAdapterPosition());
+//                }
+//            });
         }
     }
 

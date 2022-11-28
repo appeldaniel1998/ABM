@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Products.ProductsMainActivity"
+    tools:context=".Products.ProductCartActivity"
     android:id="@+id/drawer_layout">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraint_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -19,33 +18,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/ProductsRecycleView"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@android:color/white" />
+                android:background="@android:color/white"/>
         </com.google.android.material.appbar.AppBarLayout>
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/flaotingCartButton"
-            android:layout_width="57dp"
-            android:layout_height="52dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:contentDescription="@string/cart"
-            android:src="@drawable/ic_shopping_cart"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.958"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.957" />
-
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycleView"
+            android:id="@+id/recycleViewCartActivity"
             android:layout_width="413dp"
             android:layout_height="659dp"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
@@ -67,7 +68,8 @@ public class ProductsClickcardActivity extends BaseActivity {
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
+                AddToCart();
+
             }
         });
         plus.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +90,21 @@ public class ProductsClickcardActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void AddToCart() {
+        if (quantity.getText().toString().equals("0")) {
+            Toast.makeText(this, "You Didn't Pick anything", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
+
+        }
+        else {
+            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).set(product);
+            Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
+
+        }
+
     }
 
     // init the values og new image and polish details on each click.

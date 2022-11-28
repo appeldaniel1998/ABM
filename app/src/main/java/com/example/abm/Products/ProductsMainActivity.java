@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -24,19 +26,20 @@ import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.LoginAndRegistration.LogReg_LoginOrRegisterActivity;
 import com.example.abm.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-public class ProductsMainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class ProductsMainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private RecyclerView recyclerView;
     private RecycleAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Product> products = new ArrayList<>();
-
+    private FloatingActionButton cartButton;
 
 
     @SuppressLint("MissingInflatedId")
@@ -47,18 +50,27 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         super.initMenuSideBar();
         createProductsList();
         buildRecyclerView();
+        cartButton = findViewById(R.id.flaotingCartButton);
+        cartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProductsMainActivity.this, ProductCartActivity.class));
+
+            }
+
+        });
 
 
     }
 
     private void createProductsList() {
         //creata a list of products for the recycler view
-        products.add(new Product("Red",R.drawable.canni1));
-        products.add(new Product("Blue",R.drawable.canni2));
-        products.add(new Product("Green",R.drawable.canni3));
-        products.add(new Product("Yellow",R.drawable.canni4));
-        products.add(new Product("Purple",R.drawable.canni5));
-        products.add(new Product("Orange",R.drawable.canni6));
+        products.add(new Product("Red", R.drawable.canni1));
+        products.add(new Product("Blue", R.drawable.canni2));
+        products.add(new Product("Green", R.drawable.canni3));
+        products.add(new Product("Yellow", R.drawable.canni4));
+        products.add(new Product("Purple", R.drawable.canni5));
+        products.add(new Product("Orange", R.drawable.canni6));
 
         //add all the products to the database
         for (Product product : products) {
@@ -83,8 +95,6 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
 
                 intent.putExtra("Product", (CharSequence) products.get(position).getColor_name());
                 startActivity(intent);
-//                startActivity(new Intent(ProductsMainActivity.this, ProductsClickcardActivity.class));
-//                adapter.notifyItemChanged(position);
 
             }
 
@@ -96,7 +106,6 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
             }
         });
     }
-
 
 
 }

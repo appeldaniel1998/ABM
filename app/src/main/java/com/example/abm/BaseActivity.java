@@ -77,4 +77,5 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 }
