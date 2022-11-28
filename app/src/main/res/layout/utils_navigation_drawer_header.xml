@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/profileImageMenuHeader"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginLeft="16dp"
@@ -15,35 +15,45 @@
     <!--        app:civ_border_color="#FF000000"-->
 
 
-    <!-- TODO: change text dynamically -->
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/nameMenuHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/profile_image"
+        android:layout_below="@id/profileImageMenuHeader"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:text="Daniel Appel"
+        android:text="Placeholder Name"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold" />
 
-    <!-- TODO: change text dynamically -->
     <TextView
-        android:id="@+id/username"
+        android:id="@+id/emailMenuHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
+        android:layout_below="@id/nameMenuHeader"
         android:layout_marginStart="16dp"
         android:layout_marginTop="10dp"
-        android:text="appel.daniel1998@gmail.com"
+        android:text="Placeholder Email"
         android:textColor="@color/black"
         android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/isManagerMenuHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/emailMenuHeader"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:text="Placeholder Is Manager"
+        android:textColor="@color/black"
+        android:textSize="10sp" />
+
 
     <View
         android:id="@+id/view"
         style="@style/line"
         android:layout_width="match_parent"
-        android:layout_below="@id/username" />
+        android:layout_below="@id/isManagerMenuHeader" />
 
 </RelativeLayout>
