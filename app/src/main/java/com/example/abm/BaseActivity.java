@@ -16,11 +16,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.abm.Appointments.AppointmentsMainActivity;
-import com.example.abm.Cart.CartMainActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.LoginAndRegistration.LogReg_LoginOrRegisterActivity;
+import com.example.abm.Products.ProductCartActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -69,7 +69,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, AnalyticsMainActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemCart) {
-            startActivity(new Intent(this, CartMainActivity.class));
+            startActivity(new Intent(this, ProductCartActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemSignOut) {
             this.auth.signOut();

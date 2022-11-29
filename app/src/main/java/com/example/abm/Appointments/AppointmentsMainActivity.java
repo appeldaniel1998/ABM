@@ -10,10 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.abm.Cart.CartMainActivity;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.LoginAndRegistration.LogReg_LoginOrRegisterActivity;
+import com.example.abm.Products.ProductCartActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.example.abm.R;
 import com.google.android.material.navigation.NavigationView;
@@ -59,7 +59,7 @@ public class AppointmentsMainActivity extends AppCompatActivity implements Navig
             startActivity(new Intent(this, AnalyticsMainActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemCart) {
-            startActivity(new Intent(this, CartMainActivity.class));
+            startActivity(new Intent(this, ProductCartActivity.class));
             return true;
         } else return false;
     }
