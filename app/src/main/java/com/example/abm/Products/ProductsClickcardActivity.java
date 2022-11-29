@@ -99,7 +99,9 @@ public class ProductsClickcardActivity extends BaseActivity {
 
         }
         else {
-            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).set(product);
+            //create a new cart item and add it to the collection in the database
+            Cart cart = new Cart(product.getColor_name(),product.getImage(), Integer.parseInt(quantity.getText().toString()));
+            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").document(product.getColor_name()).set(cart);
             Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
 
