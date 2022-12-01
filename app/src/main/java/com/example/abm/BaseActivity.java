@@ -54,9 +54,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawers();
-        if (item.getItemId() == R.id.menuItemLogReg) {
-            return true;
-        } else if (item.getItemId() == R.id.menuItemAppointments) {
+        if (item.getItemId() == R.id.menuItemAppointments) {
             startActivity(new Intent(this, AppointmentsMainActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemProducts) {
@@ -97,6 +95,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         //
         Menu menu = navigationView.getMenu();
@@ -110,14 +109,19 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                     .addOnSuccessListener(documentSnapshot -> {
                         Client client = documentSnapshot.toObject(Client.class);
                         TextView name = findViewById(R.id.nameMenuHeader);
-                        if (client != null)
-                        {
+                        if (client != null) {
                             //Toggle visibility for menu items in accordance to whether the user is a client or a manager
                             if (client.getManager()) {
                                 // remove any page which a client can get no access to
+                                MenuItem cart = menu.findItem(R.id.menuItemCart);
+                                cart.setVisible(false);
+
                             } else {
+                                // remove any page which a manager can get no access to
                                 MenuItem clients = menu.findItem(R.id.menuItemClients);
                                 clients.setVisible(false);
+
+                                menu.findItem(R.id.menuItemAnalytics).setTitle("History");
                             }
 
 

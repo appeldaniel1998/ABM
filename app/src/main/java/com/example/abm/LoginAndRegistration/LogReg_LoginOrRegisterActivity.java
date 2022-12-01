@@ -19,44 +19,40 @@ package com.example.abm.LoginAndRegistration;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.example.abm.BaseActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Demonstrate Firebase Authentication using a Google ID Token.
  */
 
-public class LogReg_LoginOrRegisterActivity extends BaseActivity {
+public class LogReg_LoginOrRegisterActivity extends AppCompatActivity {
 
     private Button registerButton;
     private Button logInButton;
-//    private boolean isCheckedForAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logreg_login_or_register);
-        super.initMenuSideBar();
-//        this.isCheckedForAuth = false;
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            // if user logged in, go to appointments (no login necessary)
+            Toast.makeText(this, "User logged in!!", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, AppointmentsMainActivity.class));
+            finish();
+        } else {
+            // Otherwise, start and run the activity normally
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_logreg_login_or_register);
 
-        registerButton = findViewById(R.id.registerButton);
-        logInButton = findViewById(R.id.logInButton);
+            registerButton = findViewById(R.id.registerButton);
+            logInButton = findViewById(R.id.logInButton);
 
-        registerButton.setOnClickListener(v -> startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, LogReg_RegisterActivity.class)));
-        logInButton.setOnClickListener(v -> startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, LogReg_LogInActivity.class)));
+            registerButton.setOnClickListener(v -> startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, LogReg_RegisterActivity.class)));
+            logInButton.setOnClickListener(v -> startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, LogReg_LogInActivity.class)));
+        }
     }
-
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        // if user logged in, go to appointments (no login necessary)
-//        if (super.getAuth().getCurrentUser() != null && !this.isCheckedForAuth) {
-//            this.isCheckedForAuth = true;
-//            Toast.makeText(this, "User logged in!!", Toast.LENGTH_SHORT).show();
-//            startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, AppointmentsMainActivity.class));
-//            finish();
-//        }
-//    }
 }

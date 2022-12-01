@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item android:title="@string/login_register"
-        android:id="@+id/menuItemLogReg"
-        android:icon="@drawable/login"/>
+    
     <item android:title="@string/appointments"
         android:id="@+id/menuItemAppointments"
         android:icon="@drawable/calendar"/>
@@ -15,10 +12,10 @@
         android:icon="@drawable/person_icon"/>
     <item android:title="@string/analytics"
         android:id="@+id/menuItemAnalytics"
-        android:icon="@drawable/login"/>
+        android:icon="@drawable/analytics_icon"/>
     <item android:title="@string/cart"
         android:id="@+id/menuItemCart"
-        android:icon="@drawable/login"/>
+        android:icon="@drawable/shopping_cart"/>
     <item android:title="@string/sign_out"
         android:id="@+id/menuItemSignOut"
         android:icon="@drawable/login"/>
