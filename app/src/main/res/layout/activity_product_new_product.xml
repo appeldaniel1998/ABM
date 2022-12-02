@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Appointments.AppointmentsMainActivity">
-
+    tools:context=".Products.AddNewProduct">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".LoginAndRegistration.LogReg_RegisterActivity">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/AppBar"
@@ -29,16 +26,14 @@
                 android:background="@android:color/white">
 
                 <TextView
-                    android:id="@+id/title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/placeholder"
+                    android:text="Add New Product"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
-
         <LinearLayout
             android:id="@+id/nameLinearLayout"
             android:layout_width="match_parent"
@@ -231,6 +226,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/retypePassword"
             tools:layout_editor_absoluteY="584dp" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

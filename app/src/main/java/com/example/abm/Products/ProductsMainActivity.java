@@ -3,16 +3,23 @@ package com.example.abm.Products;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.BaseActivity;
+import com.example.abm.Clients.Client;
 import com.example.abm.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -24,6 +31,7 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Product> products = new ArrayList<>();
     private FloatingActionButton cartButton;
+    private Button addProductButton;
 
 
     @SuppressLint("MissingInflatedId")
@@ -44,6 +52,42 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
 
         });
 
+        checkClientorManger();
+        addProductButton = findViewById(R.id.addProduct);
+        addProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ProductsMainActivity.this, AddNewProduct.class));
+            }
+        });
+
+
+    }
+
+    private void checkClientorManger() {
+        FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
+        if (user != null) {
+            String UserUid = user.getUid();
+            super.getCurrDatabase().collection("Clients").document(UserUid)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        Client client = documentSnapshot.toObject(Client.class);
+                        TextView name = findViewById(R.id.nameMenuHeader);
+                        if (client != null) {
+                            //check if the current user is a client or manager
+                            if (client.getManager()) {
+                                // remove any button which are not needed for the manager
+                                View cart = findViewById(R.id.flaotingCartButton);
+                                cart.setVisibility(View.GONE);
+
+                            } else {
+                                // remove any button which are not needed for the client
+                                View addProductButton = findViewById(R.id.addProduct);
+                                addProductButton.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+        }
 
     }
 
