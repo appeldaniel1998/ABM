@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="366dp"
     android:layout_height="95dp"
     android:layout_margin="10dp"
     android:padding="8dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="6dp"
     app:cardElevation="8dp">
 
@@ -14,7 +15,6 @@
         android:layout_margin="4dp">
 
 
-
         <ImageView
             android:id="@+id/productImage"
             android:layout_width="205dp"
@@ -22,30 +22,40 @@
             android:padding="2dp"
             app:srcCompat="@drawable/canni1" />
 
-        <TextView
-            android:id="@+id/ProductColor"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_toEndOf="@+id/productImage"
-            android:ellipsize="middle"
-            android:fontFamily="sans-serif-black"
-            android:text="@string/pink"
-            android:textColor="@color/greyy"
-            android:textSize="20sp" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_toEndOf="@id/productImage">
 
-        <TextView
-            android:id="@+id/PolishQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="130dp"
-            android:layout_toEndOf="@+id/productImage"
-            android:ellipsize="middle"
-            android:fontFamily="sans-serif-black"
-            android:text="1"
-            android:textColor="@color/greyy"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/ProductColor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="middle"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center_vertical"
+                android:text="@string/pink"
+                android:textColor="@color/greyy"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:paddingTop="10dp"/>
 
+            <TextView
+                android:id="@+id/PolishQuantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="middle"
+                android:fontFamily="sans-serif-black"
+                android:text="1"
+                android:textColor="@color/greyy"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ProductColor" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
