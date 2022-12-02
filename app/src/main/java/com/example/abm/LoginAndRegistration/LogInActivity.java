@@ -13,7 +13,7 @@ import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 
-public class LogReg_LogInActivity extends BaseActivity {
+public class LogInActivity extends BaseActivity {
 
     private EditText email;
     private EditText password;
@@ -43,10 +43,10 @@ public class LogReg_LogInActivity extends BaseActivity {
         super.getCurrFirebaseAuth().signInWithEmailAndPassword(email, password).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Toast.makeText(LogReg_LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LogReg_LogInActivity.this, AppointmentsMainActivity.class));
+                Toast.makeText(LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(LogInActivity.this, AppointmentsMainActivity.class));
                 finish();
             }
-        }).addOnFailureListener(e -> Toast.makeText(LogReg_LogInActivity.this, "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }).addOnFailureListener(e -> Toast.makeText(LogInActivity.this, "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
 }

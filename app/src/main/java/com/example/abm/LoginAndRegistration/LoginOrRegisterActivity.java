@@ -31,7 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
  * Demonstrate Firebase Authentication using a Google ID Token.
  */
 
-public class LogReg_LoginOrRegisterActivity extends AppCompatActivity {
+public class LoginOrRegisterActivity extends AppCompatActivity {
 
     private Button registerButton;
     private Button logInButton;
@@ -41,7 +41,7 @@ public class LogReg_LoginOrRegisterActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             // if user logged in, go to appointments (no login necessary)
             Toast.makeText(this, "User logged in!!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, AppointmentsMainActivity.class));
+            startActivity(new Intent(LoginOrRegisterActivity.this, AppointmentsMainActivity.class));
             finish();
         } else {
             // Otherwise, start and run the activity normally
@@ -51,8 +51,8 @@ public class LogReg_LoginOrRegisterActivity extends AppCompatActivity {
             registerButton = findViewById(R.id.registerButton);
             logInButton = findViewById(R.id.logInButton);
 
-            registerButton.setOnClickListener(v -> startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, LogReg_RegisterActivity.class)));
-            logInButton.setOnClickListener(v -> startActivity(new Intent(LogReg_LoginOrRegisterActivity.this, LogReg_LogInActivity.class)));
+            registerButton.setOnClickListener(v -> startActivity(new Intent(LoginOrRegisterActivity.this, RegisterActivity.class)));
+            logInButton.setOnClickListener(v -> startActivity(new Intent(LoginOrRegisterActivity.this, LogInActivity.class)));
         }
     }
 }

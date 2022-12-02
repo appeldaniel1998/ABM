@@ -15,7 +15,7 @@ import com.example.abm.LoginAndRegistration.BirthdayDatePicker;
 import com.example.abm.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ClientsCreateClient extends BaseActivity {
+public class CreateClient extends BaseActivity {
 
     private EditText firstName;
     private EditText lastName;
@@ -65,13 +65,13 @@ public class ClientsCreateClient extends BaseActivity {
             String textBirthdayDate = birthdayDate.getText().toString();
 
             if (TextUtils.isEmpty(textFirstName) || TextUtils.isEmpty(textEmail)) {
-                Toast.makeText(ClientsCreateClient.this, "Empty email or first name!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CreateClient.this, "Empty email or first name!", Toast.LENGTH_SHORT).show();
             } else {
                 String uid = String.valueOf(java.util.UUID.randomUUID()); //Create a random UID for the new client
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, uid); //creating a new user
                 database.collection("Clients").document(uid).set(userToAdd); //adding user data to database
-                Toast.makeText(ClientsCreateClient.this, "Client added successfully", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ClientsCreateClient.this, ClientsMainActivity.class));
+                Toast.makeText(CreateClient.this, "Client added successfully", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CreateClient.this, ClientsMainActivity.class));
             }
         });
 

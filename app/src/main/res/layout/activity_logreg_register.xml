@@ -12,7 +12,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".LoginAndRegistration.LogReg_RegisterActivity">
+        tools:context=".LoginAndRegistration.RegisterActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/AppBar"

@@ -17,7 +17,7 @@ import com.example.abm.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class LogReg_RegisterActivity extends BaseActivity {
+public class RegisterActivity extends BaseActivity {
 
     private EditText firstName;
     private EditText lastName;
@@ -70,11 +70,11 @@ public class LogReg_RegisterActivity extends BaseActivity {
 
             if (TextUtils.isEmpty(textEmail) || TextUtils.isEmpty(textPassword) || TextUtils.isEmpty(textFirstName) ||
                     TextUtils.isEmpty(textLastName) || TextUtils.isEmpty(textPhoneNumber)) {
-                Toast.makeText(LogReg_RegisterActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
             } else if (textPassword.length() < 6) {
-                Toast.makeText(LogReg_RegisterActivity.this, "The password must contain at least 6 characters!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "The password must contain at least 6 characters!", Toast.LENGTH_SHORT).show();
             } else if (!textPassword.equals(textRetypePassword)) {
-                Toast.makeText(LogReg_RegisterActivity.this, "The passwords do not match!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "The passwords do not match!", Toast.LENGTH_SHORT).show();
             } else {
                 registerUser(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textPassword, textBirthdayDate, super.getCurrFirebaseAuth());
             }
@@ -94,11 +94,11 @@ public class LogReg_RegisterActivity extends BaseActivity {
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, userUID); //creating a new user
                 super.getCurrDatabase().collection("Clients").document(userUID).set(userToAdd); //adding user data to database
 
-                Toast.makeText(LogReg_RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LogReg_RegisterActivity.this, AppointmentsMainActivity.class));
+                Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(RegisterActivity.this, AppointmentsMainActivity.class));
                 finish();
             } else {
-                Toast.makeText(LogReg_RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
             }
         });
     }

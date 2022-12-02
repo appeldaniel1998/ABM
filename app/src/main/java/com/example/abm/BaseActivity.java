@@ -19,7 +19,7 @@ import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
-import com.example.abm.LoginAndRegistration.LogReg_LoginOrRegisterActivity;
+import com.example.abm.LoginAndRegistration.LoginOrRegisterActivity;
 import com.example.abm.Products.ProductCartActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -77,7 +77,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             } else {
                 Toast.makeText(this, "User Signed Out Failed!", Toast.LENGTH_SHORT).show();
             }
-            startActivity(new Intent(this, LogReg_LoginOrRegisterActivity.class));
+            startActivity(new Intent(this, LoginOrRegisterActivity.class));
             return true;
         } else return false;
     }

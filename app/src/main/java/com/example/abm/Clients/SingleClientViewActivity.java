@@ -9,7 +9,7 @@ import android.widget.TextView;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
-public class ClientsSingleClientViewActivity extends BaseActivity {
+public class SingleClientViewActivity extends BaseActivity {
 
     Client client;
     String clientUID;
@@ -49,9 +49,9 @@ public class ClientsSingleClientViewActivity extends BaseActivity {
             progressDialog.dismiss();
 
             editClientButton.setOnClickListener(v -> {
-                Intent myIntent = new Intent(ClientsSingleClientViewActivity.this, ClientsEditClientActivity.class);
+                Intent myIntent = new Intent(SingleClientViewActivity.this, EditClientActivity.class);
                 myIntent.putExtra("clientUID", clientUID); //Optional parameters
-                ClientsSingleClientViewActivity.this.startActivity(myIntent);
+                SingleClientViewActivity.this.startActivity(myIntent);
             });
         });
     }

@@ -64,7 +64,7 @@ public class ClientsMainActivity extends BaseActivity {
                             public void onItemClick(int position) {
 //                                ClientsMainActivity.super.setClientIndex(clients.get(position).getUID());
 
-                                Intent myIntent = new Intent(ClientsMainActivity.this, ClientsSingleClientViewActivity.class);
+                                Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
                                 myIntent.putExtra("clientUID", clients.get(position).getUID()); //Optional parameters
                                 ClientsMainActivity.this.startActivity(myIntent);
                             }
@@ -73,7 +73,7 @@ public class ClientsMainActivity extends BaseActivity {
                         addClientButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, ClientsCreateClient.class));
+                                ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClient.class));
                             }
                         });
                     }

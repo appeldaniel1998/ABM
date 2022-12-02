@@ -12,7 +12,7 @@ import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class ClientsEditClientActivity extends BaseActivity {
+public class EditClientActivity extends BaseActivity {
 
     Client client;
     String clientUID;
@@ -67,9 +67,9 @@ public class ClientsEditClientActivity extends BaseActivity {
                                     phoneNumber.getText().toString(), address.getText().toString(), birthday.getText().toString(), clientUID); //creating a new user
                             database.collection("Clients").document(clientUID).set(userToAdd); //adding user data to database
 
-                            Intent myIntent = new Intent(ClientsEditClientActivity.this, ClientsSingleClientViewActivity.class);
+                            Intent myIntent = new Intent(EditClientActivity.this, SingleClientViewActivity.class);
                             myIntent.putExtra("clientUID", clientUID); //Optional parameters
-                            ClientsEditClientActivity.this.startActivity(myIntent);
+                            EditClientActivity.this.startActivity(myIntent);
                             finish();
                         }
                     });

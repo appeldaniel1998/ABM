@@ -30,21 +30,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Clients.ClientsEditClientActivity"
+            android:name=".Clients.EditClientActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Clients.ClientsCreateClient"
+            android:name=".Clients.CreateClient"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Clients.ClientsSingleClientViewActivity"
+            android:name=".Clients.SingleClientViewActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -93,21 +93,21 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginAndRegistration.LogReg_LogInActivity"
+            android:name=".LoginAndRegistration.LogInActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginAndRegistration.LogReg_RegisterActivity"
+            android:name=".LoginAndRegistration.RegisterActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".LoginAndRegistration.LogReg_LoginOrRegisterActivity"
+            android:name=".LoginAndRegistration.LoginOrRegisterActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
