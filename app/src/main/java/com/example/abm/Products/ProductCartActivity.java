@@ -29,8 +29,8 @@ public class ProductCartActivity extends BaseActivity {
         setContentView(R.layout.activity_product_cart);
         super.initMenuSideBar();
         createCartList();
-        ProgressDialog progressDialog;
-        progressDialog = ProgressDialog.show(this, "Cart", "Loading, please wait...", true);
+        //ProgressDialog progressDialog;
+        //progressDialog = ProgressDialog.show(this, "Cart", "Loading, please wait...", true);
         }
 
     private void createCartList() {

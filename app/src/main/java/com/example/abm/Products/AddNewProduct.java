@@ -45,6 +45,7 @@ public class AddNewProduct extends BaseActivity {
                 AddNewProduct.super.getCurrDatabase().collection("Products").document(product.getColorName()).set(product);
                 Toast.makeText(AddNewProduct.this, "Adding new product!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(AddNewProduct.this, ProductsMainActivity.class));
+                finish();
             }
         });
 

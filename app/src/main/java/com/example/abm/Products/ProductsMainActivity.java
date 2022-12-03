@@ -1,7 +1,6 @@
 package com.example.abm.Products;
 
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -28,10 +27,10 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
 
     private DrawerLayout drawerLayout;
     private RecyclerView recyclerView;
-    private RecycleAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Product> products = new ArrayList<>();
-    private ArrayList<Product> product1 = new ArrayList<>();
+    private ArrayList<Product> new_products = new ArrayList<>();
+    private RecycleAdapter adapter;
     private FloatingActionButton cartButton;
     private Button addProductButton;
 
@@ -44,10 +43,8 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         super.initMenuSideBar();
         //createProductsList();
         //buildRecyclerView();
+        getProductFromDatabase();
 
-       creatProductListFromDatabase();
-//        ProgressDialog progressDialog;
-//        progressDialog = ProgressDialog.show(this, "Products", "Loading, please wait...", true);
         cartButton = findViewById(R.id.flaotingCartButton);
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,28 +64,33 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
             }
         });
 
+
     }
 
-    //get all the data from the database from the current from Products collection and add it to the arraylist
-    private void creatProductListFromDatabase() {
-        //get all the product for the database
-        getCurrDatabase().collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+    private void getProductFromDatabase() {
+        super.getCurrDatabase().collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     Product product = documentSnapshot.toObject(Product.class);
-                    product1.add(product);
+                    new_products.add(product);
                 }
+                products = new_products;
+                buildRecyclerView();
                 System.out.println("-------------------------------------");
-                for (Product p : product1) {
+                for (Product p : new_products) {
                     System.out.println(p);
                 }
                 System.out.println("-------------------------------------");
-                buildRecyclerView();
+
             }
+
         });
 
     }
+
+
+
 
     private void checkClientorManger() {
         FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
@@ -137,17 +139,16 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         recyclerView = findViewById(R.id.recycleView); //recycleView is the id of the recycleView in the xml file
         recyclerView.setHasFixedSize(true); //recycler view will not change in size
         layoutManager = new LinearLayoutManager(this); //layout manager is the way the items are displayed
-        adapter = new RecycleAdapter(product1); //adapter is the way the data is displayed in the recycler view
+        adapter = new RecycleAdapter(new_products); //adapter is the way the data is displayed in the recycler view
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new RecycleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 //when an item is clicked, open the product details activity
-                product1.get(position);
+                new_products.get(position);
                 Intent intent = new Intent(ProductsMainActivity.this, ProductsClickcardActivity.class);
-
-                intent.putExtra("Product", (CharSequence) product1.get(position).getColorName());
+                intent.putExtra("Product", (CharSequence) new_products.get(position).getColorName());
                 startActivity(intent);
 
             }

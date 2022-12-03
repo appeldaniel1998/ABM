@@ -61,18 +61,6 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
                 }
             });
 
-//            addToCart.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (listener != null) {
-//                        int position = getAdapterPosition();
-//                        if (position != RecyclerView.NO_POSITION) {
-//                            listener.onAddClick(position);
-//                        }
-//                    }
-//                    //mListener.onItemClick(getAdapterPosition());
-//                }
-//            });
         }
     }
 
