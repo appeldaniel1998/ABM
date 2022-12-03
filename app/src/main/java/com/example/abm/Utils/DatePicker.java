@@ -1,4 +1,4 @@
-package com.example.abm.LoginAndRegistration;
+package com.example.abm.Utils;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -11,7 +11,7 @@ import java.util.Calendar;
  * https://www.youtube.com/watch?v=qCoidM98zNk
  * https://github.com/codeWithCal/DatePickerTutorial/blob/master/app/src/main/java/codewithcal/au/datepickertutorial/MainActivity.java
  */
-public class BirthdayDatePicker {
+public class DatePicker {
 
     /**
      * Function to return the string representing today's date
@@ -27,11 +27,11 @@ public class BirthdayDatePicker {
         return makeDateString(day, month, year);
     }
 
-    public static DatePickerDialog initDatePicker(TextView birthdayDate, Activity activity) {
+    public static DatePickerDialog initDatePicker(TextView dateTextView, Activity activity) {
         DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
             String date = makeDateString(day, month, year);
-            birthdayDate.setText(date);
+            dateTextView.setText(date);
         };
 
         Calendar cal = Calendar.getInstance();

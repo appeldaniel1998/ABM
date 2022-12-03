@@ -1,9 +1,9 @@
 package com.example.abm.Appointments;
 
 public class Appointment {
-    private String appointmentID;
+    private String appointmentId;
     private String date;
-    private double startTime;
+    private String startTime;
     private String typeName;
     private String clientId;
 
@@ -11,8 +11,8 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(String appointmentID, String date, double startTime, String typeName, String clientId) {
-        this.appointmentID = appointmentID;
+    public Appointment(String appointmentID, String date, String startTime, String typeName, String clientId) {
+        this.appointmentId = appointmentID;
         this.date = date;
         this.startTime = startTime;
         this.typeName = typeName;
@@ -20,14 +20,14 @@ public class Appointment {
     }
 
     public String getAppointmentID() {
-        return appointmentID;
+        return appointmentId;
     }
 
     public String getDate() {
         return date;
     }
 
-    public double getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 

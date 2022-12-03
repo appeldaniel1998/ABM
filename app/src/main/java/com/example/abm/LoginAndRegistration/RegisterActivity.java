@@ -14,6 +14,7 @@ import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.R;
+import com.example.abm.Utils.DatePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -52,8 +53,8 @@ public class RegisterActivity extends BaseActivity {
         birthdayDate = findViewById(R.id.birthdayDatePicker);
 
         // Initiating date picks handling
-        datePickerDialog = BirthdayDatePicker.initDatePicker(birthdayDate, this);
-        birthdayDate.setText(BirthdayDatePicker.getTodayDate()); // Set initial date to today's date
+        datePickerDialog = DatePicker.initDatePicker(birthdayDate, this);
+        birthdayDate.setText(DatePicker.getTodayDate()); // Set initial date to today's date
 
 
         //onclick listener for register button
