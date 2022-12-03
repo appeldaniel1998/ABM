@@ -65,13 +65,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Cart.CartMainActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".HistoryAnalytics.AnalyticsMainActivity"
             android:exported="false">
             <meta-data
