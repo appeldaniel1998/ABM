@@ -43,7 +43,7 @@ public class AppointmentTypesActivity extends BaseActivity {
         recyclerViewLayoutManager = new LinearLayoutManager(this);
 
         // set onclick listener to the "add appointment type" button
-        addAppointmentTypeButton.setOnClickListener(v -> startActivity(new Intent(AppointmentTypesActivity.this, AddAppointmentTypeActivity.class)));
+        addAppointmentTypeButton.setOnClickListener(v -> startActivity(new Intent(AppointmentTypesActivity.this, AddEditAppointmentTypeActivity.class)));
 
         // init arraylist to stored data received from firestore
         ArrayList<AppointmentType> appointmentTypes = new ArrayList<>();
@@ -65,12 +65,10 @@ public class AppointmentTypesActivity extends BaseActivity {
 
                 progressDialog.dismiss(); // stop progress dialog
 
-                recyclerViewAdapter.setOnItemClickListener(new AppointmentTypeRecycleAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        AppointmentType currAppointmentType = appointmentTypes.get(position);
-                        //TODO
-                    }
+                recyclerViewAdapter.setOnItemClickListener(position -> {
+                    Intent myIntent = new Intent(AppointmentTypesActivity.this, AddEditAppointmentTypeActivity.class);
+                    myIntent.putExtra("appointmentTypeName", appointmentTypes.get(position).getTypeName()); //Optional parameters
+                    AppointmentTypesActivity.this.startActivity(myIntent);
                 });
             }
         });

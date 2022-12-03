@@ -50,6 +50,67 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/AppBar" />
 
+        <LinearLayout
+            android:id="@+id/titlesLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addAppointmentTypeButton">
+
+            <TextView
+                android:id="@+id/typeName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="50"
+                android:autofillHints="name"
+                android:ems="10"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:text="Appointment Type Name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/duration"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="25"
+                android:ems="10"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:text="Duration" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:id="@+id/typePrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="25"
+                android:ems="10"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:text="Price" />
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewAppointmentTypes"
             android:layout_width="match_parent"
@@ -57,7 +118,7 @@
             android:background="@android:color/darker_gray"
             android:padding="4dp"
             android:scrollbars="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/addAppointmentTypeButton" />
+            app:layout_constraintTop_toBottomOf="@+id/titlesLinearLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

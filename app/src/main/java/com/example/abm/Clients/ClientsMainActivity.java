@@ -43,7 +43,7 @@ public class ClientsMainActivity extends BaseActivity {
 
         clients = new ArrayList<>();
 
-        addClientButton.setOnClickListener(v -> ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClient.class)));
+        addClientButton.setOnClickListener(v -> ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClientActivity.class)));
 
         super.getCurrDatabase().collection("Clients")
                 .get()
