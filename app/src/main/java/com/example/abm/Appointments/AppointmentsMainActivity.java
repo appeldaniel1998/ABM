@@ -20,6 +20,11 @@ public class AppointmentsMainActivity extends BaseActivity {
         setContentView(R.layout.activity_appointments_main);
         super.initMenuSideBar();
 
-        //Code here!
+        if (super.getCurrUser().getManager()) {
+
+        }
+        else {
+
+        }
     }
 }

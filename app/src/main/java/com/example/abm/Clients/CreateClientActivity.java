@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
-import com.example.abm.LoginAndRegistration.BirthdayDatePicker;
+import com.example.abm.Utils.DatePicker;
 import com.example.abm.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -52,8 +52,8 @@ public class CreateClientActivity extends BaseActivity {
         findViewById(R.id.retypePassword).setVisibility(View.GONE);
 
         // Initiating date picks handling
-        datePickerDialog = BirthdayDatePicker.initDatePicker(birthdayDate, this);
-        birthdayDate.setText(BirthdayDatePicker.getTodayDate()); // Set initial date to today's date
+        datePickerDialog = DatePicker.initDatePicker(birthdayDate, this);
+        birthdayDate.setText(DatePicker.getTodayDate()); // Set initial date to today's date
 
         addClient.setOnClickListener(v -> {
             //Converting fields to text

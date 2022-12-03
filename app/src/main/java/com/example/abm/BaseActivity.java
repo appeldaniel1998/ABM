@@ -34,7 +34,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth auth;
     private FirebaseFirestore database;
 
-    private FirebaseUser user;
+    private Client currUser; // not sure to work since it is initialized from onSuccess listener which is async
 
     public FirebaseAuth getCurrFirebaseAuth() {
         return auth;
@@ -44,12 +44,15 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return database;
     }
 
+    public Client getCurrUser() {
+        return currUser;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.auth = FirebaseAuth.getInstance();
         this.database = FirebaseFirestore.getInstance();
-        this.user = this.auth.getCurrentUser();
     }
 
     @Override
@@ -76,7 +79,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else if (item.getItemId() == R.id.menuItemSignOut) {
             this.auth.signOut();
             if (this.auth.getCurrentUser() == null) {
-                this.user = null;
                 Toast.makeText(this, "User Signed Out!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "User Signed Out Failed!", Toast.LENGTH_SHORT).show();
@@ -111,34 +113,37 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             database.collection("Clients").document(UserUid)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
-                        Client client = documentSnapshot.toObject(Client.class);
+                        currUser = documentSnapshot.toObject(Client.class);
                         TextView name = findViewById(R.id.nameMenuHeader);
-                        if (client != null) {
+                        if (currUser != null) {
                             //Toggle visibility for menu items in accordance to whether the user is a client or a manager
-                            if (client.getManager()) {
+                            if (currUser.getManager()) { // A manager
                                 // remove any page which a client can get no access to
                                 MenuItem cart = menu.findItem(R.id.menuItemCart);
                                 cart.setVisible(false);
 
-                            } else {
+                            } else { // A client
                                 // remove any page which a manager can get no access to
                                 MenuItem clients = menu.findItem(R.id.menuItemClients);
                                 clients.setVisible(false);
+
+                                MenuItem appointmentTypes = menu.findItem(R.id.menuItemAppointmentTypes);
+                                appointmentTypes.setVisible(false);
 
                                 menu.findItem(R.id.menuItemAnalytics).setTitle("History");
                             }
 
 
                             // Set name and email in the menu screen header of each page
-                            String fullName = client.getFirstName() + " " + client.getLastName();
+                            String fullName = currUser.getFirstName() + " " + currUser.getLastName();
                             name.setText(fullName);
 
                             TextView email = findViewById(R.id.emailMenuHeader);
-                            email.setText(client.getEmail());
+                            email.setText(currUser.getEmail());
 
                             TextView isManager = findViewById(R.id.isManagerMenuHeader);
-                            System.out.println("Is Manager: " + client.getManager());
-                            if (client.getManager()) {
+                            System.out.println("Is Manager: " + currUser.getManager());
+                            if (currUser.getManager()) {
                                 isManager.setText("Manager");
                             } else {
                                 isManager.setText("Client");

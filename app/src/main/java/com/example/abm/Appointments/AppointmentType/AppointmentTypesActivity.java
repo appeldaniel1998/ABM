@@ -11,7 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -22,6 +24,8 @@ public class AppointmentTypesActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private AppointmentTypeRecycleAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
+
+    private ArrayList<AppointmentType> appointmentTypes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +50,11 @@ public class AppointmentTypesActivity extends BaseActivity {
         addAppointmentTypeButton.setOnClickListener(v -> startActivity(new Intent(AppointmentTypesActivity.this, AddEditAppointmentTypeActivity.class)));
 
         // init arraylist to stored data received from firestore
-        ArrayList<AppointmentType> appointmentTypes = new ArrayList<>();
+        this.appointmentTypes = new ArrayList<>();
 
         super.getCurrDatabase().collection("Appointment Types").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    Map<String, Object> data = document.getData();
-                    String name = (String) data.get("typeName");
-                    String price = (String) data.get("price");
-                    String duration = (String) data.get("duration");
-                    appointmentTypes.add(new AppointmentType(name, price, duration));
-                }
+                appointmentTypes = setArrayListFromDb(task);
 
                 // Continued init of recycler view
                 recyclerViewAdapter = new AppointmentTypeRecycleAdapter(appointmentTypes);
@@ -73,5 +71,16 @@ public class AppointmentTypesActivity extends BaseActivity {
             }
         });
 
+    }
+
+    private ArrayList<AppointmentType> setArrayListFromDb(Task<QuerySnapshot> task) {
+        for (QueryDocumentSnapshot document : task.getResult()) {
+            Map<String, Object> data = document.getData();
+            String name = (String) data.get("typeName");
+            String price = (String) data.get("price");
+            String duration = (String) data.get("duration");
+            appointmentTypes.add(new AppointmentType(name, price, duration));
+        }
+        return appointmentTypes;
     }
 }
