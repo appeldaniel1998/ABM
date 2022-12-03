@@ -3,7 +3,6 @@ package com.example.abm.Clients;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -44,6 +43,8 @@ public class ClientsMainActivity extends BaseActivity {
 
         clients = new ArrayList<>();
 
+        addClientButton.setOnClickListener(v -> ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClient.class)));
+
         super.getCurrDatabase().collection("Clients")
                 .get()
                 .addOnCompleteListener(task -> {
@@ -59,22 +60,10 @@ public class ClientsMainActivity extends BaseActivity {
                         recyclerView.setAdapter(recyclerViewAdapter);
                         progressDialog.dismiss();
 
-                        recyclerViewAdapter.setOnItemClickListener(new ClientsRecycleAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(int position) {
-//                                ClientsMainActivity.super.setClientIndex(clients.get(position).getUID());
-
-                                Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
-                                myIntent.putExtra("clientUID", clients.get(position).getUID()); //Optional parameters
-                                ClientsMainActivity.this.startActivity(myIntent);
-                            }
-                        });
-
-                        addClientButton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClient.class));
-                            }
+                        recyclerViewAdapter.setOnItemClickListener(position -> {
+                            Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
+                            myIntent.putExtra("clientUID", clients.get(position).getUID()); //Optional parameters
+                            ClientsMainActivity.this.startActivity(myIntent);
                         });
                     }
                 });

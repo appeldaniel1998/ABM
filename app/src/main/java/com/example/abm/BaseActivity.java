@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.abm.Appointments.AppointmentType.AppointmentTypesActivity;
 import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
@@ -56,6 +57,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawers();
         if (item.getItemId() == R.id.menuItemAppointments) {
             startActivity(new Intent(this, AppointmentsMainActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.menuItemAppointmentTypes) {
+            startActivity(new Intent(this, AppointmentTypesActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemProducts) {
             startActivity(new Intent(this, ProductsMainActivity.class));

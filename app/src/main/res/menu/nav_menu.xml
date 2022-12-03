@@ -4,6 +4,9 @@
     <item android:title="@string/appointments"
         android:id="@+id/menuItemAppointments"
         android:icon="@drawable/calendar"/>
+    <item android:title="@string/appointment_types"
+        android:id="@+id/menuItemAppointmentTypes"
+        android:icon="@drawable/calendar"/>
     <item android:title="@string/products"
         android:id="@+id/menuItemProducts"
         android:icon="@drawable/products"/>

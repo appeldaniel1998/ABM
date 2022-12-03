@@ -38,6 +38,7 @@ public class LoginOrRegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             // if user logged in, go to appointments (no login necessary)
             Toast.makeText(this, "User logged in!!", Toast.LENGTH_SHORT).show();
@@ -45,7 +46,6 @@ public class LoginOrRegisterActivity extends AppCompatActivity {
             finish();
         } else {
             // Otherwise, start and run the activity normally
-            super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_logreg_login_or_register);
 
             registerButton = findViewById(R.id.registerButton);

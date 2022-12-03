@@ -72,6 +72,7 @@ public class CreateClient extends BaseActivity {
                 database.collection("Clients").document(uid).set(userToAdd); //adding user data to database
                 Toast.makeText(CreateClient.this, "Client added successfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(CreateClient.this, ClientsMainActivity.class));
+                finish();
             }
         });
 
