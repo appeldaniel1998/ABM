@@ -35,21 +35,13 @@ public class ProductCartActivity extends BaseActivity {
 
     private void createCartList() {
         //get all the data from the database from the current from Products collection and add it to the arraylist
-
         super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getUid()).collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     Cart c = documentSnapshot.toObject(Cart.class);
-//                    System.out.println("-------------------------------------");
-//                    System.out.println(c);
                     cart.add(c);
                 }
-//                System.out.println("-------------------------------------");
-//                for (Cart c : cart) {
-//                    System.out.println(c);
-//                }
-//                System.out.println("-------------------------------------");
                 buildRecyclerView();
 
             }

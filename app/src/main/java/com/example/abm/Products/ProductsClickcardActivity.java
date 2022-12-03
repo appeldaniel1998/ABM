@@ -101,9 +101,9 @@ public class ProductsClickcardActivity extends BaseActivity {
             Cart cart = new Cart(product.getColorName(),product.getImage(), Integer.parseInt(quantity.getText().toString()));
             super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").document(product.getColorName()).set(cart);
             //update the quantity of the product in the database
-
-
-
+            int newQuantity = Integer.parseInt(product.getQuantity()) - Integer.parseInt(quantity.getText().toString());
+            String newQuantityString = String.valueOf(newQuantity);
+            super.getCurrDatabase().collection("Products").document(product.getColorName()).update("quantity", newQuantityString);
             Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
 
