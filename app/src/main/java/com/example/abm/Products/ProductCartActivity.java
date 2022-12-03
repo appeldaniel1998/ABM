@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 
 import com.example.abm.BaseActivity;
@@ -28,6 +29,8 @@ public class ProductCartActivity extends BaseActivity {
         setContentView(R.layout.activity_product_cart);
         super.initMenuSideBar();
         createCartList();
+        ProgressDialog progressDialog;
+        progressDialog = ProgressDialog.show(this, "Cart", "Loading, please wait...", true);
         }
 
     private void createCartList() {

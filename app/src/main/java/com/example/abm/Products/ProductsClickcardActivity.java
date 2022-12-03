@@ -1,7 +1,5 @@
 package com.example.abm.Products;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -100,8 +98,12 @@ public class ProductsClickcardActivity extends BaseActivity {
         }
         else {
             //create a new cart item and add it to the collection in the database
-            Cart cart = new Cart(product.getColor_name(),product.getImage(), Integer.parseInt(quantity.getText().toString()));
-            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").document(product.getColor_name()).set(cart);
+            Cart cart = new Cart(product.getColorName(),product.getImage(), Integer.parseInt(quantity.getText().toString()));
+            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").document(product.getColorName()).set(cart);
+            //update the quantity of the product in the database
+
+
+
             Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
 
@@ -113,7 +115,7 @@ public class ProductsClickcardActivity extends BaseActivity {
     private void initValuesOfLayout() {
         productImage = findViewById(R.id.Polish1);
         productColor = findViewById(R.id.PolishDetalis);
-        productColor.setText(product.getColor_name());
+        productColor.setText(product.getColorName());
         productImage.setImageResource(product.getImage());
 
     }

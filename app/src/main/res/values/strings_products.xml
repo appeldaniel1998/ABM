@@ -3,5 +3,10 @@
 
 <resources>
     <string name="red">Red color. Price is 10$</string>
+    <string name="ProductPrice"> Product Price </string>
+    <string name="ProductColor"> Product Color </string>
+    <string name="ProductDescription"> Product Description </string>
+    <string name="ProductQuantity"> Product Quantity </string>
+    <string name="AddNewProduct"> Add New Product </string>
 
 </resources>

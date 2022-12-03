@@ -94,7 +94,7 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product product = products.get(position);
         holder.imageView.setImageResource(product.getImage());
-        holder.textView.setText(product.getColor_name());
+        holder.textView.setText(product.getColorName());
 
     }
 
