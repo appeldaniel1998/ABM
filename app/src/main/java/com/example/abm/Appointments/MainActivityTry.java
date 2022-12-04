@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.abm.R;
+
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivityTry extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_main);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
         initWidgets();
+        selectedDate=LocalDate.now();
         setMonthView();
     }
 
