@@ -17,4 +17,6 @@
     <string name="sign_out">Sign Out</string>
     <string name="edit_client">Edit Client</string>
     <string name="appointment_types">Appointment Types</string>
+    <string name="back"><![CDATA[<-]]></string>
+    <string name="forward"><![CDATA[->]]></string>
 </resources>
