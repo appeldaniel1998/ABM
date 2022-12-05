@@ -24,6 +24,7 @@ public class ProductsClickcardActivity extends BaseActivity {
     private TextView productColor;
     private Button addToCartButton;
     private Button editProductButton;
+    private Button deleteProductButton;
     private Button plus;
     private Button minus;
     private TextView quantity;
@@ -35,6 +36,7 @@ public class ProductsClickcardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_clickcard);
         super.initMenuSideBar();
+        checkMangerorClient();
         initValues();
 
 
@@ -55,7 +57,7 @@ public class ProductsClickcardActivity extends BaseActivity {
                         progressDialog.dismiss();
                     }
                 });
-        checkMangerorClient();
+
 
     }
 
@@ -80,6 +82,7 @@ public class ProductsClickcardActivity extends BaseActivity {
                                 } else {
                                     // remove any button which are not needed for the client
                                     findViewById(R.id.EditProduct).setVisibility(View.GONE);
+                                    findViewById(R.id.deleteProduct).setVisibility(View.GONE);
 
                                 }
                             }
@@ -94,6 +97,7 @@ public class ProductsClickcardActivity extends BaseActivity {
     private void initValues() {
         editProductButton = findViewById(R.id.EditProduct);
         addToCartButton = findViewById(R.id.addToCart);
+        deleteProductButton = findViewById(R.id.deleteProduct);
         plus = findViewById(R.id.PlusPolish);
         minus = findViewById(R.id.MinusPolish);
         quantity = findViewById(R.id.quantity);
@@ -131,11 +135,21 @@ public class ProductsClickcardActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+
+        deleteProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductsClickcardActivity.super.getCurrDatabase().collection("Products").document(product.getColorName()).delete();
+                Toast.makeText(ProductsClickcardActivity.this, "Product deleted", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void AddToCart() {
         if (quantity.getText().toString().equals("0")) {
-            Toast.makeText(this, "You Didn't Pick anything", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "You Didn't Pick anything! ", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
 
         }
@@ -145,10 +159,18 @@ public class ProductsClickcardActivity extends BaseActivity {
             super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").document(product.getColorName()).set(cart);
             //update the quantity of the product in the database
             int newQuantity = Integer.parseInt(product.getQuantity()) - Integer.parseInt(quantity.getText().toString());
-            String newQuantityString = String.valueOf(newQuantity);
-            super.getCurrDatabase().collection("Products").document(product.getColorName()).update("quantity", newQuantityString);
-            Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
+            if (newQuantity <0){
+                Toast.makeText(this, "This amount isn't available, Please choose again!", Toast.LENGTH_SHORT).show();
+                quantity.setText("0");
+
+
+            }
+            else {
+                String newQuantityString = String.valueOf(newQuantity);
+                super.getCurrDatabase().collection("Products").document(product.getColorName()).update("quantity", newQuantityString);
+                Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
+            }
 
         }
 
