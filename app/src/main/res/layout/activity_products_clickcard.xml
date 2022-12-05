@@ -26,8 +26,8 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="399dp"
+            android:layout_height="383dp"
             android:layout_margin="10dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="8dp"
@@ -68,11 +68,11 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id= "@+id/PlusPolish"
+                        android:id="@+id/PlusPolish"
                         android:layout_width="50dp"
                         android:layout_height="48dp"
-                        android:text="+"
-                        android:backgroundTint="@color/black"/>
+                        android:backgroundTint="@color/black"
+                        android:text="+" />
 
                     <TextView
                         android:id="@+id/quantity"
@@ -85,12 +85,11 @@
                         android:textSize="18sp" />
 
                     <Button
-                        android:id= "@+id/MinusPolish"
+                        android:id="@+id/MinusPolish"
                         android:layout_width="50dp"
                         android:layout_height="48dp"
-                        android:text="-"
-                        android:backgroundTint="@color/black"/>
-
+                        android:backgroundTint="@color/black"
+                        android:text="-" />
 
 
                 </LinearLayout>
@@ -101,11 +100,19 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/linear"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="12dp"
                     android:backgroundTint="@color/pink"
                     android:text="Add to Cart" />
 
-
+                <Button
+                    android:id="@+id/EditProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/addToCart"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="7dp"
+                    android:backgroundTint="@color/pink"
+                    android:text="Edit Product" />
 
 
             </RelativeLayout>

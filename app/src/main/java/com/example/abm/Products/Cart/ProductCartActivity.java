@@ -1,13 +1,20 @@
-package com.example.abm.Products;
+package com.example.abm.Products.Cart;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.abm.Appointments.AppointmentType.AppointmentTypesActivity;
+import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.BaseActivity;
+import com.example.abm.Products.Cart.Cart;
+import com.example.abm.Products.Cart.CartAdapter;
+import com.example.abm.Products.ProductsClickcardActivity;
+import com.example.abm.Products.ProductsMainActivity;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -20,7 +27,7 @@ public class ProductCartActivity extends BaseActivity {
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Cart> cart = new ArrayList<>();
     private CartAdapter adapter;
-
+    private Button finishOrderButton;
 
 
     @Override
@@ -29,9 +36,22 @@ public class ProductCartActivity extends BaseActivity {
         setContentView(R.layout.activity_product_cart);
         super.initMenuSideBar();
         createCartList();
-        //ProgressDialog progressDialog;
-        //progressDialog = ProgressDialog.show(this, "Cart", "Loading, please wait...", true);
-        }
+        finishOrderButton = findViewById(R.id.FinishOrder);
+        // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
+        finishOrderButton.setOnClickListener(v -> {
+            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                    documentSnapshot.getReference().delete();
+                }
+                //back to appointments activity
+                Toast.makeText(this, "Finish Order ! ", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(ProductCartActivity.this, AppointmentsMainActivity.class));
+
+            });
+        });
+
+
+    }
 
     private void createCartList() {
         //get all the data from the database from the current from Products collection and add it to the arraylist

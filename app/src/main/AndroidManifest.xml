@@ -16,33 +16,34 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".editProduct"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Appointments.AppointmentType.AddEditAppointmentTypeActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-
         <activity
             android:name=".Appointments.AppointmentCalender.MainActivityTry"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
-
-
-
-
-
         <activity
             android:name=".Appointments.AppointmentType.AppointmentTypesActivity"
             android:exported="false">
@@ -58,7 +59,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Products.ProductCartActivity"
+            android:name=".Products.Cart.ProductCartActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -137,11 +138,11 @@
         <activity
             android:name=".LoginAndRegistration.LoginOrRegisterActivity"
             android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"

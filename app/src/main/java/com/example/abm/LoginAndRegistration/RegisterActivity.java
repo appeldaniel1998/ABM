@@ -77,14 +77,14 @@ public class RegisterActivity extends BaseActivity {
             } else if (!textPassword.equals(textRetypePassword)) {
                 Toast.makeText(RegisterActivity.this, "The passwords do not match!", Toast.LENGTH_SHORT).show();
             } else {
-                registerUser(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textPassword, textBirthdayDate, super.getCurrFirebaseAuth());
+                registerUser(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textPassword, DatePicker.stringToInt(textBirthdayDate), super.getCurrFirebaseAuth());
             }
         });
     }
 
 
     public void registerUser(String textFirstName, String textLastName, String textEmail, String textPhoneNumber, String textAddress,
-                             String textPassword, String textBirthdayDate, FirebaseAuth auth) {
+                             String textPassword, int textBirthdayDate, FirebaseAuth auth) {
         auth.createUserWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 FirebaseUser user = auth.getCurrentUser();

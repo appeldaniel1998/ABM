@@ -62,7 +62,7 @@ public class CreateClientActivity extends BaseActivity {
             String textEmail = email.getText().toString();
             String textPhoneNumber = phoneNumber.getText().toString();
             String textAddress = address.getText().toString();
-            String textBirthdayDate = birthdayDate.getText().toString();
+            int textBirthdayDate = DatePicker.stringToInt(birthdayDate.getText().toString());
 
             if (TextUtils.isEmpty(textFirstName) || TextUtils.isEmpty(textEmail)) {
                 Toast.makeText(CreateClientActivity.this, "Empty email or first name!", Toast.LENGTH_SHORT).show();

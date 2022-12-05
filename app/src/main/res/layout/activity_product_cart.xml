@@ -5,7 +5,7 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Products.ProductCartActivity">
+    tools:context=".Products.Cart.ProductCartActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,13 +26,28 @@
                 android:background="@android:color/white" />
         </com.google.android.material.appbar.AppBarLayout>
 
+        <Button
+            android:id="@+id/FinishOrder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/AppBar"
+            android:backgroundTint="#F8F3CDDA"
+            android:fontFamily="sans-serif-condensed"
+            android:shadowColor="#E91E63"
+            android:text="FINISH ORDER"
+            android:textColor="#607D8B"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AppBar" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewCartActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/AppBar" />
+            app:layout_constraintTop_toBottomOf="@id/FinishOrder" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

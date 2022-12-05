@@ -10,8 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
+import com.example.abm.Clients.Client;
+import com.example.abm.Products.Cart.Cart;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 
 public class ProductsClickcardActivity extends BaseActivity {
@@ -20,10 +23,10 @@ public class ProductsClickcardActivity extends BaseActivity {
     private ImageView productImage;
     private TextView productColor;
     private Button addToCartButton;
+    private Button editProductButton;
     private Button plus;
     private Button minus;
     private TextView quantity;
-
 
 
 
@@ -52,13 +55,44 @@ public class ProductsClickcardActivity extends BaseActivity {
                         progressDialog.dismiss();
                     }
                 });
-
+        checkMangerorClient();
 
     }
 
+    private void checkMangerorClient() {
+            FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
+            if (user != null) {
+                String UserUid = user.getUid();
+                super.getCurrDatabase().collection("Clients").document(UserUid)
+                        .get()
+                        .addOnSuccessListener(documentSnapshot -> {
+                            Client client = documentSnapshot.toObject(Client.class);
+                            TextView name = findViewById(R.id.nameMenuHeader);
+                            if (client != null) {
+                                //check if the current user is a client or manager
+                                if (client.getManager()) {
+                                    // remove any button which are not needed for the manager
+                                    findViewById(R.id.MinusPolish).setVisibility(View.GONE);
+                                    findViewById(R.id.PlusPolish).setVisibility(View.GONE);
+                                    findViewById(R.id.quantity).setVisibility(View.GONE);
+                                    findViewById(R.id.addToCart).setVisibility(View.GONE);
+
+                                } else {
+                                    // remove any button which are not needed for the client
+                                    findViewById(R.id.EditProduct).setVisibility(View.GONE);
+
+                                }
+                            }
+                        });
+            }
+
+        }
+
+
+
     // Initialize the values of the layout, and set on click listeners for the buttons.
     private void initValues() {
-
+        editProductButton = findViewById(R.id.EditProduct);
         addToCartButton = findViewById(R.id.addToCart);
         plus = findViewById(R.id.PlusPolish);
         minus = findViewById(R.id.MinusPolish);
@@ -86,6 +120,15 @@ public class ProductsClickcardActivity extends BaseActivity {
                     quantityInt--;
                     quantity.setText(String.valueOf(quantityInt));
                 }
+            }
+        });
+
+        editProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //ntent intent = new Intent(ProductsClickcardActivity.this, EditProductActivity.class);
+                //intent.putExtra("Product", product.getId());
+                //startActivity(intent);
             }
         });
     }

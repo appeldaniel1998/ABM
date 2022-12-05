@@ -1,6 +1,7 @@
 package com.example.abm.Clients;
 
 import android.annotation.SuppressLint;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
+import com.example.abm.Utils.DatePicker;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class EditClientActivity extends BaseActivity {
@@ -28,6 +30,8 @@ public class EditClientActivity extends BaseActivity {
     private Button doneEditingButton;
 
     FirebaseFirestore database;
+
+    private DatePickerDialog datePickerDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +54,9 @@ public class EditClientActivity extends BaseActivity {
         findViewById(R.id.password).setVisibility(View.GONE);
         findViewById(R.id.retypePassword).setVisibility(View.GONE);
 
+        // Initiating date picks handling
+        datePickerDialog = DatePicker.initDatePicker(birthday, this);
+
         Intent intent = getIntent();
         clientUID = intent.getStringExtra("clientUID");
 
@@ -60,18 +67,16 @@ public class EditClientActivity extends BaseActivity {
                     initValuesOfLayout();
                     progressDialog.dismiss();
 
-                    doneEditingButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Client userToAdd = new Client(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
-                                    phoneNumber.getText().toString(), address.getText().toString(), birthday.getText().toString(), clientUID); //creating a new user
-                            database.collection("Clients").document(clientUID).set(userToAdd); //adding user data to database
+                    doneEditingButton.setOnClickListener(v -> {
+                        Client userToAdd = new Client(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
+                                phoneNumber.getText().toString(), address.getText().toString(),
+                                DatePicker.stringToInt(birthday.getText().toString()), clientUID); //creating a new user
+                        database.collection("Clients").document(clientUID).set(userToAdd); //adding user data to database
 
-                            Intent myIntent = new Intent(EditClientActivity.this, SingleClientViewActivity.class);
-                            myIntent.putExtra("clientUID", clientUID); //Optional parameters
-                            EditClientActivity.this.startActivity(myIntent);
-                            finish();
-                        }
+                        Intent myIntent = new Intent(EditClientActivity.this, SingleClientViewActivity.class);
+                        myIntent.putExtra("clientUID", clientUID); //Optional parameters
+                        EditClientActivity.this.startActivity(myIntent);
+                        finish();
                     });
                 });
     }
@@ -83,9 +88,16 @@ public class EditClientActivity extends BaseActivity {
         firstName.setText(client.getFirstName());
         lastName.setText(client.getLastName());
         email.setText(client.getEmail());
-        birthday.setText(client.getBirthdayDate());
+        birthday.setText(DatePicker.intToString(client.getBirthdayDate()));
         phoneNumber.setText(client.getPhoneNumber());
         address.setText(client.getAddress());
         doneEditingButton.setText("Done");
+    }
+
+    /**
+     * Onclick listener when the layout (the line) of "birthday"  is pressed.
+     */
+    public void onClickBirthdayLinearLayout(View view) {
+        datePickerDialog.show();
     }
 }

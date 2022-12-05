@@ -1,6 +1,7 @@
 package com.example.abm.Products;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
+import com.example.abm.Products.Cart.ProductCartActivity;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -33,6 +35,7 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
     private RecycleAdapter adapter;
     private FloatingActionButton cartButton;
     private Button addProductButton;
+    //private  ProgressDialog progressDialog;
 
 
     @SuppressLint("MissingInflatedId")
@@ -43,8 +46,37 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         super.initMenuSideBar();
         //createProductsList();
         //buildRecyclerView();
-        getProductFromDatabase();
+        initValues();
+        //getProductFromDatabase();
 
+        ProgressDialog progressDialog;
+        progressDialog = ProgressDialog.show(this, "Product", "Loading, please wait...", true);
+
+        super.getCurrDatabase().collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                    Product product = documentSnapshot.toObject(Product.class);
+                    new_products.add(product);
+                }
+                progressDialog.dismiss();
+                products = new_products;
+                buildRecyclerView();
+                System.out.println("-------------------------------------");
+                for (Product p : new_products) {
+                    System.out.println(p);
+                }
+                System.out.println("-------------------------------------");
+
+            }
+
+
+        });
+
+
+    }
+
+    private void initValues() {
         cartButton = findViewById(R.id.flaotingCartButton);
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +95,6 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
                 startActivity(new Intent(ProductsMainActivity.this, AddNewProduct.class));
             }
         });
-
-
     }
 
     private void getProductFromDatabase() {
@@ -75,7 +105,7 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
                     Product product = documentSnapshot.toObject(Product.class);
                     new_products.add(product);
                 }
-                products = new_products;
+                //products = new_products;
                 buildRecyclerView();
                 System.out.println("-------------------------------------");
                 for (Product p : new_products) {
@@ -85,11 +115,10 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
 
             }
 
+
         });
 
     }
-
-
 
 
     private void checkClientorManger() {
@@ -135,6 +164,7 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
     }
 
     private void buildRecyclerView() {
+
         //create the recycler view and set the adapter and layout manager for it
         recyclerView = findViewById(R.id.recycleView); //recycleView is the id of the recycleView in the xml file
         recyclerView.setHasFixedSize(true); //recycler view will not change in size
