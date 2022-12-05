@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 
 /**
- * This class is the adapter for the recycler view in the ClientsMainActivity
+ * This class  is the adapter for the recycler view in the ClientsMainActivity
  * It is used to display the clients in the recycler view
  * It is a subclass of RecyclerView.Adapter
  * It is a subclass of RecyclerView.ViewHolder

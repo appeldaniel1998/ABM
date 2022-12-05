@@ -76,7 +76,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             if (this.auth.getCurrentUser() == null) {
                 Toast.makeText(this, "User Signed Out!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "User Signed Out Failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "User Signed Out Failed !", Toast.LENGTH_SHORT).show();
             }
             startActivity(new Intent(this, LoginOrRegisterActivity.class));
             return true;

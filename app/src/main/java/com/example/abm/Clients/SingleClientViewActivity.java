@@ -31,7 +31,7 @@ public class SingleClientViewActivity extends BaseActivity {
         super.initMenuSideBar();
 
         ProgressDialog progressDialog;
-        progressDialog = ProgressDialog.show(this, "Client", "Loading, please wait...", true);
+        progressDialog = ProgressDialog.show(this, "Client", "Loading, please wait....", true);
 
         Intent intent = getIntent();
         clientUID = intent.getStringExtra("clientUID");

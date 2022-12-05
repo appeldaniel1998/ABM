@@ -79,7 +79,7 @@ public class CreateClientActivity extends BaseActivity {
     }
 
     /**
-     * Onclick listener when the layout (the line) of "birthday"  is pressed.
+     * Onclick  listener when the layout (the line) of "birthday"  is pressed.
      */
     public void onClickBirthdayLinearLayout(View view) {
         datePickerDialog.show();

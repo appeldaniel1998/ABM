@@ -31,7 +31,7 @@ public class ClientsMainActivity extends BaseActivity {
         super.initMenuSideBar();
 
         ProgressDialog progressDialog;
-        progressDialog = ProgressDialog.show(this, "Clients", "Loading, please wait...", true);
+        progressDialog = ProgressDialog.show(this, "Clients", "Loading, please wait....", true);
 
 
         addClientButton = findViewById(R.id.addClient);

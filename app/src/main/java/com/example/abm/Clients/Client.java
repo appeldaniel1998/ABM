@@ -17,7 +17,7 @@ public class Client {
     }
 
     /**
-     * Constructor to be called while registering the user. All users registered are not managers
+     * Constructor  to be called while registering the user. All users registered are not managers
      *
      * @param firstName    first name
      * @param lastName     last name

@@ -41,7 +41,7 @@ public class EditClientActivity extends BaseActivity {
         database = super.getCurrDatabase();
 
         ProgressDialog progressDialog;
-        progressDialog = ProgressDialog.show(this, "Edit Client", "Loading, please wait...", true);
+        progressDialog = ProgressDialog.show(this, "Edit Client", "Loading, please wait....", true);
 
         doneEditingButton = findViewById(R.id.registerButton);
         titleName = findViewById(R.id.title);
