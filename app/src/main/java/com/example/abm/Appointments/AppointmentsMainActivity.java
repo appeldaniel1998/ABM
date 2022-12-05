@@ -8,6 +8,7 @@ import com.example.abm.R;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -29,7 +30,7 @@ public class AppointmentsMainActivity extends BaseActivity {
         database = super.getCurrDatabase();
         appointments = new ArrayList<>();
 
-//        getDataFromDB();
+       getDataFromDB();
 
     }
 
@@ -43,26 +44,28 @@ public class AppointmentsMainActivity extends BaseActivity {
                 Client currUser = documentSnapshot.toObject(Client.class);
                 if (currUser != null) {
                     if (currUser.getManager()) { // user is a manager
-                        ArrayList<String> clientsWithAppointments = new ArrayList<>();
-                        CollectionReference collectionRef = database.collection("Appointments");
-                        collectionRef.get() //get all appointments (with documents labeled with client ID
-                                .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            clientsWithAppointments.add((String) document.getData().get("clientId"));
-                                        }
-
-                                        for (int i = 0; i < clientsWithAppointments.size(); i++) {
-                                            collectionRef.document(clientsWithAppointments.get(i)).collection("Appointments")
-                                                    .get()
-                                                    .addOnCompleteListener(task1 -> {
-                                                        if (task1.isSuccessful()) {
-                                                            addToAppointmentList(task1);
-                                                        }
-                                                    });
-                                        }
+                        // get all the documents from the Appointments collection and from each document get the appointments collection
+                        database.collection("Appointments")
+                                .get()
+                                .addOnSuccessListener(queryDocumentSnapshots -> {
+                                    for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots) {
+                                        CollectionReference appointmentsCollection = documentSnapshot1.getReference().collection("Appointments");
+                                        appointmentsCollection.get().addOnSuccessListener(queryDocumentSnapshots1 -> {
+                                            for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots1) {
+                                                Appointment appointment = documentSnapshot2.toObject(Appointment.class);
+                                                appointments.add(appointment);
+                                            }
+                                            //print the appointments
+                                            System.out.println("---------------");
+                                            for (Appointment appointment : appointments) {
+                                                System.out.println(appointment);
+                                            }
+                                            System.out.println("---------------");
+                                        });
                                     }
                                 });
+
+
                     } else { // user is a client
                         database.collection("Appointments").document(currUser.getUid()).collection("Appointments").get().addOnCompleteListener(task -> {
                             if (task.isSuccessful()) {

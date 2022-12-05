@@ -4,18 +4,18 @@ public class Appointment {
     private String appointmentId;
     private String date;
     private String startTime;
-    private String typeName;
+    private String appointmentType;
     private String clientId;
 
 
     public Appointment() {
     }
 
-    public Appointment(String appointmentID, String date, String startTime, String typeName, String clientId) {
+    public Appointment(String appointmentID, String date, String startTime, String appointmentType, String clientId) {
         this.appointmentId = appointmentID;
         this.date = date;
         this.startTime = startTime;
-        this.typeName = typeName;
+        this.appointmentType = appointmentType;
         this.clientId = clientId;
     }
 
@@ -31,11 +31,23 @@ public class Appointment {
         return startTime;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getAppointmentType() {
+        return appointmentType;
     }
 
     public String getClientId() {
         return clientId;
+    }
+
+    //toString method for debugging
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "appointmentId='" + appointmentId + '\'' +
+                ", date='" + date + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", appointmentType='" + appointmentType + '\'' +
+                ", clientId='" + clientId + '\'' +
+                '}';
     }
 }
