@@ -109,13 +109,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".Appointments.AppointmentsMainActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".Products.ProductsMainActivity"
             android:exported="false">
@@ -139,6 +133,13 @@
         </activity>
         <activity
             android:name=".LoginAndRegistration.RegisterActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Appointments.AppointmentsMainActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
