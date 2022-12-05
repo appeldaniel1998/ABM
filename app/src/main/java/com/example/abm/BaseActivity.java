@@ -34,18 +34,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth auth;
     private FirebaseFirestore database;
 
-    private Client currUser; // not sure to work since it is initialized from onSuccess listener which is async
-
     public FirebaseAuth getCurrFirebaseAuth() {
         return auth;
     }
 
     public FirebaseFirestore getCurrDatabase() {
         return database;
-    }
-
-    public Client getCurrUser() {
-        return currUser;
     }
 
     @Override
@@ -113,7 +107,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             database.collection("Clients").document(UserUid)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
-                        currUser = documentSnapshot.toObject(Client.class);
+                        Client currUser = documentSnapshot.toObject(Client.class);
                         TextView name = findViewById(R.id.nameMenuHeader);
                         if (currUser != null) {
                             //Toggle visibility for menu items in accordance to whether the user is a client or a manager
