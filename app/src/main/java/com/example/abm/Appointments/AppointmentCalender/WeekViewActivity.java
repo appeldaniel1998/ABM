@@ -1,42 +1,35 @@
 package com.example.abm.Appointments.AppointmentCalender;
 
 import static com.example.abm.Appointments.AppointmentCalender.CalenderUtils.daysInMonthArray;
+import static com.example.abm.Appointments.AppointmentCalender.CalenderUtils.daysInWeekArray;
 import static com.example.abm.Appointments.AppointmentCalender.CalenderUtils.monthYearFromDate;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.abm.Appointments.AppointmentCalender.CalendarAdapter;
 import com.example.abm.R;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class MainActivityTry extends AppCompatActivity implements CalendarAdapter.OnItemListener
-{//Activity_appointments_calender_main
-
-    //To build calender I used:
-    // https://www.youtube.com/watch?v=Ba0Q-cK1fJo
+public class WeekViewActivity extends AppCompatActivity  implements CalendarAdapter.OnItemListener{
+//Activity_appointments_calender_week_view
+//A lot of the functions here are adapted from MainActivityTry
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointments_calender_main);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
+        setContentView(R.layout.activity_appointments_calender_week_view);
         initWidgets();
-        CalenderUtils.selectedDate=LocalDate.now();
-        setMonthView();
+        setWeekView();
     }
 
     private void initWidgets()
@@ -45,42 +38,37 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
         monthYearText = findViewById(R.id.monthYearTV);
     }
 
-    private void setMonthView()
+    private void setWeekView()//Same as setMonthView
     {
         monthYearText.setText(monthYearFromDate(CalenderUtils.selectedDate));
-        ArrayList<String> daysInMonth = daysInMonthArray(CalenderUtils.selectedDate);
+        ArrayList<LocalDate> days = daysInWeekArray(CalenderUtils.selectedDate);
 
-//        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);// we're going to have 7 colunms in our recycle view
         calendarRecyclerView.setLayoutManager(layoutManager);
-//        calendarRecyclerView.setAdapter(calendarAdapter);
+        calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
 
-    public void previousMonthAction(View view)
+
+    public void previousWeekAction(View view)//Same as previous month action
     {
-        CalenderUtils.selectedDate = CalenderUtils.selectedDate.minusMonths(1);
-        setMonthView();
+        CalenderUtils.selectedDate = CalenderUtils.selectedDate.minusWeeks(1);
+        setWeekView();
     }
 
-    public void nextMonthAction(View view)
+    public void nextWeekAction(View view)//Same as previousWeekAction just different in plusWeeks
     {
-        CalenderUtils.selectedDate = CalenderUtils.selectedDate.plusMonths(1);
-        setMonthView();
+        CalenderUtils.selectedDate = CalenderUtils.selectedDate.plusWeeks(1);
+        setWeekView();
     }
 
     @Override
     public void onItemClick(int position, String dayText)
     {
-        if(!dayText.equals(""))
-        {
             String message = "Selected Date " + dayText + " " + monthYearFromDate(CalenderUtils.selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        }
     }
-
-    public void weeklyAction(View view)
-    {
-        startActivity(new Intent(this,WeekViewActivity.class));
+    public void newEventAction(View view) {
     }
 }

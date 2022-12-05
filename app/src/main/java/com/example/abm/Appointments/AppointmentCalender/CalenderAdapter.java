@@ -1,5 +1,6 @@
 package com.example.abm.Appointments.AppointmentCalender;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,16 +10,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.R;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalenderViewHolder>
 {
-    private final ArrayList<String> daysOfMonth;
+    private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
 
-    public CalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener)
+    public CalendarAdapter(ArrayList<LocalDate> days, OnItemListener onItemListener)
     {
-        this.daysOfMonth = daysOfMonth;
+        this.days = days;
         this.onItemListener = onItemListener;
     }
 
@@ -29,20 +31,38 @@ class CalendarAdapter extends RecyclerView.Adapter<CalenderViewHolder>
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.activity_appointments_calender_cell, parent, false);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-        layoutParams.height = (int) (parent.getHeight() * 0.166666666);
-        return new CalenderViewHolder(view, onItemListener);
+        if (days.size()>15){//month view
+            layoutParams.height = (int) (parent.getHeight() * 0.166666666);
+        }
+        else{//week view
+            layoutParams.height = (int) parent.getHeight();
+
+        }
+        return new CalenderViewHolder( view, onItemListener);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CalenderViewHolder holder, int position)
     {
-        holder.dayOfMonth.setText(daysOfMonth.get(position));
+        final LocalDate date = days.get(position);
+        if(date==null)//if day is null we will define it as empty string
+        {
+            holder.dayOfMonth.setText(" ");
+        }
+        else//if day is not null than we are going to set it to out date
+        {
+            holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
+            if(date.equals(CalenderUtils.selectedDate))
+            {
+                holder.parentView.setBackgroundColor(Color.LTGRAY);
+            }
+        }
     }
 
     @Override
     public int getItemCount()
     {
-        return daysOfMonth.size();
+        return days.size();
     }
 
     public interface  OnItemListener
