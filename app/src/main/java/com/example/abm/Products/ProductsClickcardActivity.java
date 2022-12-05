@@ -126,9 +126,9 @@ public class ProductsClickcardActivity extends BaseActivity {
         editProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ntent intent = new Intent(ProductsClickcardActivity.this, EditProductActivity.class);
-                //intent.putExtra("Product", product.getId());
-                //startActivity(intent);
+                Intent intent = new Intent(ProductsClickcardActivity.this, EditProduct.class);
+               intent.putExtra("productColor", product.getColorName());
+                startActivity(intent);
             }
         });
     }
