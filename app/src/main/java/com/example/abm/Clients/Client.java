@@ -6,7 +6,7 @@ public class Client {
     private String email;
     private String phoneNumber;
     private String address;
-    private String birthdayDate;
+    private int birthdayDate;
     private String uid;
     private boolean manager;
 
@@ -26,7 +26,7 @@ public class Client {
      * @param address      address
      * @param birthdayDate birthdayDate
      */
-    public Client(String firstName, String lastName, String email, String phoneNumber, String address, String birthdayDate, String uid) {
+    public Client(String firstName, String lastName, String email, String phoneNumber, String address, int birthdayDate, String uid) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -57,7 +57,7 @@ public class Client {
         return address;
     }
 
-    public String getBirthdayDate() {
+    public int getBirthdayDate() {
         return birthdayDate;
     }
 

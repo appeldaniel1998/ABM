@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
+import com.example.abm.Utils.DatePicker;
 
 public class SingleClientViewActivity extends BaseActivity {
 
@@ -61,7 +62,7 @@ public class SingleClientViewActivity extends BaseActivity {
         titleName.setText(fullName);
         name.setText(fullName);
         email.setText(client.getEmail());
-        birthday.setText(client.getBirthdayDate());
+        birthday.setText(DatePicker.intToString(client.getBirthdayDate()));
         phoneNumber.setText(client.getPhoneNumber());
         address.setText(client.getAddress());
     }

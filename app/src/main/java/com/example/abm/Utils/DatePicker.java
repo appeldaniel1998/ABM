@@ -77,4 +77,38 @@ public class DatePicker {
         //default should never happen
         return "JAN";
     }
+
+    public static int stringToInt(String date) {
+        String[] arr = date.split(" ");
+        int day = Integer.parseInt(arr[0]);
+        int month = Integer.parseInt(getMonthFormat(arr[1]));
+        int year = Integer.parseInt(arr[2]);
+        String tempDate = year + "" + month + "" + day;
+        return Integer.parseInt(tempDate);
+    }
+
+    public static String intToString(int date) {
+        int day = date % 100;
+        int month = (date / 100) % 100;
+        int year = date / (100 * 100);
+        return makeDateString(day, month, year);
+    }
+
+    public static String getMonthFormat(String month) {
+        if (month.equals("January")) return "01";
+        if (month.equals("February")) return "02";
+        if (month.equals("March")) return "03";
+        if (month.equals("April")) return "04";
+        if (month.equals("May")) return "05";
+        if (month.equals("June")) return "06";
+        if (month.equals("July")) return "07";
+        if (month.equals("August")) return "08";
+        if (month.equals("September")) return "09";
+        if (month.equals("October")) return "10";
+        if (month.equals("November")) return "11";
+        if (month.equals("December")) return "12";
+
+        //default should never happen
+        return "00";
+    }
 }
