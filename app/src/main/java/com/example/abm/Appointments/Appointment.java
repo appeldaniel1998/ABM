@@ -2,7 +2,7 @@ package com.example.abm.Appointments;
 
 public class Appointment {
     private String appointmentId;
-    private String date;
+    private int date;
     private String startTime;
     private String appointmentType;
     private String clientId;
@@ -11,7 +11,7 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(String appointmentID, String date, String startTime, String appointmentType, String clientId) {
+    public Appointment(String appointmentID, int date, String startTime, String appointmentType, String clientId) {
         this.appointmentId = appointmentID;
         this.date = date;
         this.startTime = startTime;
@@ -23,7 +23,7 @@ public class Appointment {
         return appointmentId;
     }
 
-    public String getDate() {
+    public int getDate() {
         return date;
     }
 
