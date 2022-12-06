@@ -39,9 +39,9 @@ public class CalenderUtils
 //        }
 //        return  daysInMonthArray;
 //    }
-public static ArrayList<String> daysInMonthArray(LocalDate date)
+public static ArrayList<LocalDate> daysInMonthArray(LocalDate date)
 {
-    ArrayList<String> daysInMonthArray = new ArrayList<>();
+    ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
     YearMonth yearMonth = YearMonth.from(date);
 
     int daysInMonth = yearMonth.lengthOfMonth();
@@ -53,11 +53,11 @@ public static ArrayList<String> daysInMonthArray(LocalDate date)
     {
         if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
         {
-            daysInMonthArray.add("");//we will add blank square
+            daysInMonthArray.add(null);//we will add blank square
         }
         else
         {
-            daysInMonthArray.add(String.valueOf(i - dayOfWeek));
+            daysInMonthArray.add(LocalDate.of(selectedDate.getYear(),selectedDate.getMonth(),i - dayOfWeek));
         }
     }
     return  daysInMonthArray;

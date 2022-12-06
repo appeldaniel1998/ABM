@@ -48,12 +48,12 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
     private void setMonthView()
     {
         monthYearText.setText(monthYearFromDate(CalenderUtils.selectedDate));
-        ArrayList<String> daysInMonth = daysInMonthArray(CalenderUtils.selectedDate);
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalenderUtils.selectedDate);
 
-//        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);// we're going to have 7 colunms in our recycle view
         calendarRecyclerView.setLayoutManager(layoutManager);
-//        calendarRecyclerView.setAdapter(calendarAdapter);
+        calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
 
