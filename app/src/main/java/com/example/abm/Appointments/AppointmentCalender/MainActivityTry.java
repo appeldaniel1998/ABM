@@ -24,8 +24,13 @@ import java.util.ArrayList;
 public class MainActivityTry extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {//Activity_appointments_calender_main
 
-    //To build calender I used:
+    //To build monthly calender I used:
     // https://www.youtube.com/watch?v=Ba0Q-cK1fJo
+    //https://github.com/codeWithCal/CalendarTutorialAndroidStudio/tree/WeeklyCalendar/app/src/main/java/codewithcal/au/calendarappexample
+    //To build weekly calender I used:
+    //https://www.youtube.com/watch?v=knpSbtbPz3o
+    //To build daily calender I used:
+    //https://www.youtube.com/watch?v=Aig99t-gNqM&t=0s
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
 
@@ -70,15 +75,16 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
     }
 
     @Override
-    public void onItemClick(int position, String dayText)
-    {
-        if(!dayText.equals(""))
+    public void onItemClick(int position, LocalDate date)//7:39 : https://www.youtube.com/watch?v=knpSbtbPz3o
+    {//
+        if (date!=null)//we will have the days before and after the month
         {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(CalenderUtils.selectedDate);
-            Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            CalenderUtils.selectedDate=date;
+            setMonthView();
         }
-    }
 
+    }
+//when clicking on 'WEEKLY' button
     public void weeklyAction(View view)
     {
         startActivity(new Intent(this,WeekViewActivity.class));

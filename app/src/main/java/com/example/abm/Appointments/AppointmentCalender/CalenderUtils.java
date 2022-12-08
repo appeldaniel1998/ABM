@@ -2,6 +2,7 @@ package com.example.abm.Appointments.AppointmentCalender;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -11,6 +12,17 @@ public class CalenderUtils
     // https://www.youtube.com/watch?v=knpSbtbPz3o
     public static LocalDate selectedDate;
 
+    public static String formatteDate(LocalDate date)
+    {//Define day format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy");
+        return date.format(formatter);
+    }
+
+    public static String formatteTime(LocalTime time)
+    {//Define day format
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");//hour,minutes,seconds, am/pm
+        return time.format(formatter);
+    }
 //    public static String monthYearFromDate(LocalDate date)
 //    {
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
@@ -64,7 +76,7 @@ public static ArrayList<LocalDate> daysInMonthArray(LocalDate date)
 }
 
     public static String monthYearFromDate(LocalDate date)
-    {
+    {//Define month format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
         return date.format(formatter);
     }
@@ -96,6 +108,7 @@ public static ArrayList<LocalDate> daysInMonthArray(LocalDate date)
         }
         return null;
     }
+
 
 
 }
