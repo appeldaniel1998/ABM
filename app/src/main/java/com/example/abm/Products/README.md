@@ -11,8 +11,8 @@ Can add new products, edit and delete existing products. Any product's changes a
 ---
 ### :bookmark_tabs: Explanation about the files:  
 
-- ***AddNewProduct*** - Enable to the manger to add a new product.
-- ***EditProduct*** - Enable to the manger to edit an exsiting product according to the details in the database.
+- ***AddNewProduct*** - Enables the manger to add a new product.
+- ***EditProduct*** - Enables the manger to edit an exsiting product according to the details in the database.
 - ***Product*** - Resresent Product object. Each product has: name, price, quantity, description and an image.
 - ***ProductsClickcardActivity*** - Open a single product. For the manger it will display the options to edit and delete the products, for the client the option to order. 
 - ***ProductsMainActivity*** - Display the product that is available - using recycle view.
