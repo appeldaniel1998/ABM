@@ -9,7 +9,7 @@ Can add new products, edit and delete existing products. Any product's changes a
 - ***Clients side*** - Can order from the inventory of products that the manager defined in advance. 
 - Each product order is according to the existing stock in the database.
 ---
-### :bookmark_tabs: Explenation about the files:  
+### :bookmark_tabs: Explanation about the files:  
 
 - ***AddNewProduct*** - Enable to the manger to add a new product.
 - ***EditProduct*** - Enable to the manger to edit an exsiting product according to the details in the database.
