@@ -1,6 +1,6 @@
 
 
-## Products
+## :sparkles: Products
 
 This class represt the product part in the application.
 The class has two sides : Manager side and Clients side
@@ -9,7 +9,7 @@ Can add new products, edit and delete existing products. Any product's changes a
 - ***Clients side*** - Can order from the inventory of products that the manager defined in advance. 
 - Each product order is according to the existing stock in the database.
 
-### Explenation about the files:  
+### :bookmark_tabs: Explenation about the files:  
 - ***AddNewProduct*** - Enable to the manger to add a new product.
 - ***EditProduct*** - Enable to the manger to edit an exsiting product according to the details in the database.
 - ***Product*** - Resresent Product object. Each product has: name, price, quantity, description and an image.
@@ -17,7 +17,7 @@ Can add new products, edit and delete existing products. Any product's changes a
 - ***ProductsMainActivity*** - Display the product that is available - using recycle view.
 - ***RecycleAdapter*** - An adapter for the recycle view. 
 
-### Maneger side 
+### :man_office_worker: Maneger side 
 
 #### Main Page 
 <img width="300" src="https://user-images.githubusercontent.com/93086649/206425464-0493f992-50bc-4cb2-ad97-eed871ed7709.jpg">
@@ -33,7 +33,7 @@ Can add new products, edit and delete existing products. Any product's changes a
 
 <img width="300" src="https://user-images.githubusercontent.com/93086649/206427746-11d58584-0e0b-45be-903a-73a956931b92.jpg">
 
-### Client Side 
+### :sassy_man: Client Side 
 
 #### Main Page - with cart floating button 
 
