@@ -8,15 +8,16 @@ The class has two sides : Manager side and Clients side
 Can add new products, edit and delete existing products. Any product's changes are updated in the database.
 - ***Clients side*** - Can order from the inventory of products that the manager defined in advance. 
 - Each product order is according to the existing stock in the database.
-
+---
 ### :bookmark_tabs: Explenation about the files:  
+
 - ***AddNewProduct*** - Enable to the manger to add a new product.
 - ***EditProduct*** - Enable to the manger to edit an exsiting product according to the details in the database.
 - ***Product*** - Resresent Product object. Each product has: name, price, quantity, description and an image.
 - ***ProductsClickcardActivity*** - Open a single product. For the manger it will display the options to edit and delete the products, for the client the option to order. 
 - ***ProductsMainActivity*** - Display the product that is available - using recycle view.
 - ***RecycleAdapter*** - An adapter for the recycle view. 
-
+---
 ### :man_office_worker: Maneger side 
 
 #### Main Page 
@@ -32,6 +33,8 @@ Can add new products, edit and delete existing products. Any product's changes a
 #### ADD New Product
 
 <img width="300" src="https://user-images.githubusercontent.com/93086649/206427746-11d58584-0e0b-45be-903a-73a956931b92.jpg">
+
+  ---
 
 ### :sassy_man: Client Side 
 
