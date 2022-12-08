@@ -150,12 +150,19 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
 
     private void createProductsList() {
         //creata a list of products for the recycler view
-        products.add(new Product("Red", R.drawable.canni1, "15", "15"));
+        products.add(new Product("Dark Pink", R.drawable.canni1, "15", "15"));
         products.add(new Product("Blue", R.drawable.canni2, "15", "15"));
-        products.add(new Product("Green", R.drawable.canni3, "15", "15"));
-        products.add(new Product("Yellow", R.drawable.canni4, "15", "15"));
-        products.add(new Product("Purple", R.drawable.canni5, "15", "15"));
+        products.add(new Product("light Pink", R.drawable.canni3, "15", "15"));
+        products.add(new Product("Bezh", R.drawable.canni4, "15", "15"));
+        products.add(new Product("Grey", R.drawable.canni10, "15", "15"));
         products.add(new Product("Orange", R.drawable.canni6, "15", "15"));
+        products.add(new Product("Green", R.drawable.canni11, "15", "15"));
+        products.add(new Product("Red", R.drawable.canni12, "15", "15"));
+        products.add(new Product("Purple", R.drawable.images, "15", "15"));
+        products.add(new Product("White", R.drawable.canni14, "15", "15"));
+        products.add(new Product("Light Green", R.drawable.canni13, "15", "15"));
+
+
 
         //add all the products to the database
         for (Product product : products) {
@@ -169,16 +176,16 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         recyclerView = findViewById(R.id.recycleView); //recycleView is the id of the recycleView in the xml file
         recyclerView.setHasFixedSize(true); //recycler view will not change in size
         layoutManager = new LinearLayoutManager(this); //layout manager is the way the items are displayed
-        adapter = new RecycleAdapter(new_products); //adapter is the way the data is displayed in the recycler view
+        adapter = new RecycleAdapter(products); //adapter is the way the data is displayed in the recycler view
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         adapter.setOnItemClickListener(new RecycleAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 //when an item is clicked, open the product details activity
-                new_products.get(position);
+                products.get(position);
                 Intent intent = new Intent(ProductsMainActivity.this, ProductsClickcardActivity.class);
-                intent.putExtra("Product", (CharSequence) new_products.get(position).getColorName());
+                intent.putExtra("Product", (CharSequence) products.get(position).getColorName());
                 startActivity(intent);
 
             }
