@@ -2,7 +2,7 @@
 
 ## :sparkles: Products
 
-This class represt the product part in the application.
+This class represent the products part in the application.
 The class has two sides : Manager side and Clients side
 - ***Manager side*** - Responsible for all products's inventory that customers can order. 
 Can add new products, edit and delete existing products. Any product's changes are updated in the database.
