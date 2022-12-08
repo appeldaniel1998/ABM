@@ -17,8 +17,9 @@ The main goal of our project is to construct an application to help manage a bus
 
 
 ---
-
+<!-- 
 ### UML 
 
 --- 
 ### Video attach 
+ -->
