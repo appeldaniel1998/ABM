@@ -14,3 +14,11 @@ The main goal of our project is to construct an application to help manage a bus
 
  ***:sparkles: Products*** [Click Here](https://github.com/appeldaniel1998/ABM/tree/master/app/src/main/java/com/example/abm/Products)  
  ***:shopping_cart: Cart*** [Click Here](https://github.com/appeldaniel1998/ABM/tree/master/app/src/main/java/com/example/abm/Products/Cart)
+
+
+---
+
+### UML 
+
+--- 
+### Video attach 
