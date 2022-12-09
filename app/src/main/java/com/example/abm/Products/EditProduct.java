@@ -35,7 +35,6 @@ public class EditProduct extends BaseActivity {
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Edit Product", "Loading, please wait...", true);
         //get the current product from the data base,set the values of the text views to the current product values
-        //when the user clicks on the save button, update the product in the database
         super.getCurrDatabase().collection("Products").document(getIntent().getStringExtra("productColor")).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Product product = task.getResult().toObject(Product.class);
@@ -47,6 +46,7 @@ public class EditProduct extends BaseActivity {
                 progressDialog.dismiss();
             }
         });
+        //when the user clicks on the save button, update the product in the database
         btnSaveProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
