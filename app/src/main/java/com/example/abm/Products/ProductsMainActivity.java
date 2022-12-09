@@ -49,9 +49,12 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         initValues();
         //getProductFromDatabase();
 
+
+        //loading
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Product", "Loading, please wait...", true);
 
+        //build list of product for the recycle view
         super.getCurrDatabase().collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

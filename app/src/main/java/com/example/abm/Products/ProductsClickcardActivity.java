@@ -36,7 +36,7 @@ public class ProductsClickcardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_clickcard);
         super.initMenuSideBar();
-        checkMangerorClient();
+        checkMangerOrClient();
         initValues();
 
 
@@ -44,6 +44,7 @@ public class ProductsClickcardActivity extends BaseActivity {
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Product", "Loading, please wait...", true);
 
+        // what we get from the last activity
         Intent intent = getIntent();
         String productPositon = intent.getStringExtra("Product");
 
@@ -61,7 +62,7 @@ public class ProductsClickcardActivity extends BaseActivity {
 
     }
 
-    private void checkMangerorClient() {
+    private void checkMangerOrClient() {
             FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
             if (user != null) {
                 String UserUid = user.getUid();
@@ -73,7 +74,7 @@ public class ProductsClickcardActivity extends BaseActivity {
                             if (client != null) {
                                 //check if the current user is a client or manager
                                 if (client.getManager()) {
-                                    // remove any button which are not needed for the manager
+                                    // remove any button which are not needed for the manager- set invisible linear layout
                                     findViewById(R.id.MinusPolish).setVisibility(View.GONE);
                                     findViewById(R.id.PlusPolish).setVisibility(View.GONE);
                                     findViewById(R.id.quantity).setVisibility(View.GONE);
@@ -113,6 +114,7 @@ public class ProductsClickcardActivity extends BaseActivity {
             public void onClick(View v) {
                 int quantityInt = Integer.parseInt(quantity.getText().toString());
                 quantityInt++;
+                //update the quantity according to the user's choice
                 quantity.setText(String.valueOf(quantityInt));
             }
         });
@@ -122,6 +124,7 @@ public class ProductsClickcardActivity extends BaseActivity {
                 int quantityInt = Integer.parseInt(quantity.getText().toString());
                 if (quantityInt >= 1) {
                     quantityInt--;
+                    //update the quantity according to the user's choice
                     quantity.setText(String.valueOf(quantityInt));
                 }
             }
