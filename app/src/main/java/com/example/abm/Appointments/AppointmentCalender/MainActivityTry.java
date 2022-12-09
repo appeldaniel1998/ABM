@@ -31,6 +31,7 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
     //https://www.youtube.com/watch?v=knpSbtbPz3o
     //To build daily calender I used:
     //https://www.youtube.com/watch?v=Aig99t-gNqM&t=0s
+
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
 
