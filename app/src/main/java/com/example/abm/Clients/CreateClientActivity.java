@@ -46,7 +46,9 @@ public class CreateClientActivity extends BaseActivity {
         address = findViewById(R.id.address);
         birthdayDate = findViewById(R.id.birthdayDatePicker);
         addClient = findViewById(R.id.registerButton);
+        addClient.setText("Done");
         title = findViewById(R.id.title);
+        title.setText("Add new client");
 
         findViewById(R.id.password).setVisibility(View.GONE); //remove password inputs from the layout.
         findViewById(R.id.retypePassword).setVisibility(View.GONE);

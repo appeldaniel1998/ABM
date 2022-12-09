@@ -33,6 +33,7 @@ public class SingleClientViewActivity extends BaseActivity {
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Client", "Loading, please wait....", true);
 
+        // get client uid from past clients main activity
         Intent intent = getIntent();
         clientUID = intent.getStringExtra("clientUID");
 
@@ -49,6 +50,7 @@ public class SingleClientViewActivity extends BaseActivity {
             initValuesOfLayout();
             progressDialog.dismiss();
 
+            // onclick of "edit client"
             editClientButton.setOnClickListener(v -> {
                 Intent myIntent = new Intent(SingleClientViewActivity.this, EditClientActivity.class);
                 myIntent.putExtra("clientUID", clientUID); //Optional parameters
@@ -57,6 +59,7 @@ public class SingleClientViewActivity extends BaseActivity {
         });
     }
 
+    // display the real data of client taken from database
     private void initValuesOfLayout() {
         String fullName = client.getFirstName() + " " + this.client.getLastName();
         titleName.setText(fullName);

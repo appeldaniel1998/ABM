@@ -28,6 +28,7 @@ public class DatePicker {
     }
 
     public static DatePickerDialog initDatePicker(TextView dateTextView, Activity activity) {
+        // when ok is clicked inside the date picker
         DatePickerDialog.OnDateSetListener dateSetListener = (datePicker, year, month, day) -> {
             month = month + 1;
             String date = makeDateString(day, month, year);
@@ -75,9 +76,10 @@ public class DatePicker {
         if (month == 12) return "December";
 
         //default should never happen
-        return "JAN";
+        return "Error";
     }
 
+    //converting to and from database format (2 following functions)
     public static int stringToInt(String date) {
         String[] arr = date.split(" ");
         int day = Integer.parseInt(arr[0]);

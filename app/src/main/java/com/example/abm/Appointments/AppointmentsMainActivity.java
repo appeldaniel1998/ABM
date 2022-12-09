@@ -37,6 +37,7 @@ public class AppointmentsMainActivity extends BaseActivity {
 
     }
 
+    //function gets data from database into the appointments arraylist
     private void getAppointmentsFromDB(int fromDate, int toDate) {
         if (fromDate == -1) fromDate = Integer.MIN_VALUE;
         if (toDate == -1) toDate = Integer.MAX_VALUE;
@@ -46,6 +47,7 @@ public class AppointmentsMainActivity extends BaseActivity {
 
         FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
         if (user != null) {
+            // getting data and checking if user is manager or client
             String UserUid = user.getUid();
             database.collection("Clients").document(UserUid)
                     .get()
@@ -54,17 +56,17 @@ public class AppointmentsMainActivity extends BaseActivity {
                         if (currUser != null) {
                             if (currUser.getManager()) { // user is a manager
                                 // get all the documents from the Appointments collection and from each document get the appointments collection
-                                database.collection("Appointments")
+                                database.collection("Appointments") // general appointments
                                         .get()
                                         .addOnSuccessListener(queryDocumentSnapshots -> {
                                             for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots) {
-                                                CollectionReference appointmentsCollection = documentSnapshot1.getReference().collection("Appointments");
+                                                CollectionReference appointmentsCollection = documentSnapshot1.getReference().collection("Appointments"); // single clients appointments
                                                 appointmentsCollection
                                                         .get()
                                                         .addOnSuccessListener(queryDocumentSnapshots1 -> {
-                                                            for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots1) {
+                                                            for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots1) { // for each appointment
                                                                 Appointment appointment = documentSnapshot2.toObject(Appointment.class);
-                                                                if (appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) {
+                                                                if (appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) { // if appointment is in range of dates
                                                                     appointments.add(appointment);
                                                                 }
                                                             }
@@ -76,7 +78,7 @@ public class AppointmentsMainActivity extends BaseActivity {
 
                             } else { // user is a client
 //                                database.collection("Appointments")
-//                                        .document(currUser.getUid())
+//                                        .document(super.getCurrFirebaseAuth().getCurrentUser().getUid())
 //                                        .collection("Appointments")
 //                                        .get()
 //                                        .addOnSuccessListener(queryDocumentSnapshots -> {
@@ -87,12 +89,12 @@ public class AppointmentsMainActivity extends BaseActivity {
 //                                                }
 //                                            }
 //
-//                                            //print the appointments
-//                                            System.out.println("---------------");
-//                                            for (Appointment appointment : appointments) {
-//                                                System.out.println(appointment);
-//                                            }
-//                                            System.out.println("---------------");
+////                                            //print the appointments
+////                                            System.out.println("---------------");
+////                                            for (Appointment appointment : appointments) {
+////                                                System.out.println(appointment);
+////                                            }
+////                                            System.out.println("---------------");
 //                                        });
                                 database.collection("Appointments")
                                         .get()
@@ -108,17 +110,8 @@ public class AppointmentsMainActivity extends BaseActivity {
                                                                 }
                                                             }
                                                             progressDialog.dismiss();
-
-
-//                                                            //print the appointments
-//                                                            System.out.println("---------------");
-//                                                            for (Appointment appointment : this.appointments) {
-//                                                                System.out.println(appointment);
-//                                                            }
-//                                                            System.out.println("---------------");
                                                         });
                                             }
-
                                         });
                             }
                         }

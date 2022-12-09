@@ -33,6 +33,7 @@ public class EditClientActivity extends BaseActivity {
 
     private DatePickerDialog datePickerDialog;
 
+    // Same as single client view but with editable fields
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

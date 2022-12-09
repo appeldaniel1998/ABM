@@ -22,7 +22,6 @@ import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.LoginAndRegistration.LoginOrRegisterActivity;
 import com.example.abm.Products.Cart.ProductCartActivity;
-import com.example.abm.Products.Cart.ProductCartActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,9 +49,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         this.database = FirebaseFirestore.getInstance();
     }
 
+    //On click listener: what to do when each button is clicked
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        drawerLayout.closeDrawers();
+        drawerLayout.closeDrawers(); // close nav drawer
         if (item.getItemId() == R.id.menuItemAppointments) {
             startActivity(new Intent(this, AppointmentsMainActivity.class));
             return true;
@@ -83,10 +83,10 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else return false;
     }
 
-
+    // init side menu in all activities TODO
     @SuppressLint("SetTextI18n")
     public void initMenuSideBar() {
-        Toolbar toolbar = findViewById(R.id.ProductsRecycleView); //TODO generalize - for the sake of code correctness, pass as an argument to function, functionally no difference if all ID names are the same
+        Toolbar toolbar = findViewById(R.id.ProductsRecycleView); // init toolbar
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer_layout);
@@ -98,14 +98,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setItemIconTintList(null);
 
-        //
         Menu menu = navigationView.getMenu();
-
 
         FirebaseUser user = this.auth.getCurrentUser();
         if (user != null) {
-            String UserUid = user.getUid();
-            database.collection("Clients").document(UserUid)
+            String userUid = user.getUid();
+            database.collection("Clients").document(userUid)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         Client currUser = documentSnapshot.toObject(Client.class);

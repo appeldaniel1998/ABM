@@ -53,6 +53,7 @@ public class RegisterActivity extends BaseActivity {
         birthdayDate = findViewById(R.id.birthdayDatePicker);
 
         // Initiating date picks handling
+        // Initializes all parameters needed for date picker and sets default value of today
         datePickerDialog = DatePicker.initDatePicker(birthdayDate, this);
         birthdayDate.setText(DatePicker.getTodayDate()); // Set initial date to today's date
 
@@ -69,24 +70,23 @@ public class RegisterActivity extends BaseActivity {
             String textRetypePassword = retypePassword.getText().toString();
             String textBirthdayDate = birthdayDate.getText().toString();
 
-            if (TextUtils.isEmpty(textEmail) || TextUtils.isEmpty(textPassword) || TextUtils.isEmpty(textFirstName) ||
-                    TextUtils.isEmpty(textLastName) || TextUtils.isEmpty(textPhoneNumber)) {
+            if (TextUtils.isEmpty(textEmail) || TextUtils.isEmpty(textPassword) || TextUtils.isEmpty(textFirstName) || TextUtils.isEmpty(textLastName) || TextUtils.isEmpty(textPhoneNumber)) {
                 Toast.makeText(RegisterActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
             } else if (textPassword.length() < 6) {
                 Toast.makeText(RegisterActivity.this, "The password must contain at least 6 characters!", Toast.LENGTH_SHORT).show();
             } else if (!textPassword.equals(textRetypePassword)) {
                 Toast.makeText(RegisterActivity.this, "The passwords do not match!", Toast.LENGTH_SHORT).show();
             } else {
+                // if all fields are correct, register the user
                 registerUser(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textPassword, DatePicker.stringToInt(textBirthdayDate), super.getCurrFirebaseAuth());
             }
         });
     }
 
 
-    public void registerUser(String textFirstName, String textLastName, String textEmail, String textPhoneNumber, String textAddress,
-                             String textPassword, int textBirthdayDate, FirebaseAuth auth) {
+    public void registerUser(String textFirstName, String textLastName, String textEmail, String textPhoneNumber, String textAddress, String textPassword, int textBirthdayDate, FirebaseAuth auth) {
         auth.createUserWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
+            if (task.isSuccessful()) { // if authenticator succeeded in creating a user
                 FirebaseUser user = auth.getCurrentUser();
 
                 assert user != null;
@@ -96,6 +96,7 @@ public class RegisterActivity extends BaseActivity {
                 super.getCurrDatabase().collection("Clients").document(userUID).set(userToAdd); //adding user data to database
 
                 Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
+                //upon success, move to appointments main activity
                 startActivity(new Intent(RegisterActivity.this, AppointmentsMainActivity.class));
                 finish();
             } else {

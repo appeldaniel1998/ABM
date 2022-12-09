@@ -30,6 +30,7 @@ public class ClientsMainActivity extends BaseActivity {
         setContentView(R.layout.activity_clients_main);
         super.initMenuSideBar();
 
+        // loading screen
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Clients", "Loading, please wait....", true);
 
@@ -43,12 +44,15 @@ public class ClientsMainActivity extends BaseActivity {
 
         clients = new ArrayList<>();
 
+        // start new activity where a new clients info is to be entered
         addClientButton.setOnClickListener(v -> ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClientActivity.class)));
 
-        super.getCurrDatabase().collection("Clients")
+        //accessing database
+        super.getCurrDatabase().collection("Clients").orderBy("firstName")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
+                        //save client data from database
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Map<String, Object> data = document.getData();
                             String name = data.get("firstName") + " " + data.get("lastName");
@@ -58,8 +62,10 @@ public class ClientsMainActivity extends BaseActivity {
                         }
                         recyclerViewAdapter = new ClientsRecycleAdapter(clients);
                         recyclerView.setAdapter(recyclerViewAdapter);
-                        progressDialog.dismiss();
 
+                        progressDialog.dismiss(); // disable loading screen
+
+                        //onclick of each item in the recycle view (client in the list)
                         recyclerViewAdapter.setOnItemClickListener(position -> {
                             Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
                             myIntent.putExtra("clientUID", clients.get(position).getUID()); //Optional parameters
