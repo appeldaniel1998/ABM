@@ -22,8 +22,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.abm.Appointments.AppointmentsMainActivity;
+import com.example.abm.Appointments.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.R;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -42,7 +41,7 @@ public class LoginOrRegisterActivity extends AppCompatActivity {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) { // if user is logged in
             // if user logged in, go to appointments (no login necessary)
             Toast.makeText(this, "User logged in!!", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(LoginOrRegisterActivity.this, AppointmentsMainActivity.class));
+            startActivity(new Intent(LoginOrRegisterActivity.this, CalendarMainActivity.class));
             finish();
         } else {
             // Otherwise, start and run the activity normally

@@ -1,20 +1,15 @@
 package com.example.abm.Products.Cart;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.abm.Appointments.AppointmentType.AppointmentTypesActivity;
-import com.example.abm.Appointments.AppointmentsMainActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.abm.Appointments.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
-import com.example.abm.Products.Cart.Cart;
-import com.example.abm.Products.Cart.CartAdapter;
-import com.example.abm.Products.ProductsClickcardActivity;
-import com.example.abm.Products.ProductsMainActivity;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -45,7 +40,7 @@ public class ProductCartActivity extends BaseActivity {
                 }
                 //back to appointments activity
                 Toast.makeText(this, "Finish Order ! ", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ProductCartActivity.this, AppointmentsMainActivity.class));
+                startActivity(new Intent(ProductCartActivity.this, CalendarMainActivity.class));
 
             });
         });

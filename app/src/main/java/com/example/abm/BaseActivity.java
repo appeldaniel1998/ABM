@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.example.abm.Appointments.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.Appointments.AppointmentType.AppointmentTypesActivity;
-import com.example.abm.Appointments.AppointmentsMainActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
@@ -54,7 +54,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawers(); // close nav drawer
         if (item.getItemId() == R.id.menuItemAppointments) {
-            startActivity(new Intent(this, AppointmentsMainActivity.class));
+            startActivity(new Intent(this, CalendarMainActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemAppointmentTypes) {
             startActivity(new Intent(this, AppointmentTypesActivity.class));
