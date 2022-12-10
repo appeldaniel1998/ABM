@@ -3,22 +3,21 @@ package com.example.abm.Appointments.AppointmentCalendar;
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInMonthArray;
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.R;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class MainActivityTry extends AppCompatActivity implements CalendarAdapter.OnItemListener
-{//Activity_appointments_calender_main
+public class MainActivityTry extends AppCompatActivity implements CalendarAdapter.OnItemListener {//Activity_appointments_calender_main
 
     //To build monthly calender I used:
     // https://www.youtube.com/watch?v=Ba0Q-cK1fJo
@@ -32,24 +31,23 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
     private RecyclerView calendarRecyclerView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_main);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
         initWidgets();//define recycleviews
         //start to show the monthly calendar from current date
-        CalendarUtils.selectedDate=LocalDate.now();//current date
+        CalendarUtils.selectedDate = LocalDate.now();//current date
         setMonthView();
     }
+
     //define the calendar recycle view and the title (between 2 arrows)
-    private void initWidgets()
-    {
+    private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);//id from activity_appointments_calender_main.xml
         monthYearText = findViewById(R.id.monthYearTV);//text between 2 arrows
     }
-//define monthly viewing
-    private void setMonthView()
-    {
+
+    //define monthly viewing
+    private void setMonthView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
@@ -59,15 +57,14 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
-//by clicking on the 'back arrow' in month view this function will show us prev month
-    public void previousMonthAction(View view)
-    {
+    //by clicking on the 'back arrow' in month view this function will show us prev month
+    public void previousMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);//prev month
         setMonthView();
     }
+
     //by clicking on the 'back arrow' in month view this function will show us prev month
-    public void nextMonthAction(View view)
-    {
+    public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);//next month
         setMonthView();
     }
@@ -75,16 +72,16 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
     @Override
     public void onItemClick(int position, LocalDate date)//7:39 : https://www.youtube.com/watch?v=knpSbtbPz3o
     {//
-        if (date!=null)//we will have the days before and after the month
+        if (date != null)//we will have the days before and after the month
         {
-            CalendarUtils.selectedDate=date;
+            CalendarUtils.selectedDate = date;
             setMonthView();
         }
 
     }
-//when clicking on 'WEEKLY' button
-    public void weeklyAction(View view)
-    {
-        startActivity(new Intent(this,WeekViewActivity.class));
+
+    //when clicking on 'WEEKLY' button
+    public void weeklyAction(View view) {
+        startActivity(new Intent(this, WeekViewActivity.class));
     }
 }
