@@ -5,10 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
@@ -25,6 +29,9 @@ public class EventEditActivity extends BaseActivity {
     private LocalTime time;
     Button timeButton;//time picker
     int hour, minute;//time picker
+    String[] items =  {"Manicure","Massage","Pedicure"};//drop down list of types
+    AutoCompleteTextView autoCompleteTxt;//drop down list of types
+    ArrayAdapter<String> adapterItems;//drop down list of types
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +44,18 @@ public class EventEditActivity extends BaseActivity {
         eventDateTV.setText("Date: "+ CalendarUtils.formatteDate(CalendarUtils.selectedDate));//defined the date to be the date that the user selected
         eventTimeTV.setText("Time: "+ CalendarUtils.formatteTime(time));//defined the time to be the time that the user selected
         timeButton=findViewById(R.id.timeButton);
+        autoCompleteTxt = findViewById(R.id.auto_complete_txt);
 
+        adapterItems = new ArrayAdapter<String>(this, R.layout.list_item,items);
+        autoCompleteTxt.setAdapter(adapterItems);
+
+        autoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                Toast.makeText(getApplicationContext(),"Item: "+item,Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 

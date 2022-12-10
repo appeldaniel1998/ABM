@@ -3,23 +3,24 @@ package com.example.abm.Appointments.AppointmentCalendar;
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInWeekArray;
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class WeekViewActivity extends AppCompatActivity  implements CalendarAdapter.OnItemListener{
-//Activity_appointments_calender_week_view
+public class WeekViewActivity extends BaseActivity implements CalendarAdapter.OnItemListener {
+    //Activity_appointments_calender_week_view
 //A lot of the functions here are adapted from MainActivityTry
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
@@ -29,16 +30,16 @@ public class WeekViewActivity extends AppCompatActivity  implements CalendarAdap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_week_view);
+        super.initMenuSideBar();
+
         initWidgets();
         setWeekView();
     }
 
-    private void initWidgets()
-    {
+    private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
         eventListView = findViewById(R.id.eventListView);
-
     }
 
     private void setWeekView()//Same as setMonthView
@@ -51,13 +52,10 @@ public class WeekViewActivity extends AppCompatActivity  implements CalendarAdap
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
         setEventAdapter();
-
     }
 
 
-
-    public void previousWeekAction(View view)//Same as previous month action
-    {
+    public void previousWeekAction(View view) { //Same as previous month action
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
         setWeekView();
     }
@@ -69,29 +67,25 @@ public class WeekViewActivity extends AppCompatActivity  implements CalendarAdap
     }
 
     @Override
-    public void onItemClick(int position, LocalDate date)
-    {
-            CalendarUtils.selectedDate=date;
-            setWeekView();
+    public void onItemClick(int position, LocalDate date) {
+        CalendarUtils.selectedDate = date;
+        setWeekView();
     }
 
     @Override
-    protected void onResume()
-    {
+    protected void onResume() {
         super.onResume();
         setEventAdapter();
 
     }
 
-    private void setEventAdapter()
-    {
-        ArrayList<Event> dailyEvents =Event.eventsForDate(CalendarUtils.selectedDate);
-        EventAdapter eventAdapter = new EventAdapter(getApplicationContext(),dailyEvents);
+    private void setEventAdapter() {
+        ArrayList<Event> dailyEvents = Event.eventsForDate(CalendarUtils.selectedDate);
+        EventAdapter eventAdapter = new EventAdapter(getApplicationContext(), dailyEvents);
         eventListView.setAdapter(eventAdapter);
     }
 
-    public void newEventAction(View view)
-    {
-        startActivity(new Intent(this,EventEditActivity.class));
+    public void newEventAction(View view) {
+        startActivity(new Intent(this, EventEditActivity.class));
     }
 }
