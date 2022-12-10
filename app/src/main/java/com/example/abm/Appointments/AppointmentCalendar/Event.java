@@ -11,10 +11,11 @@ public class Event
     //Function return all events for a given date
     public static ArrayList<Event> eventsForDate (LocalDate date)
     {
+        int dateAsInt = localDateToInt(date);
         ArrayList<Event> events=new ArrayList<>(); //Define new array list of events
         for (Event event : eventsList)
         {
-            if(event.getDate().equals(date))//if the event is equal to the event thats passed in
+            if(event.getDate() == dateAsInt)//if the event is equal to the event thats passed in
             {
                 events.add(event);//we will add it to our events list
             }
@@ -22,19 +23,37 @@ public class Event
         return events;
     }
 
+    public static int localDateToInt(LocalDate localDate) {
+        String[] arr = localDate.toString().split("-");
+        String strDate = arr[0] + "" + arr[1] + "" + arr[2];
+        return Integer.parseInt(strDate);
+    }
+
+    public static String timeIntToString(int time) {
+        int hours = time / 100;
+        int minutes = time % 100;
+        return hours + ":" + minutes;
+    }
+
+    public static int localTimeToInt(LocalTime localTime) {
+        String[] splitTime = localTime.toString().split(":");
+        String relevantTime = splitTime[0] + "" + splitTime[1];
+        return Integer.parseInt(relevantTime);
+    }
 
     private String typeName;
-    private LocalDate date;
-    private LocalTime time;
+    private int date;
+    private int time;
 
 
     //constructors
-    public Event(String name, LocalDate date, LocalTime time) {
+    public Event(String name, int date, int time) {
         this.typeName = name;
         this.date = date;
         this.time = time;
     }
-//Getters and setters
+
+    //Getters and setters
     public String getTypeName() {
         return typeName;
     }
@@ -43,19 +62,19 @@ public class Event
         this.typeName = typeName;
     }
 
-    public LocalDate getDate() {
+    public int getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(int date) {
         this.date = date;
     }
 
-    public LocalTime getTime() {
+    public int getTime() {
         return time;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(int time) {
         this.time = time;
     }
 }

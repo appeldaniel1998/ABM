@@ -49,7 +49,7 @@ public class EventEditActivity extends AppCompatActivity {
     public void saveEventAction(View view)
     {//save the event the user created
         String eventName=eventNameET.getText().toString();//get the name of the event
-        Event newEvent=new Event (eventName, CalendarUtils.selectedDate, time);//create new event
+        Event newEvent=new Event (eventName, Event.localDateToInt(CalendarUtils.selectedDate), Event.localTimeToInt(time));//create new event
         Event.eventsList.add(newEvent);//add event to the list of events in this day
         finish();//close the activity
     }

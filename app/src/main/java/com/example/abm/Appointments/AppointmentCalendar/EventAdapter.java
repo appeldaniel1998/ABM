@@ -15,7 +15,7 @@ import java.util.List;
 
 public class EventAdapter extends ArrayAdapter<Event>
 {
-    //construntor
+    //constructor
     public EventAdapter(@NonNull Context context, List<Event> events)
     {
         super(context, 0, events);
@@ -32,7 +32,7 @@ public class EventAdapter extends ArrayAdapter<Event>
 
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);//view of event in event list (part of recycle view display)
 
-        String eventTitle = event.getTypeName() +" "+ CalendarUtils.formatteTime(event.getTime());
+        String eventTitle = event.getTypeName() +" "+ Event.timeIntToString(event.getTime());
         eventCellTV.setText(eventTitle);
         return convertView;
     }
