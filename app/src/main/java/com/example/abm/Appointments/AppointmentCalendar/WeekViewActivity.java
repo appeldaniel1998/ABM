@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
 
+    private FirebaseFirestore database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,10 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
 
         initWidgets();
         setWeekView();
+
+        database = super.getCurrDatabase();
+
+
     }
 
     private void initWidgets() {
