@@ -51,9 +51,9 @@ public class Event
 //        return appointmentId;
 //    }
 //
-//    public String getClientId() {
-//        return clientId;
-//    }
+    public String getClientName() {
+        return clientName;
+    }
 
     //Function return all events for a given date
     public static ArrayList<Event> eventsForDate (LocalDate date)
