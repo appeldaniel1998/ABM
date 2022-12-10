@@ -10,12 +10,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
 import java.time.LocalTime;
 import java.util.Locale;
 
-public class EventEditActivity extends AppCompatActivity {
+public class EventEditActivity extends BaseActivity {
     ////Activity_appointments_calender_event_edit
     //Add new event and Time picker functions
 
@@ -29,6 +30,8 @@ public class EventEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_event_edit);
+        super.initMenuSideBar();
+
         initWidgets();//find all views by their id
         time=LocalTime.now();//display current time before change it due to time picker
         eventDateTV.setText("Date: "+ CalendarUtils.formatteDate(CalendarUtils.selectedDate));//defined the date to be the date that the user selected
@@ -46,7 +49,7 @@ public class EventEditActivity extends AppCompatActivity {
 
     }
 
-    public void saveEventAction(View view)
+    public void saveNewEventAction(View view)
     {//save the event the user created
         String eventName=eventNameET.getText().toString();//get the name of the event
         Event newEvent=new Event (eventName, Event.localDateToInt(CalendarUtils.selectedDate), Event.localTimeToInt(time));//create new event
@@ -74,6 +77,6 @@ public class EventEditActivity extends AppCompatActivity {
         TimePickerDialog timePickerDialog = new TimePickerDialog(this, /*style,*/ onTimeSetListener, hour, minute, true);
 
         timePickerDialog.setTitle("Select Time");
-        timePickerDialog.show();//
+        timePickerDialog.show();
     }
 }
