@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentCalender;
+package com.example.abm.Appointments.AppointmentCalendar;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,9 +30,9 @@ public class EventAdapter extends ArrayAdapter<Event>
         if (convertView == null)
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_appointments_calender_event_cell, parent, false);
 
-        TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);
+        TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);//view of event in event list (part of recycle view display)
 
-        String eventTitle = event.getName() +" "+ CalenderUtils.formatteTime(event.getTime());
+        String eventTitle = event.getName() +" "+ CalendarUtils.formatteTime(event.getTime());
         eventCellTV.setText(eventTitle);
         return convertView;
     }

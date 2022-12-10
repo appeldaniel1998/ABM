@@ -1,7 +1,7 @@
-package com.example.abm.Appointments.AppointmentCalender;
+package com.example.abm.Appointments.AppointmentCalendar;
 
-import static com.example.abm.Appointments.AppointmentCalender.CalenderUtils.daysInMonthArray;
-import static com.example.abm.Appointments.AppointmentCalender.CalenderUtils.monthYearFromDate;
+import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInMonthArray;
+import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -11,14 +11,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.abm.Appointments.AppointmentCalender.CalendarAdapter;
 import com.example.abm.R;
 
 import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class MainActivityTry extends AppCompatActivity implements CalendarAdapter.OnItemListener
@@ -40,21 +36,22 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_main);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
-        initWidgets();
-        CalenderUtils.selectedDate=LocalDate.now();
+        initWidgets();//define recycleviews
+        //start to show the monthly calendar from current date
+        CalendarUtils.selectedDate=LocalDate.now();//current date
         setMonthView();
     }
-
+    //define the calendar recycle view and the title (between 2 arrows)
     private void initWidgets()
     {
-        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
-        monthYearText = findViewById(R.id.monthYearTV);
+        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);//id from activity_appointments_calender_main.xml
+        monthYearText = findViewById(R.id.monthYearTV);//text between 2 arrows
     }
-
+//define monthly viewing
     private void setMonthView()
     {
-        monthYearText.setText(monthYearFromDate(CalenderUtils.selectedDate));
-        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalenderUtils.selectedDate);
+        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);// we're going to have 7 colunms in our recycle view
@@ -62,16 +59,16 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
-
+//by clicking on the 'back arrow' in month view this function will show us prev month
     public void previousMonthAction(View view)
     {
-        CalenderUtils.selectedDate = CalenderUtils.selectedDate.minusMonths(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);//prev month
         setMonthView();
     }
-
+    //by clicking on the 'back arrow' in month view this function will show us prev month
     public void nextMonthAction(View view)
     {
-        CalenderUtils.selectedDate = CalenderUtils.selectedDate.plusMonths(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);//next month
         setMonthView();
     }
 
@@ -80,7 +77,7 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
     {//
         if (date!=null)//we will have the days before and after the month
         {
-            CalenderUtils.selectedDate=date;
+            CalendarUtils.selectedDate=date;
             setMonthView();
         }
 

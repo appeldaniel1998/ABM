@@ -1,18 +1,4 @@
-package com.example.abm.Appointments.AppointmentCalender;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
-import android.view.View;
-
-import com.example.abm.R;
-import android.app.TimePickerDialog.OnTimeSetListener;
-
-import android.app.TimePickerDialog;
-import android.widget.Button;
-import android.widget.TimePicker;
-
-import java.util.Locale;
+package com.example.abm.Appointments.AppointmentCalendar;
 
 public class TimePickerMain {
 //extends AppCompatActivity {

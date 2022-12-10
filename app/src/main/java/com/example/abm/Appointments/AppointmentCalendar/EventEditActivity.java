@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentCalender;
+package com.example.abm.Appointments.AppointmentCalendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,6 +17,7 @@ import java.util.Locale;
 
 public class EventEditActivity extends AppCompatActivity {
     ////Activity_appointments_calender_event_edit
+    //Add new event and Time picker functions
 
     private EditText eventNameET;//event Name Edit Text
     private TextView eventDateTV, eventTimeTV; //2 text views
@@ -28,10 +29,10 @@ public class EventEditActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_event_edit);
-        initWidgets();
-        time=LocalTime.now();/////need to change!
-        eventDateTV.setText("Date: "+CalenderUtils.formatteDate(CalenderUtils.selectedDate));//defined the date to be the date that the user selected
-        eventTimeTV.setText("Time: "+CalenderUtils.formatteTime(time));//defined the time to be the time that the user selected
+        initWidgets();//find all views by their id
+        time=LocalTime.now();//display current time before change it due to time picker
+        eventDateTV.setText("Date: "+ CalendarUtils.formatteDate(CalendarUtils.selectedDate));//defined the date to be the date that the user selected
+        eventTimeTV.setText("Time: "+ CalendarUtils.formatteTime(time));//defined the time to be the time that the user selected
         timeButton=findViewById(R.id.timeButton);
 
 
@@ -46,10 +47,10 @@ public class EventEditActivity extends AppCompatActivity {
     }
 
     public void saveEventAction(View view)
-    {
-        String eventName=eventNameET.getText().toString();
-        Event newEvent=new Event (eventName, CalenderUtils.selectedDate, time);
-        Event.eventsList.add(newEvent);
+    {//save the event the user created
+        String eventName=eventNameET.getText().toString();//get the name of the event
+        Event newEvent=new Event (eventName, CalendarUtils.selectedDate, time);//create new event
+        Event.eventsList.add(newEvent);//add event to the list of events in this day
         finish();//close the activity
     }
 
@@ -61,8 +62,9 @@ public class EventEditActivity extends AppCompatActivity {
             {
                 hour = selectedHour;
                 minute = selectedMinute;
-                timeButton.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));
-                eventTimeTV.setText("Time: "+String.format(Locale.getDefault(), "%02d:%02d",hour, minute));//defined the time to be the time that the user selected
+                //timeButton.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));//display the chosen time on button, no need
+                //defined the time to be the time that the user selected next to "Time:"
+                eventTimeTV.setText("Time: "+String.format(Locale.getDefault(), "%02d:%02d",hour, minute));
 
             }
         };

@@ -1,8 +1,7 @@
-package com.example.abm.Appointments.AppointmentCalender;
+package com.example.abm.Appointments.AppointmentCalendar;
 
-import static com.example.abm.Appointments.AppointmentCalender.CalenderUtils.daysInMonthArray;
-import static com.example.abm.Appointments.AppointmentCalender.CalenderUtils.daysInWeekArray;
-import static com.example.abm.Appointments.AppointmentCalender.CalenderUtils.monthYearFromDate;
+import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInWeekArray;
+import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,7 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.abm.R;
 
@@ -45,8 +43,8 @@ public class WeekViewActivity extends AppCompatActivity  implements CalendarAdap
 
     private void setWeekView()//Same as setMonthView
     {
-        monthYearText.setText(monthYearFromDate(CalenderUtils.selectedDate));
-        ArrayList<LocalDate> days = daysInWeekArray(CalenderUtils.selectedDate);
+        monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
+        ArrayList<LocalDate> days = daysInWeekArray(CalendarUtils.selectedDate);
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(days, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);// we're going to have 7 colunms in our recycle view
@@ -60,20 +58,20 @@ public class WeekViewActivity extends AppCompatActivity  implements CalendarAdap
 
     public void previousWeekAction(View view)//Same as previous month action
     {
-        CalenderUtils.selectedDate = CalenderUtils.selectedDate.minusWeeks(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusWeeks(1);
         setWeekView();
     }
 
     public void nextWeekAction(View view)//Same as previousWeekAction just different in plusWeeks
     {
-        CalenderUtils.selectedDate = CalenderUtils.selectedDate.plusWeeks(1);
+        CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusWeeks(1);
         setWeekView();
     }
 
     @Override
     public void onItemClick(int position, LocalDate date)
     {
-            CalenderUtils.selectedDate=date;
+            CalendarUtils.selectedDate=date;
             setWeekView();
     }
 
@@ -87,7 +85,7 @@ public class WeekViewActivity extends AppCompatActivity  implements CalendarAdap
 
     private void setEventAdapter()
     {
-        ArrayList<Event> dailyEvents =Event.eventsForDate(CalenderUtils.selectedDate);
+        ArrayList<Event> dailyEvents =Event.eventsForDate(CalendarUtils.selectedDate);
         EventAdapter eventAdapter = new EventAdapter(getApplicationContext(),dailyEvents);
         eventListView.setAdapter(eventAdapter);
     }

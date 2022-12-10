@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentCalender;
+package com.example.abm.Appointments.AppointmentCalendar;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -25,6 +25,7 @@ public class Event
     private String name;
     private LocalDate date;
     private LocalTime time;
+
 
     //constructors
     public Event(String name, LocalDate date, LocalTime time) {

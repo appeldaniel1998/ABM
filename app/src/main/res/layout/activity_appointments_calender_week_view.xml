@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".Appointments.AppointmentCalender.WeekViewActivity">
+    tools:context=".Appointments.AppointmentCalendar.WeekViewActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
