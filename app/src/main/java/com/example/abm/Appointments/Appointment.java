@@ -2,9 +2,9 @@ package com.example.abm.Appointments;
 
 public class Appointment {
     private String appointmentId;
-    private int date;
-    private String startTime;
-    private String appointmentType;
+    private int date;//
+    private String startTime;//
+    private String appointmentType;//
     private String clientId;
 
 

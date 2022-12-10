@@ -8,14 +8,16 @@ public class Event
 {
     public static ArrayList<Event> eventsList=new ArrayList<>(); //Define new array list of event
 
+    private String appointmentId;
     private String typeName;
     private int date;
     private int startTime;
+    private String clientId;
 
 
     //constructors
-    public Event(String name, int date, int time) {
-        this.typeName = name;
+    public Event(String typeName, int date, int time) {
+        this.typeName = typeName;
         this.date = date;
         this.startTime = time;
     }
@@ -45,6 +47,13 @@ public class Event
         this.startTime = startTime;
     }
 
+    public String getAppointmentId() {
+        return appointmentId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
 
     //Function return all events for a given date
     public static ArrayList<Event> eventsForDate (LocalDate date)
