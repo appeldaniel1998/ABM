@@ -106,7 +106,6 @@ public class EventEditActivity extends BaseActivity {
                 //timeButton.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));//display the chosen time on button, no need
                 //defined the time to be the time that the user selected next to "Time:"
                 eventTimeTV.setText("Time: "+String.format(Locale.getDefault(), "%02d:%02d",hour, minute));
-                time= LocalTime.parse("Time: "+String.format(Locale.getDefault(),"%02d:%02d",hour, minute));
 
             }
         };
