@@ -16,13 +16,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Appointments.AppointmentCalendar.EventEditActivity"
-            android:exported="false">
+            android:name=".Appointments.AppointmentCalendar.EventType_dropdownlist"
+            android:exported="true">
+            <!--             <intent-filter>-->
+            <!--             <action android:name="android.intent.action.MAIN" />-->
+
+
+            <!--             <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--             </intent-filter>-->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
 
+        <activity
+            android:name=".Appointments.AppointmentCalendar.EventEditActivity"
+            android:exported="true">
+
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".Products.EditProduct"
             android:exported="false">
@@ -30,7 +44,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        
         <activity
             android:name=".Appointments.AppointmentCalendar.WeekViewActivity"
             android:exported="false">
@@ -48,11 +61,12 @@
         <activity
             android:name=".Appointments.AppointmentCalendar.MainActivityTry"
             android:exported="true">
-                        <intent-filter>
-                            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-                            <category android:name="android.intent.category.LAUNCHER" />
-                        </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -113,7 +127,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".Products.ProductsMainActivity"
             android:exported="false">
@@ -151,12 +164,14 @@
         </activity>
         <activity
             android:name=".LoginAndRegistration.LoginOrRegisterActivity"
-            android:exported="true">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            android:exported="false">
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
             <meta-data
                 android:name="android.app.lib_name"
