@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".Appointments.AppointmentCalender.EventEditActivity"
+            android:name=".Appointments.AppointmentCalendar.EventEditActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -32,7 +32,7 @@
         </activity>
         
         <activity
-            android:name=".Appointments.AppointmentCalender.WeekViewActivity"
+            android:name=".Appointments.AppointmentCalendar.WeekViewActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -46,9 +46,13 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Appointments.AppointmentCalender.MainActivityTry"
-            android:exported="false">
+            android:name=".Appointments.AppointmentCalendar.MainActivityTry"
+            android:exported="true">
+                        <intent-filter>
+                            <action android:name="android.intent.action.MAIN" />
 
+                            <category android:name="android.intent.category.LAUNCHER" />
+                        </intent-filter>
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -148,11 +152,11 @@
         <activity
             android:name=".LoginAndRegistration.LoginOrRegisterActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
 
             <meta-data
                 android:name="android.app.lib_name"
