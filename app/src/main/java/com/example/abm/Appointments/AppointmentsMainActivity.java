@@ -3,6 +3,7 @@ package com.example.abm.Appointments;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 
+import com.example.abm.Appointments.AppointmentCalendar.Event;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.R;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 
 public class AppointmentsMainActivity extends BaseActivity {
 
-    private ArrayList<Appointment> appointments;
+    private ArrayList<Event> appointments;
 
     private FirebaseFirestore database;
 
@@ -60,12 +61,12 @@ public class AppointmentsMainActivity extends BaseActivity {
                                         .get()
                                         .addOnSuccessListener(queryDocumentSnapshots -> {
                                             for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots) {
-                                                CollectionReference appointmentsCollection = documentSnapshot1.getReference().collection("Appointments"); // single clients appointments
+                                                CollectionReference appointmentsCollection = documentSnapshot1.getReference().collection("Client Appointments"); // single clients appointments
                                                 appointmentsCollection
                                                         .get()
                                                         .addOnSuccessListener(queryDocumentSnapshots1 -> {
                                                             for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots1) { // for each appointment
-                                                                Appointment appointment = documentSnapshot2.toObject(Appointment.class);
+                                                                Event appointment = documentSnapshot2.toObject(Event.class);
                                                                 if (appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) { // if appointment is in range of dates
                                                                     appointments.add(appointment);
                                                                 }
@@ -74,37 +75,16 @@ public class AppointmentsMainActivity extends BaseActivity {
                                                         });
                                             }
                                         });
-
-
                             } else { // user is a client
-//                                database.collection("Appointments")
-//                                        .document(super.getCurrFirebaseAuth().getCurrentUser().getUid())
-//                                        .collection("Appointments")
-//                                        .get()
-//                                        .addOnSuccessListener(queryDocumentSnapshots -> {
-//                                            for (DocumentSnapshot documentSnapshot2 : queryDocumentSnapshots.getDocuments()) {
-//                                                Appointment appointment = documentSnapshot2.toObject(Appointment.class);
-//                                                if (appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) {
-//                                                    appointments.add(appointment);
-//                                                }
-//                                            }
-//
-////                                            //print the appointments
-////                                            System.out.println("---------------");
-////                                            for (Appointment appointment : appointments) {
-////                                                System.out.println(appointment);
-////                                            }
-////                                            System.out.println("---------------");
-//                                        });
                                 database.collection("Appointments")
                                         .get()
                                         .addOnSuccessListener(queryDocumentSnapshots -> {
                                             for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots) {
-                                                CollectionReference appointmentsCollection = documentSnapshot1.getReference().collection("Appointments");
+                                                CollectionReference appointmentsCollection = documentSnapshot1.getReference().collection("Client Appointments");
                                                 appointmentsCollection.get()
                                                         .addOnSuccessListener(queryDocumentSnapshots1 -> {
                                                             for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots1) {
-                                                                Appointment appointment = documentSnapshot2.toObject(Appointment.class);
+                                                                Event appointment = documentSnapshot2.toObject(Event.class);
                                                                 if (appointment.getClientId().equals(UserUid) && appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) {
                                                                     this.appointments.add(appointment);
                                                                 }

@@ -4,65 +4,53 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Event
-{
-    public static ArrayList<Event> eventsList=new ArrayList<>(); //Define new array list of event
+public class Event {
+    public static ArrayList<Event> eventsList = new ArrayList<>(); //Define new array list of event
 
-    private String typeName;
+    private String appointmentId;
+    private String appointmentType;
+    private String clientId;
     private int date;
-    private int startTime;
-    private String clientName;
+    private String startTime;
 
+    public Event(){}
 
     //constructors
-    public Event(String typeName,String clientName, int date, int time) {
-        this.typeName = typeName;
+    public Event(String appointmentId, String typeName, String clientName, int date, String time) {
+        this.appointmentId = appointmentId;
+        this.appointmentType = typeName;
         this.date = date;
         this.startTime = time;
-        this.clientName=clientName;
+        this.clientId = clientName;
     }
 
     //Getters and setters
-    public String getTypeName() {
-        return typeName;
+    public String getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public String getAppointmentType() {
+        return appointmentType;
+    }
+
+    public String getClientId() {
+        return clientId;
     }
 
     public int getDate() {
         return date;
     }
 
-    public void setDate(int date) {
-        this.date = date;
-    }
-
-    public int getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
-        this.startTime = startTime;
-    }
-
-//    public String getAppointmentId() {
-//        return appointmentId;
-//    }
-//
-    public String getClientName() {
-        return clientName;
-    }
-
     //Function return all events for a given date
-    public static ArrayList<Event> eventsForDate (LocalDate date)
-    {
+    public static ArrayList<Event> eventsForDate(LocalDate date) {
         int dateAsInt = localDateToInt(date);
-        ArrayList<Event> events=new ArrayList<>(); //Define new array list of events
-        for (Event event : eventsList)
-        {
-            if(event.getDate() == dateAsInt)//if the event is equal to the event thats passed in
+        ArrayList<Event> events = new ArrayList<>(); //Define new array list of events
+        for (Event event : eventsList) {
+            if (event.getDate() == dateAsInt)//if the event is equal to the event thats passed in
             {
                 events.add(event);//we will add it to our events list
             }
@@ -76,9 +64,9 @@ public class Event
         return Integer.parseInt(strDate);
     }
 
-    public static String timeIntToString(int time) {
-        String hours = formatTime(time / 100);
-        String minutes = formatTime(time % 100);
+    public static String timeIntToString(String time) {
+        String hours = formatTime(Integer.parseInt(time) / 100);
+        String minutes = formatTime(Integer.parseInt(time) % 100);
         return hours + ":" + minutes;
     }
 
@@ -89,14 +77,13 @@ public class Event
         return timePart + "";
     }
 
-    public static int timeStringToInt(String time) {
+    public static String timeStringToInt(String time) {
         String timeClean = "";
-        for(int i = 6; i < time.length(); i++) {
+        for (int i = 6; i < time.length(); i++) {
             timeClean += time.charAt(i);
         }
         String[] timeSplit = timeClean.split(":");
-        String newTime = timeSplit[0] + "" + timeSplit[1];
-        return Integer.parseInt(newTime);
+        return timeSplit[0] + "" + timeSplit[1];
     }
 
     public static int localTimeToInt(LocalTime localTime) {
