@@ -72,6 +72,7 @@ public class AppointmentsMainActivity extends BaseActivity {
                                                                 }
                                                             }
                                                             progressDialog.dismiss();
+
                                                         });
                                             }
                                         });
