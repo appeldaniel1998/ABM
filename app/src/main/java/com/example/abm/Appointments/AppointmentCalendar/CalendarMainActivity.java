@@ -17,7 +17,7 @@ import com.example.abm.R;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class MainActivityTry extends BaseActivity implements CalendarAdapter.OnItemListener {//Activity_appointments_calender_main
+public class CalendarMainActivity extends BaseActivity implements CalendarAdapter.OnItemListener {//Activity_appointments_calender_main
 
     //To build monthly calender I used:
     // https://www.youtube.com/watch?v=Ba0Q-cK1fJo

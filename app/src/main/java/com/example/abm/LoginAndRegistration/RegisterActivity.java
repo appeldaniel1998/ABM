@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.abm.Appointments.AppointmentsMainActivity;
+import com.example.abm.Appointments.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.R;
@@ -97,7 +97,7 @@ public class RegisterActivity extends BaseActivity {
 
                 Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                 //upon success, move to appointments main activity
-                startActivity(new Intent(RegisterActivity.this, AppointmentsMainActivity.class));
+                startActivity(new Intent(RegisterActivity.this, CalendarMainActivity.class));
                 finish();
             } else {
                 Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();

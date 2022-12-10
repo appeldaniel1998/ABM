@@ -1,8 +1,10 @@
 package com.example.abm.Appointments.AppointmentCalendar;
 
+import static com.example.abm.Appointments.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInWeekArray;
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -14,8 +16,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.BaseActivity;
+import com.example.abm.Clients.Client;
 import com.example.abm.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,8 +33,9 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
-
+    private ProgressDialog progressDialog;
     private FirebaseFirestore database;
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +46,11 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
         initWidgets();
         setWeekView();
 
+        progressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
         database = super.getCurrDatabase();
+        auth = super.getCurrFirebaseAuth();
+
+        getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog);
 
 
     }

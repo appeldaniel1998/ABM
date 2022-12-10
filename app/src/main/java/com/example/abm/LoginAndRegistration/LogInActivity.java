@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.abm.Appointments.AppointmentsMainActivity;
+import com.example.abm.Appointments.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
@@ -39,7 +39,7 @@ public class LogInActivity extends BaseActivity {
             Toast.makeText(LogInActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
             // transfer to appointments main activity
-            startActivity(new Intent(LogInActivity.this, AppointmentsMainActivity.class));
+            startActivity(new Intent(LogInActivity.this, CalendarMainActivity.class));
             finish();
         }).addOnFailureListener(e -> Toast.makeText(LogInActivity.this, "Error!" + e.getMessage(), Toast.LENGTH_SHORT).show());
     }
