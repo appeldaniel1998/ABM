@@ -32,7 +32,7 @@ public class EventAdapter extends ArrayAdapter<Event>
 
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);//view of event in event list (part of recycle view display)
 
-        String eventTitle = event.getTypeName() +" "+ Event.timeIntToString(event.getTime());
+        String eventTitle = event.getTypeName() +" "+ Event.timeIntToString(event.getStartTime());
         eventCellTV.setText(eventTitle);
         return convertView;
     }

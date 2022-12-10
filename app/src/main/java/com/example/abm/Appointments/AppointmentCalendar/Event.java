@@ -6,7 +6,45 @@ import java.util.ArrayList;
 
 public class Event
 {
-    public static ArrayList<Event> eventsList=new ArrayList<>(); //Define new array list of events
+    public static ArrayList<Event> eventsList=new ArrayList<>(); //Define new array list of event
+
+    private String typeName;
+    private int date;
+    private int startTime;
+
+
+    //constructors
+    public Event(String name, int date, int time) {
+        this.typeName = name;
+        this.date = date;
+        this.startTime = time;
+    }
+
+    //Getters and setters
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
+
+    public int getDate() {
+        return date;
+    }
+
+    public void setDate(int date) {
+        this.date = date;
+    }
+
+    public int getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(int startTime) {
+        this.startTime = startTime;
+    }
+
 
     //Function return all events for a given date
     public static ArrayList<Event> eventsForDate (LocalDate date)
@@ -39,42 +77,5 @@ public class Event
         String[] splitTime = localTime.toString().split(":");
         String relevantTime = splitTime[0] + "" + splitTime[1];
         return Integer.parseInt(relevantTime);
-    }
-
-    private String typeName;
-    private int date;
-    private int time;
-
-
-    //constructors
-    public Event(String name, int date, int time) {
-        this.typeName = name;
-        this.date = date;
-        this.time = time;
-    }
-
-    //Getters and setters
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
-
-    public int getDate() {
-        return date;
-    }
-
-    public void setDate(int date) {
-        this.date = date;
-    }
-
-    public int getTime() {
-        return time;
-    }
-
-    public void setTime(int time) {
-        this.time = time;
     }
 }
