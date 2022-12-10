@@ -22,24 +22,25 @@ public class Event
         return events;
     }
 
-    private String name;
+
+    private String typeName;
     private LocalDate date;
     private LocalTime time;
 
 
     //constructors
     public Event(String name, LocalDate date, LocalTime time) {
-        this.name = name;
+        this.typeName = name;
         this.date = date;
         this.time = time;
     }
 //Getters and setters
-    public String getName() {
-        return name;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public LocalDate getDate() {
