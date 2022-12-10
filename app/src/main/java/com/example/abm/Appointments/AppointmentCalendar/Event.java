@@ -77,9 +77,26 @@ public class Event
     }
 
     public static String timeIntToString(int time) {
-        int hours = time / 100;
-        int minutes = time % 100;
+        String hours = formatTime(time / 100);
+        String minutes = formatTime(time % 100);
         return hours + ":" + minutes;
+    }
+
+    private static String formatTime(int timePart) {
+        if (timePart < 10) {
+            return "0" + timePart;
+        }
+        return timePart + "";
+    }
+
+    public static int timeStringToInt(String time) {
+        String timeClean = "";
+        for(int i = 6; i < time.length(); i++) {
+            timeClean += time.charAt(i);
+        }
+        String[] timeSplit = timeClean.split(":");
+        String newTime = timeSplit[0] + "" + timeSplit[1];
+        return Integer.parseInt(newTime);
     }
 
     public static int localTimeToInt(LocalTime localTime) {

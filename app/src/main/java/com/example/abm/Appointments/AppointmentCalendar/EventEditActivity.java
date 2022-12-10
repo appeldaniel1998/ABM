@@ -90,7 +90,7 @@ public class EventEditActivity extends BaseActivity {
         String eventName=appType.getText().toString();//get the name of the event
         String cliName=ClientName.getText().toString();//get the client name
         timeButton=findViewById(R.id.timeButton);
-        Event newEvent=new Event (eventName,cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.localTimeToInt(time));//create new event
+        Event newEvent=new Event (eventName,cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()));//create new event
         Event.eventsList.add(newEvent);//add event to the list of events in this day
         finish();//close the activity
     }
