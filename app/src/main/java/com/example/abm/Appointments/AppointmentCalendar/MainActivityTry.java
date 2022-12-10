@@ -12,12 +12,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class MainActivityTry extends AppCompatActivity implements CalendarAdapter.OnItemListener {//Activity_appointments_calender_main
+public class MainActivityTry extends BaseActivity implements CalendarAdapter.OnItemListener {//Activity_appointments_calender_main
 
     //To build monthly calender I used:
     // https://www.youtube.com/watch?v=Ba0Q-cK1fJo
@@ -33,7 +34,8 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointments_calender_main);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
+        setContentView(R.layout.try_calendar);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
+        super.initMenuSideBar();
         initWidgets();//define recycleviews
         //start to show the monthly calendar from current date
         CalendarUtils.selectedDate = LocalDate.now();//current date
@@ -42,8 +44,8 @@ public class MainActivityTry extends AppCompatActivity implements CalendarAdapte
 
     //define the calendar recycle view and the title (between 2 arrows)
     private void initWidgets() {
-        calendarRecyclerView = findViewById(R.id.calendarRecyclerView);//id from activity_appointments_calender_main.xml
-        monthYearText = findViewById(R.id.monthYearTV);//text between 2 arrows
+        calendarRecyclerView = findViewById(R.id.calendarRecyclerView22);//id from activity_appointments_calender_main.xml
+        monthYearText = findViewById(R.id.monthYearTV22);//text between 2 arrows
     }
 
     //define monthly viewing
