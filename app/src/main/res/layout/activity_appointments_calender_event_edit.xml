@@ -164,20 +164,36 @@
         </com.google.android.material.textfield.TextInputLayout>
 
 
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="104dp"
+            android:background="@null"
+            android:backgroundTint="#F8F3CDDA"
+            android:onClick="deleteEventAction"
+            android:text="Delete"
+            android:textColor="#455A64"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.836"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clientname" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="104dp"
             android:background="@null"
-            android:onClick="saveNewEventAction"
-            android:text="Save"
             android:backgroundTint="#F8F3CDDA"
+            android:onClick="saveNewEventAction"
+            android:text="  Save  "
             android:textColor="#455A64"
             android:textSize="30sp"
             android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.173"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/clientname" />

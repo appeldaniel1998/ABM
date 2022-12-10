@@ -8,19 +8,31 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 
 import java.time.LocalTime;
 import java.util.Locale;
+import java.util.UUID;
 
 public class EventEditActivity extends BaseActivity {
     ////Activity_appointments_calender_event_edit
-    //Add new event and Time picker functions
+    //Add new event , Time picker functions, and drop down lists
 
     //private EditText eventNameET;//event Name Edit Text
     private TextView appType;//event Name Edit Text
@@ -37,6 +49,8 @@ public class EventEditActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //to create the drop down list we used the link:
+        //https://www.youtube.com/watch?v=EBhmRaa8nhE
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_event_edit);
         super.initMenuSideBar();
@@ -45,7 +59,7 @@ public class EventEditActivity extends BaseActivity {
         time=LocalTime.now();//display current time before change it due to time picker
         eventDateTV.setText("Date: "+ CalendarUtils.formatteDate(CalendarUtils.selectedDate));//defined the date to be the date that the user selected
         eventTimeTV.setText("Time: "+ CalendarUtils.formatteTime(time));//defined the time to be the time that the user selected
-        //timeButton=findViewById(R.id.timeButton);
+
         //activate the drop down list for appointment type
         autoCompleteTxt = findViewById(R.id.auto_complete_txt);
 
@@ -74,6 +88,16 @@ public class EventEditActivity extends BaseActivity {
                 Toast.makeText(getApplicationContext(),"Client selected! ",Toast.LENGTH_SHORT).show();//"Item: "+item,Toast.LENGTH_SHORT).show()
             }
         });
+        //make it availble to click on each item in events list and edit or delete it
+        //java
+        //https://github.com/easy-tuto/MyListViewDemo/blob/master/app/src/main/java/com/example/mylistviewdemo/MainActivity.java
+        //xml
+        //https://github.com/easy-tuto/MyListViewDemo/blob/master/app/src/main/res/layout/activity_main.xml
+
+//        setContentView(R.layout.activity_appointments_calender_week_view);
+//        ListView lv = findViewById(R.id.eventListView);
+//        ArrayAdapter arrayAdapter=new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1,Event.eventsList);
+//        lv.setAdapter(arrayAdapter);
     }
 
     private void initWidgets()
@@ -90,7 +114,8 @@ public class EventEditActivity extends BaseActivity {
         String eventName=appType.getText().toString();//get the name of the event
         String cliName=ClientName.getText().toString();//get the client name
         timeButton=findViewById(R.id.timeButton);
-        Event newEvent=new Event (eventName,cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()));//create new event
+        final String uuid = UUID.randomUUID().toString().replace("-", "");
+        Event newEvent=new Event (uuid,eventName,cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()));//create new event
         Event.eventsList.add(newEvent);//add event to the list of events in this day
         finish();//close the activity
     }
@@ -117,4 +142,25 @@ public class EventEditActivity extends BaseActivity {
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
     }
+
+
+//     Log.i("testTag","before start adapter");
+//    StringArrayAdapter ad = new StringArrayAdapter (members,this);
+//        Log.i("testTag","after start adapter");
+//        Log.i("testTag","set adapter");
+//        lv.setAdapter(ad);
+//   lv.setOnItemClickListener(new OnItemClickListener() {
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position,
+//        long id) {
+//            ListEntry entry= (ListEntry) parent.getAdapter().getItem(position);
+//            Intent intent = new Intent(MainActivity.this, SendMessage.class);
+//            String message = entry.getMessage();
+//            intent.putExtra(EXTRA_MESSAGE, message);
+//            startActivity(intent);
+//        }
+//    });
+
+
+
 }
