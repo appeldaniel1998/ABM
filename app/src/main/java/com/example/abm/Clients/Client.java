@@ -37,6 +37,17 @@ public class Client {
         this.manager = false;
     }
 
+    public Client(String firstName, String lastName, String email, String phoneNumber, String address, int birthdayDate, String uid, boolean isManager) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.birthdayDate = birthdayDate;
+        this.uid = uid;
+        this.manager = isManager;
+    }
+
     public String getFirstName() {
         return firstName;
     }

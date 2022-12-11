@@ -52,7 +52,7 @@ public class AppointmentTypesActivity extends BaseActivity {
         // init arraylist to stored data received from firestore
         this.appointmentTypes = new ArrayList<>();
 
-        super.getCurrDatabase().collection("Appointment Types").get().addOnCompleteListener(task -> {
+        super.getCurrDatabase().collection("Appointment Types").orderBy("typeName").get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 appointmentTypes = setArrayListFromDb(task);
 

@@ -17,13 +17,8 @@
         tools:targetApi="31">
         <activity
             android:name=".Appointments.AppointmentCalendar.EventType_dropdownlist"
-            android:exported="true">
-            <!--             <intent-filter>-->
-            <!--             <action android:name="android.intent.action.MAIN" />-->
+            android:exported="false">
 
-
-            <!--             <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--             </intent-filter>-->
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -40,6 +35,7 @@
         <activity
             android:name=".Products.EditProduct"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -47,6 +43,7 @@
         <activity
             android:name=".Appointments.AppointmentCalendar.WeekViewActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -54,18 +51,14 @@
         <activity
             android:name=".Appointments.AppointmentType.AddEditAppointmentTypeActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
-            android:name=".Appointments.AppointmentCalendar.MainActivityTry"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".Appointments.AppointmentCalendar.CalendarMainActivity"
+            android:exported="false">
 
             <meta-data
                 android:name="android.app.lib_name"
@@ -74,6 +67,7 @@
         <activity
             android:name=".Appointments.AppointmentType.AppointmentTypesActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -81,6 +75,7 @@
         <activity
             android:name=".Products.AddNewProduct"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -88,6 +83,7 @@
         <activity
             android:name=".Products.Cart.ProductCartActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -95,6 +91,7 @@
         <activity
             android:name=".Clients.EditClientActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -102,6 +99,7 @@
         <activity
             android:name=".Clients.CreateClientActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -109,6 +107,7 @@
         <activity
             android:name=".Clients.SingleClientViewActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -116,6 +115,7 @@
         <activity
             android:name=".HistoryAnalytics.AnalyticsMainActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -123,6 +123,7 @@
         <activity
             android:name=".Clients.ClientsMainActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -130,6 +131,7 @@
         <activity
             android:name=".Products.ProductsMainActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -137,6 +139,7 @@
         <activity
             android:name=".Products.ProductsClickcardActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -144,6 +147,7 @@
         <activity
             android:name=".LoginAndRegistration.LogInActivity"
             android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -151,27 +155,21 @@
         <activity
             android:name=".LoginAndRegistration.RegisterActivity"
             android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Appointments.AppointmentsMainActivity"
-            android:exported="false">
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".LoginAndRegistration.LoginOrRegisterActivity"
-            android:exported="false">
+            android:exported="true">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN" />
 
 
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+             <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"

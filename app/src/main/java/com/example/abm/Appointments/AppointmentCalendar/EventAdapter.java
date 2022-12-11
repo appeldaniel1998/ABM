@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.abm.Clients.Client;
 import com.example.abm.R;
 
 import java.util.List;
@@ -29,7 +30,8 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);//view of event in event list (part of recycle view display)
 
-        String eventTitle = event.getAppointmentType() +":"+event.getClientId()+" " + Event.timeIntToString(event.getStartTime());
+        Client currClient = WeekViewActivity.clients.get(event.getClientId());
+        String eventTitle = event.getAppointmentType() +":"+ currClient.getFirstName() + " " + currClient.getLastName() +": " + Event.timeIntToString(event.getStartTime());
         eventCellTV.setText(eventTitle);
         return convertView;
     }

@@ -1,6 +1,7 @@
 package com.example.abm.Appointments.AppointmentCalendar;
 
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
+import static com.example.abm.Appointments.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInWeekArray;
 import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
@@ -11,7 +12,6 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,13 +19,11 @@ import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class WeekViewActivity extends BaseActivity implements CalendarAdapter.OnItemListener {
     //Activity_appointments_calender_week_view
@@ -36,6 +34,7 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
     private ProgressDialog progressDialog;
     private FirebaseFirestore database;
     private FirebaseAuth auth;
+    public static HashMap<String, Client> clients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +51,21 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
 
         getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog);
 
+        ProgressDialog clientsProgressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
+        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            Client currUser = documentSnapshot.toObject(Client.class);
+            if (currUser != null) {
+                if (currUser.getManager()) { // user is a manager
 
+                    clients = getClientsIfManager(database, clientsProgressDialog);
+                }
+                else {
+                    clients = new HashMap<>();
+                    clients.put(currUser.getUid(), currUser);
+                    clientsProgressDialog.dismiss();
+                }
+            }
+        });
     }
 
     private void initWidgets() {
