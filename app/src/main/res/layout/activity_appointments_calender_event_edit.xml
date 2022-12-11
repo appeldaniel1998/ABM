@@ -40,28 +40,28 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/AppBar" />
 
-<!--        <EditText-->
-<!--            android:id="@+id/eventNameET"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:ems="10"-->
-<!--            android:inputType="none"-->
-<!--            android:textSize="20sp"-->
-<!--            app:layout_constraintHorizontal_bias="0.497"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/name" />-->
+        <!--        <EditText-->
+        <!--            android:id="@+id/eventNameET"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:ems="10"-->
+        <!--            android:inputType="none"-->
+        <!--            android:textSize="20sp"-->
+        <!--            app:layout_constraintHorizontal_bias="0.497"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/name" />-->
 
         <com.google.android.material.textfield.TextInputLayout
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:hint="Select appointment type"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/name">
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_txt"
@@ -106,9 +106,9 @@
             android:layout_marginTop="1dp"
             android:background="@null"
             android:backgroundTint="#F8F3CDDA"
-            android:textColor="#455A64"
             android:onClick="popTimePicker"
             android:text="Choose time"
+            android:textColor="#455A64"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -131,31 +131,31 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/timeButton" />
 
-<!--        <EditText-->
-<!--            android:id="@+id/clientNameET"-->
-<!--            android:layout_marginTop="10dp"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center"-->
-<!--            android:ems="10"-->
-<!--            android:inputType="none"-->
-<!--            android:textSize="20sp"-->
-<!--            app:layout_constraintHorizontal_bias="0.497"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/clientname" />-->
+        <!--        <EditText-->
+        <!--            android:id="@+id/clientNameET"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:ems="10"-->
+        <!--            android:inputType="none"-->
+        <!--            android:textSize="20sp"-->
+        <!--            app:layout_constraintHorizontal_bias="0.497"-->
+        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
+        <!--            app:layout_constraintRight_toRightOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/clientname" />-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/clientsInputField"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clientname"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
-            android:hint="Select client name"
             android:layout_marginTop="1dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            android:hint="Select client name"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/clientname">
 
             <AutoCompleteTextView
                 android:id="@+id/auto_complete_txt_client"
@@ -164,40 +164,36 @@
                 android:inputType="none" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
-        <Button
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="104dp"
-            android:background="@null"
-            android:backgroundTint="#F8F3CDDA"
-            android:onClick="deleteEventAction"
-            android:text="Delete"
-            android:textColor="#455A64"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.836"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clientname" />
+            app:layout_constraintTop_toBottomOf="@+id/clientsInputField">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="104dp"
-            android:background="@null"
-            android:backgroundTint="#F8F3CDDA"
-            android:onClick="saveNewEventAction"
-            android:text="  Save  "
-            android:textColor="#455A64"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.173"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/clientname" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#F8F3CDDA"
+                android:onClick="saveNewEventAction"
+                android:text="  Save  "
+                android:textColor="#455A64"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="#F8F3CDDA"
+                android:onClick="deleteEventAction"
+                android:text="Delete"
+                android:textColor="#455A64"
+                android:textSize="20sp" />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.navigation.NavigationView
