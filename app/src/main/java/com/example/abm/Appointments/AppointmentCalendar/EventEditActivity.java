@@ -15,9 +15,7 @@ import android.widget.Toast;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.R;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalTime;
@@ -37,6 +35,7 @@ public class EventEditActivity extends BaseActivity {
     Button timeButton;//time picker
     int hour, minute;//time picker
     private ProgressDialog progressDialog;
+
     ArrayList<String> appointmentTypes;//drop down list of types
     ArrayList<String> clientNames;//drop down list of clients names
 
@@ -62,16 +61,13 @@ public class EventEditActivity extends BaseActivity {
 
         ProgressDialog progressDialog = ProgressDialog.show(this, "Add/Edit Appointment", "Loading, please wait....", true);
         auth = super.getCurrFirebaseAuth();
-        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Client currUser = documentSnapshot.toObject(Client.class);
-                if (!currUser.getManager()) { // user is a client
-                    findViewById(R.id.clientsInputField).setVisibility(View.GONE);
-                    findViewById(R.id.clientname).setVisibility(View.GONE);
-                }
-                progressDialog.dismiss();
+        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            Client currUser = documentSnapshot.toObject(Client.class);
+            if (!currUser.getManager()) { // user is a client
+                findViewById(R.id.clientsInputField).setVisibility(View.GONE);
+                findViewById(R.id.clientname).setVisibility(View.GONE);
             }
+            progressDialog.dismiss();
         });
 
         initWidgets();//find all views by their id
@@ -79,7 +75,6 @@ public class EventEditActivity extends BaseActivity {
 
         eventDateTV.setText("Date: " + CalendarUtils.formatteDate(CalendarUtils.selectedDate));//defined the date to be the date that the user selected
         eventTimeTV.setText("Time: " + CalendarUtils.formatteTime(time));//defined the time to be the time that the user selected
-
 
 
         adapterItems = new ArrayAdapter<>(this, R.layout.list_item, appointmentTypes);
