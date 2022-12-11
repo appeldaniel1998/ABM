@@ -19,7 +19,15 @@ import java.util.Map;
 
 public class CalendarDatabaseUtils {
 
-    //function gets data from database into the appointments arraylist
+    /**
+     * The function to retrieve appointments from the Firestore database and put them into the Event.eventsList arraylist.
+     * The function does not return but update the arraylist.
+     * @param fromDate from which date to take appointments (-1 for all)
+     * @param toDate from which date to take appointments (-1 for all)
+     * @param database Firestore database instance
+     * @param user Firebase authentication user
+     * @param progressDialog progress dialog to be dismissed when task is finished
+     */
     public static void getAppointmentsFromDB(int fromDate, int toDate, FirebaseFirestore database, FirebaseUser user, ProgressDialog progressDialog) {
         if (fromDate == -1) fromDate = Integer.MIN_VALUE;
         if (toDate == -1) toDate = Integer.MAX_VALUE;
@@ -79,6 +87,12 @@ public class CalendarDatabaseUtils {
         }
     }
 
+    /**
+     * The function gets the apponintment types names from the database into an arraylist which it returns.
+     * @param database Firestore database instance
+     * @param progressDialog Porgress dialog to be dismissed when get is complete
+     * @return new arraylist of Appointment type names
+     */
     public static ArrayList<String> getAppointmentTypesFromDB(FirebaseFirestore database, ProgressDialog progressDialog) {
         ArrayList<String> appointmentTypes = new ArrayList<>();
         database.collection("Appointment Types").orderBy("typeName")
@@ -97,47 +111,46 @@ public class CalendarDatabaseUtils {
         return appointmentTypes;
     }
 
-    public static ArrayList<String> getClientNamesFromDB(FirebaseFirestore database, ProgressDialog progressDialog) {
+    /**
+     * A function to retrieve the full names of clients from the WeekViewActivity.clients hashmap
+     * @param progressDialog Progress dialog to be dismissed when task is completed
+     * @return The arraylist of full names of clients as strings.
+     */
+    public static ArrayList<String> getClientNamesFromDB(ProgressDialog progressDialog) {
         ArrayList<String> clientNames = new ArrayList<>();
-        database.collection("Clients").orderBy("lastName")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Map<String, Object> data = document.getData();
-                            String firstName = (String) data.get("firstName");
-                            String lastName = (String) data.get("lastName");
-                            clientNames.add(firstName + " " + lastName);
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
+        for (Client client : WeekViewActivity.clients.values()) {
+            clientNames.add(client.getFirstName() + " " + client.getLastName());
+        }
+        progressDialog.dismiss();
         return clientNames;
     }
 
+    /**
+     * The function retrieves the clients from the Firestore databasae into the WeekViewActivity.clients hashmap
+     * The method returns said hashmap
+     * @param database Firestore database instance
+     * @param progressDialog Progress dialog to be dismissed upon the completion of the task
+     * @return the hashmap created
+     */
     public static HashMap<String, Client> getClientsIfManager (FirebaseFirestore database, ProgressDialog progressDialog) {
         HashMap<String, Client> clients = new HashMap<>();
         database.collection("Clients").orderBy("lastName")
                 .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Map<String, Object> data = document.getData();
-                            String firstName = (String) data.get("firstName");
-                            String lastName = (String) data.get("lastName");
-                            String email = (String) data.get("email");
-                            boolean isManager = (Boolean) data.get("manager");
-                            String phoneNumber = (String) data.get("phoneNumber");
-                            String clientUid = (String) data.get("uid");
-                            int birthday = Integer.parseInt(data.get("birthdayDate") + "");
-                            String address = (String) data.get("address");
-                            Client currClient = new Client(firstName, lastName, email, phoneNumber, address, birthday, clientUid, isManager);
-                            clients.put(clientUid, currClient);
-                        }
-                        progressDialog.dismiss();
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Map<String, Object> data = document.getData();
+                        String firstName = (String) data.get("firstName");
+                        String lastName = (String) data.get("lastName");
+                        String email = (String) data.get("email");
+                        boolean isManager = (Boolean) data.get("manager");
+                        String phoneNumber = (String) data.get("phoneNumber");
+                        String clientUid = (String) data.get("uid");
+                        int birthday = Integer.parseInt(data.get("birthdayDate") + "");
+                        String address = (String) data.get("address");
+                        Client currClient = new Client(firstName, lastName, email, phoneNumber, address, birthday, clientUid, isManager);
+                        clients.put(clientUid, currClient);
                     }
+                    progressDialog.dismiss();
                 });
         return clients;
     }

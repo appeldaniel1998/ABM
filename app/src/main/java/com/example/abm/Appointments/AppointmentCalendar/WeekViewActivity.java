@@ -27,7 +27,7 @@ import java.util.HashMap;
 
 public class WeekViewActivity extends BaseActivity implements CalendarAdapter.OnItemListener {
     //Activity_appointments_calender_week_view
-//A lot of the functions here are adapted from MainActivityTry
+    //A lot of the functions here are adapted from Calendar Main Activity
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
@@ -49,7 +49,7 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
         database = super.getCurrDatabase();
         auth = super.getCurrFirebaseAuth();
 
-        getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog);
+        getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
 
         ProgressDialog clientsProgressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
         database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
@@ -58,8 +58,7 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
                 if (currUser.getManager()) { // user is a manager
 
                     clients = getClientsIfManager(database, clientsProgressDialog);
-                }
-                else {
+                } else {
                     clients = new HashMap<>();
                     clients.put(currUser.getUid(), currUser);
                     clientsProgressDialog.dismiss();

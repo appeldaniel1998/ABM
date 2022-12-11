@@ -34,6 +34,8 @@ public class ClientsMainActivity extends BaseActivity {
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Clients", "Loading, please wait....", true);
 
+        progressDialog.dismiss(); // disable loading screen
+
 
         addClientButton = findViewById(R.id.addClient);
         recyclerViewLayoutManager = new LinearLayoutManager(this);
