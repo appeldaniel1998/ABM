@@ -47,7 +47,7 @@ public class RegisterActivity extends BaseActivity {
         address = findViewById(R.id.address);
         password = findViewById(R.id.password);
         retypePassword = findViewById(R.id.retypePassword);
-        findViewById(R.id.AppBar).setVisibility(View.GONE);////////////////////////////////////////
+        findViewById(R.id.AppBar).setVisibility(View.GONE);//disable to view the menue bar
         register = findViewById(R.id.registerButton);
         birthdayDate = findViewById(R.id.birthdayDatePicker);
 
@@ -84,12 +84,12 @@ public class RegisterActivity extends BaseActivity {
 
 
     public void registerUser(String textFirstName, String textLastName, String textEmail, String textPhoneNumber, String textAddress, String textPassword, int textBirthdayDate, FirebaseAuth auth) {
-        auth.createUserWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(task -> {
+        auth.createUserWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(task -> {//ask firebase auth to create a new user
             if (task.isSuccessful()) { // if authenticator succeeded in creating a user
-                FirebaseUser user = auth.getCurrentUser();//////////////////////////////////////////////////////////////////////
+                FirebaseUser user = auth.getCurrentUser();//take that user
 
                 assert user != null;
-                String userUID = user.getUid();
+                String userUID = user.getUid();//get user ID
 
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, userUID); //creating a new user
                 super.getCurrDatabase().collection("Clients").document(userUID).set(userToAdd); //adding user data to database
