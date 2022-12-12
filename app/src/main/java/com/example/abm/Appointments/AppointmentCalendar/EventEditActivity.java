@@ -125,7 +125,7 @@ public class EventEditActivity extends BaseActivity {
     public void saveNewEventAction(View view) {//save the event the user created
         String eventName = appointmentTypeAutoCompleteTxt.getText().toString();//get the name of the event
         String cliName = ClientName.getText().toString();//get the client name
-        timeButton = findViewById(R.id.timeButton);
+        //timeButton = findViewById(R.id.timeButton);
         final String uuid = UUID.randomUUID().toString().replace("-", "");
         Event newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()));//create new event
         Event.eventsList.add(newEvent);//add event to the list of events in this day

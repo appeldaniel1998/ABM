@@ -31,6 +31,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);//view of event in event list (part of recycle view display)
 
         Client currClient = WeekViewActivity.clients.get(event.getClientId());
+        //get details to represent it in wee view as list of all events
         String eventTitle = event.getAppointmentType() +":"+ currClient.getFirstName() + " " + currClient.getLastName() +": " + Event.timeIntToString(event.getStartTime());
         eventCellTV.setText(eventTitle);
         return convertView;

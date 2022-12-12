@@ -50,13 +50,13 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
         auth = super.getCurrFirebaseAuth();
 
         getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
-
+//try to understand if this is manager or client
         ProgressDialog clientsProgressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
         database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
             Client currUser = documentSnapshot.toObject(Client.class);
             if (currUser != null) {
                 if (currUser.getManager()) { // user is a manager
-
+                    // get all clients from DB to represent it in drop down list
                     clients = getClientsIfManager(database, clientsProgressDialog);
                 } else {
                     clients = new HashMap<>();

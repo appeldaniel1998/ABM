@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class RegisterActivity extends BaseActivity {
+//Class to Register (not exist account)
 
     private EditText firstName;
     private EditText lastName;
@@ -37,8 +38,8 @@ public class RegisterActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_logreg_register);
-
+        setContentView(R.layout.activity_logreg_register);//display the page of Fname,Lname,Phonenum.....and register
+//now we will finds a view that was identified by the id attribute from the XML layout resource
         firstName = findViewById(R.id.firstName);
         lastName = findViewById(R.id.lastName);
         email = findViewById(R.id.email);
@@ -46,9 +47,7 @@ public class RegisterActivity extends BaseActivity {
         address = findViewById(R.id.address);
         password = findViewById(R.id.password);
         retypePassword = findViewById(R.id.retypePassword);
-        findViewById(R.id.AppBar).setVisibility(View.GONE);
-
-
+        findViewById(R.id.AppBar).setVisibility(View.GONE);////////////////////////////////////////
         register = findViewById(R.id.registerButton);
         birthdayDate = findViewById(R.id.birthdayDatePicker);
 
@@ -69,7 +68,7 @@ public class RegisterActivity extends BaseActivity {
             String textPassword = password.getText().toString();
             String textRetypePassword = retypePassword.getText().toString();
             String textBirthdayDate = birthdayDate.getText().toString();
-
+            //some limitation on register details:
             if (TextUtils.isEmpty(textEmail) || TextUtils.isEmpty(textPassword) || TextUtils.isEmpty(textFirstName) || TextUtils.isEmpty(textLastName) || TextUtils.isEmpty(textPhoneNumber)) {
                 Toast.makeText(RegisterActivity.this, "Empty Credentials!", Toast.LENGTH_SHORT).show();
             } else if (textPassword.length() < 6) {
@@ -87,7 +86,7 @@ public class RegisterActivity extends BaseActivity {
     public void registerUser(String textFirstName, String textLastName, String textEmail, String textPhoneNumber, String textAddress, String textPassword, int textBirthdayDate, FirebaseAuth auth) {
         auth.createUserWithEmailAndPassword(textEmail, textPassword).addOnCompleteListener(task -> {
             if (task.isSuccessful()) { // if authenticator succeeded in creating a user
-                FirebaseUser user = auth.getCurrentUser();
+                FirebaseUser user = auth.getCurrentUser();//////////////////////////////////////////////////////////////////////
 
                 assert user != null;
                 String userUID = user.getUid();
