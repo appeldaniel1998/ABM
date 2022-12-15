@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.abm.Appointments.AppointmentCalendar.CalendarMainActivity;
+import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;

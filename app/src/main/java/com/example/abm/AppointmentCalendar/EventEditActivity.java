@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentCalendar;
+package com.example.abm.AppointmentCalendar;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
-import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,7 +22,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.UUID;
 
 public class EventEditActivity extends BaseActivity {
     ////Activity_appointments_calender_event_edit

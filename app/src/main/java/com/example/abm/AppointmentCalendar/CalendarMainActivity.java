@@ -1,7 +1,7 @@
-package com.example.abm.Appointments.AppointmentCalendar;
+package com.example.abm.AppointmentCalendar;
 
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInMonthArray;
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
+import static com.example.abm.AppointmentCalendar.CalendarUtils.daysInMonthArray;
+import static com.example.abm.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
 import android.content.Intent;
 import android.os.Bundle;

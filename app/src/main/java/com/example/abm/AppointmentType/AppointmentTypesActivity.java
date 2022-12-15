@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentType;
+package com.example.abm.AppointmentType;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

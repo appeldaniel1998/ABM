@@ -1,9 +1,9 @@
-package com.example.abm.Appointments.AppointmentCalendar;
+package com.example.abm.AppointmentCalendar;
 
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInWeekArray;
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
+import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
+import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
+import static com.example.abm.AppointmentCalendar.CalendarUtils.daysInWeekArray;
+import static com.example.abm.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

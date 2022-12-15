@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentCalendar;
+package com.example.abm.AppointmentCalendar;
 import com.example.abm.R;
 
 import android.view.View;

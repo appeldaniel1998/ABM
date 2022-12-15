@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentType;
+package com.example.abm.AppointmentType;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;

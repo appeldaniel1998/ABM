@@ -25,7 +25,7 @@
         </activity>
 
         <activity
-            android:name=".Appointments.AppointmentCalendar.EventEditActivity"
+            android:name=".AppointmentCalendar.EventEditActivity"
             android:exported="true">
 
             <meta-data
@@ -41,7 +41,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Appointments.AppointmentCalendar.WeekViewActivity"
+            android:name=".AppointmentCalendar.WeekViewActivity"
             android:exported="false">
 
             <meta-data
@@ -49,7 +49,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Appointments.AppointmentType.AddEditAppointmentTypeActivity"
+            android:name=".AppointmentType.AddEditAppointmentTypeActivity"
             android:exported="false">
 
             <meta-data
@@ -57,7 +57,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Appointments.AppointmentCalendar.CalendarMainActivity"
+            android:name=".AppointmentCalendar.CalendarMainActivity"
             android:exported="false">
 
             <meta-data
@@ -65,7 +65,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Appointments.AppointmentType.AppointmentTypesActivity"
+            android:name=".AppointmentType.AppointmentTypesActivity"
             android:exported="false">
 
             <meta-data

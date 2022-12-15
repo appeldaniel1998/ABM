@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentType;
+package com.example.abm.AppointmentType;
 
 public class AppointmentType {
     private String typeName;
