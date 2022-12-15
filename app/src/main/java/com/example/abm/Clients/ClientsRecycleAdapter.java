@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 public class ClientsRecycleAdapter extends RecyclerView.Adapter<ClientsRecycleAdapter.ClientViewHolder> {
 
-    private ArrayList<ClientItemRecycleView> clients;
+    private ArrayList<Client> clients;
     private OnItemClickListener clickListener; //instance of interface below
 
     //Interface for onclick listener
@@ -45,23 +45,20 @@ public class ClientsRecycleAdapter extends RecyclerView.Adapter<ClientsRecycleAd
             name = itemView.findViewById(R.id.name);
             email = itemView.findViewById(R.id.email);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null)
+            itemView.setOnClickListener(v -> {
+                if (listener != null)
+                {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION)
                     {
-                        int position = getAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION)
-                        {
-                            listener.onItemClick(position);
-                        }
+                        listener.onItemClick(position);
                     }
                 }
             });
         }
     }
 
-    public ClientsRecycleAdapter(ArrayList<ClientItemRecycleView> clients) {
+    public ClientsRecycleAdapter(ArrayList<Client> clients) {
         this.clients = clients;
     }
 
@@ -77,8 +74,8 @@ public class ClientsRecycleAdapter extends RecyclerView.Adapter<ClientsRecycleAd
     @Override
     //This method is called when the recycler view is created and it binds the view holder to the data
     public void onBindViewHolder(@NonNull ClientViewHolder holder, int position) {
-        ClientItemRecycleView currClient = this.clients.get(position);
-        holder.name.setText(currClient.getName());
+        Client currClient = this.clients.get(position);
+        holder.name.setText(currClient.getFirstName() + " " + currClient.getLastName());
         holder.email.setText(currClient.getEmail());
     }
 

@@ -48,6 +48,13 @@ public class Client {
         this.manager = isManager;
     }
 
+    public Client(String firstName, String lastName, String email, String uid) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.uid = uid;
+    }
+
     public String getFirstName() {
         return firstName;
     }
