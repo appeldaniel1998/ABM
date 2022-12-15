@@ -31,7 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
  */
 
 public class LoginOrRegisterActivity extends AppCompatActivity {
-
+    //Define the buttons
     private Button registerButton;
     private Button logInButton;
 
@@ -45,11 +45,12 @@ public class LoginOrRegisterActivity extends AppCompatActivity {
             finish();
         } else {
             // Otherwise, start and run the activity normally
-            setContentView(R.layout.activity_logreg_login_or_register);
-
+            setContentView(R.layout.activity_logreg_login_or_register);//move to new register view(other page)
+//now we will finds a view that was identified by the id attribute from the XML layout resource
             registerButton = findViewById(R.id.registerButton);
             logInButton = findViewById(R.id.logInButton);
 
+            //when we will click on one button registerButton/logInButton, we will go to the java class we need
             registerButton.setOnClickListener(v -> startActivity(new Intent(LoginOrRegisterActivity.this, RegisterActivity.class)));
             logInButton.setOnClickListener(v -> startActivity(new Intent(LoginOrRegisterActivity.this, LogInActivity.class)));
         }
