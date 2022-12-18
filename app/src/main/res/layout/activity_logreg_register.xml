@@ -39,49 +39,75 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:id="@+id/nameLinearLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/nameAndPicLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
             android:weightSum="100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/AppBar">
 
-            <EditText
-                android:id="@+id/firstName"
-                android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/personIcon"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 android:layout_weight="50"
-                android:autofillHints="name"
-                android:ems="10"
-                android:hint="@string/first_name"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:textColorHint="#757575"
+                android:adjustViewBounds="true"
+                android:maxHeight="100dp"
+                android:src="@drawable/person_icon"
+                app:layout_constraintEnd_toStartOf="@id/nameLinearLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
-                android:id="@+id/lastName"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:id="@+id/nameLinearLayout"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_weight="50"
-                android:autofillHints="name"
-                android:ems="10"
-                android:hint="@string/last_name"
-                android:inputType="textPersonName"
-                android:minHeight="48dp"
-                android:textColorHint="#757575"
-                tools:layout_editor_absoluteX="50dp"
-                tools:layout_editor_absoluteY="188dp" />
-        </LinearLayout>
+                android:layout_marginTop="16dp"
+                android:layout_weight="40"
+                android:orientation="vertical"
+                android:weightSum="100"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/firstName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="50"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/first_name"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textColorHint="#757575"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/lastName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_weight="50"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/last_name"
+                    android:inputType="textPersonName"
+                    android:minHeight="48dp"
+                    android:textColorHint="#757575"
+                    tools:layout_editor_absoluteX="50dp"
+                    tools:layout_editor_absoluteY="188dp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <EditText
             android:id="@+id/email"
@@ -98,7 +124,7 @@
             android:textColorHint="#757575"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nameLinearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/nameAndPicLinearLayout" />
 
         <LinearLayout
             android:id="@+id/birthdayLinearLayout"
@@ -130,8 +156,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:minHeight="48dp"
-                android:textSize="18sp"
                 android:text="@string/placeholder"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -219,11 +245,11 @@
             android:layout_width="142dp"
             android:layout_height="52dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="#F8F3CDDA"
             android:fontFamily="sans-serif-condensed"
             android:text="@string/register"
-            android:layout_marginTop="16dp"
             android:textColor="#607D8B"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"

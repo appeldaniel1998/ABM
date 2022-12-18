@@ -45,8 +45,8 @@ public class LoginOrRegisterActivity extends AppCompatActivity {
             finish();
         } else {
             // Otherwise, start and run the activity normally
-            setContentView(R.layout.activity_logreg_login_or_register);//move to new register view(other page)
-//now we will finds a view that was identified by the id attribute from the XML layout resource
+            setContentView(R.layout.activity_logreg_login_or_register); //move to new register view (other page)
+            //now we will finds a view that was identified by the id attribute from the XML layout resource
             registerButton = findViewById(R.id.registerButton);
             logInButton = findViewById(R.id.logInButton);
 
