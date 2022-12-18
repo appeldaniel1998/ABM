@@ -1,9 +1,9 @@
-package com.example.abm.Appointments.AppointmentCalendar;
+package com.example.abm.AppointmentCalendar;
 
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.daysInWeekArray;
-import static com.example.abm.Appointments.AppointmentCalendar.CalendarUtils.monthYearFromDate;
+import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
+import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
+import static com.example.abm.AppointmentCalendar.CalendarUtils.daysInWeekArray;
+import static com.example.abm.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -48,15 +48,15 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
         progressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
         database = super.getCurrDatabase();
         auth = super.getCurrFirebaseAuth();
-
+        //access data from DB
         getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
-
+//try to understand if this is manager or client
         ProgressDialog clientsProgressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
         database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
             Client currUser = documentSnapshot.toObject(Client.class);
             if (currUser != null) {
                 if (currUser.getManager()) { // user is a manager
-
+                    // get all clients from DB to represent it in drop down list
                     clients = getClientsIfManager(database, clientsProgressDialog);
                 } else {
                     clients = new HashMap<>();

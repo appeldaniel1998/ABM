@@ -22,7 +22,7 @@ public class ClientsMainActivity extends BaseActivity {
     private ClientsRecycleAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
     private Button addClientButton;
-    private ArrayList<ClientItemRecycleView> clients;
+    private ArrayList<Client> clients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +57,9 @@ public class ClientsMainActivity extends BaseActivity {
                         //save client data from database
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             Map<String, Object> data = document.getData();
-                            String name = data.get("firstName") + " " + data.get("lastName");
                             String email = (String) data.get("email");
                             String uid = (String) data.get("uid");
-                            clients.add(new ClientItemRecycleView(name, email, uid));
+                            clients.add(new Client(data.get("firstName").toString(), data.get("lastName").toString(), email, uid));
                         }
                         recyclerViewAdapter = new ClientsRecycleAdapter(clients);
                         recyclerView.setAdapter(recyclerViewAdapter);
@@ -70,7 +69,7 @@ public class ClientsMainActivity extends BaseActivity {
                         //onclick of each item in the recycle view (client in the list)
                         recyclerViewAdapter.setOnItemClickListener(position -> {
                             Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
-                            myIntent.putExtra("clientUID", clients.get(position).getUID()); //Optional parameters
+                            myIntent.putExtra("clientUID", clients.get(position).getUid()); //Optional parameters
                             ClientsMainActivity.this.startActivity(myIntent);
                         });
                     }

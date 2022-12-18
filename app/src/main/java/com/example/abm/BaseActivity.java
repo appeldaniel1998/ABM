@@ -15,8 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.abm.Appointments.AppointmentCalendar.CalendarMainActivity;
-import com.example.abm.Appointments.AppointmentType.AppointmentTypesActivity;
+import com.example.abm.AppointmentCalendar.CalendarMainActivity;
+import com.example.abm.AppointmentType.AppointmentTypesActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;

@@ -1,4 +1,4 @@
-package com.example.abm.Appointments.AppointmentCalendar;
+package com.example.abm.AppointmentCalendar;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;

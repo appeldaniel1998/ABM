@@ -1,7 +1,8 @@
-package com.example.abm.Appointments.AppointmentCalendar;
+package com.example.abm.AppointmentCalendar;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,7 +22,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.UUID;
 
 public class EventEditActivity extends BaseActivity {
     ////Activity_appointments_calender_event_edit
@@ -123,12 +123,14 @@ public class EventEditActivity extends BaseActivity {
     }
 
     public void saveNewEventAction(View view) {//save the event the user created
-        String eventName = appointmentTypeAutoCompleteTxt.getText().toString();//get the name of the event
-        String cliName = ClientName.getText().toString();//get the client name
-        timeButton = findViewById(R.id.timeButton);
-        final String uuid = UUID.randomUUID().toString().replace("-", "");
-        Event newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()));//create new event
-        Event.eventsList.add(newEvent);//add event to the list of events in this day
+//        String eventName = appointmentTypeAutoCompleteTxt.getText().toString();//get the name of the event
+//        String cliName = ClientName.getText().toString();//get the client name
+//        //timeButton = findViewById(R.id.timeButton);
+//        final String uuid = UUID.randomUUID().toString().replace("-", "");
+//        Event newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()));//create new event
+//        Event.eventsList.add(newEvent);//add event to the list of events in this day
+        Toast.makeText(this, "Save was clicked!", Toast.LENGTH_SHORT).show();
+        EventEditActivity.this.startActivity(new Intent(EventEditActivity.this, WeekViewActivity.class));
         finish();//close the activity
     }
 

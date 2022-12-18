@@ -45,7 +45,8 @@ public class SingleClientViewActivity extends BaseActivity {
         phoneNumber = findViewById(R.id.phoneNumberPlaceholder);
         address = findViewById(R.id.addressPlaceholder);
 
-        super.getCurrDatabase().collection("Clients").document(clientUID).get().addOnSuccessListener(documentSnapshot -> { // If client info retrieved successfully from the DB
+        super.getCurrDatabase().collection("Clients").document(clientUID).get().addOnSuccessListener(documentSnapshot -> {
+            // If client info retrieved successfully from the DB
             client = documentSnapshot.toObject(Client.class);
             initValuesOfLayout();
             progressDialog.dismiss();
