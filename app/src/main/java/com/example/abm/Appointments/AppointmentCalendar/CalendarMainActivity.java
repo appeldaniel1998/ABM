@@ -64,7 +64,7 @@ public class CalendarMainActivity extends BaseActivity implements CalendarAdapte
         setMonthView();
     }
 
-    //by clicking on the 'back arrow' in month view this function will show us prev month
+    //by clicking on the 'next arrow' in month view this function will show us next month
     public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);//next month
         setMonthView();

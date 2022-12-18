@@ -69,6 +69,7 @@ public class CreateClientActivity extends BaseActivity {
             if (TextUtils.isEmpty(textFirstName) || TextUtils.isEmpty(textEmail)) {
                 Toast.makeText(CreateClientActivity.this, "Empty email or first name!", Toast.LENGTH_SHORT).show();
             } else {
+                //if the manger add client, we create an id.
                 String uid = String.valueOf(java.util.UUID.randomUUID()); //Create a random UID for the new client
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, uid); //creating a new user
                 database.collection("Clients").document(uid).set(userToAdd); //adding user data to database

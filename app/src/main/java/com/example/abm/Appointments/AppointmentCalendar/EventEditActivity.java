@@ -32,7 +32,7 @@ public class EventEditActivity extends BaseActivity {
     private TextView ClientName;//event Name Edit Text
     private TextView eventDateTV, eventTimeTV; //2 text views
     private LocalTime time;
-    Button timeButton;//time picker
+    Button timeButton, saveButton, deleteButton;//time picker
     int hour, minute;//time picker
     private ProgressDialog progressDialog;
 

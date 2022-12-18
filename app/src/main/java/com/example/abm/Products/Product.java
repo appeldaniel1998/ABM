@@ -2,6 +2,10 @@ package com.example.abm.Products;
 
 import com.example.abm.R;
 
+/**
+ * Product class
+ */
+
 public class Product {
 
     private String colorName;

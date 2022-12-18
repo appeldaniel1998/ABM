@@ -54,7 +54,7 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Product", "Loading, please wait...", true);
 
-        //build list of product for the recycle view
+        //build list of product for the recycle view. get all the product from the database
         super.getCurrDatabase().collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -65,29 +65,18 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
                 progressDialog.dismiss();
                 products = new_products;
                 buildRecyclerView();
-                System.out.println("-------------------------------------");
-                for (Product p : new_products) {
-                    System.out.println(p);
-                }
-                System.out.println("-------------------------------------");
-
             }
-
-
         });
-
-
     }
 
+    // init the buttons in the activity
     private void initValues() {
         cartButton = findViewById(R.id.flaotingCartButton);
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(ProductsMainActivity.this, ProductCartActivity.class));
-
             }
-
         });
 
         checkClientorManger();
@@ -110,20 +99,11 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
                 }
                 //products = new_products;
                 buildRecyclerView();
-                System.out.println("-------------------------------------");
-                for (Product p : new_products) {
-                    System.out.println(p);
-                }
-                System.out.println("-------------------------------------");
-
             }
-
-
         });
-
     }
 
-
+    // check if the user is a client or a manager and set visibility of the buttons accordingly
     private void checkClientorManger() {
         FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
         if (user != null) {
@@ -148,9 +128,9 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
                         }
                     });
         }
-
     }
 
+    //init the first list of products and add them to the database
     private void createProductsList() {
         //creata a list of products for the recycler view
         products.add(new Product("Dark Pink", R.drawable.canni1, "15", "15"));
@@ -165,8 +145,6 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         products.add(new Product("White", R.drawable.canni14, "15", "15"));
         products.add(new Product("Light Green", R.drawable.canni13, "15", "15"));
 
-
-
         //add all the products to the database
         for (Product product : products) {
             super.getCurrDatabase().collection("Products").document(product.getColorName()).set(product);
@@ -174,7 +152,6 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
     }
 
     private void buildRecyclerView() {
-
         //create the recycler view and set the adapter and layout manager for it
         recyclerView = findViewById(R.id.recycleView); //recycleView is the id of the recycleView in the xml file
         recyclerView.setHasFixedSize(true); //recycler view will not change in size
