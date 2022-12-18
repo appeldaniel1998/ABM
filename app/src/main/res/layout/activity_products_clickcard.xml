@@ -43,7 +43,7 @@
                 <ImageView
                     android:id="@+id/Polish1"
                     android:layout_width="match_parent"
-                    android:layout_height="157dp"
+                    android:layout_height="140dp"
                     app:srcCompat="@drawable/canni1" />
 
                 <TextView
@@ -52,12 +52,52 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/Polish1"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="15dp"
                     android:fontFamily="sans-serif-black"
                     android:text="@string/pink"
                     android:textColor="@color/greyy"
                     android:textSize="20sp" />
+
+                <LinearLayout
+                    android:id="@+id/linearPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/linear"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/priceIs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/PolishDetalis"
+                        android:layout_centerHorizontal="true"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Price is : "
+                        android:textColor="@color/greyy"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/SetPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="0"
+                        android:textColor="@color/greyy"
+                        android:textSize="15sp" />
+                    <TextView
+                        android:id="@+id/PriceCoins"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="₪"
+                        android:textColor="@color/greyy"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
 
                 <LinearLayout
                     android:id="@+id/linear"
@@ -98,9 +138,9 @@
                     android:id="@+id/addToCart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/linear"
+                    android:layout_below="@id/linearPrice"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="15dp"
                     android:backgroundTint="@color/pink"
                     android:text="Add to Cart" />
 
@@ -121,6 +161,7 @@
                     android:layout_below="@id/EditProduct"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="7dp"
+
                     android:backgroundTint="@color/pink"
                     android:text="Delete Product" />
 

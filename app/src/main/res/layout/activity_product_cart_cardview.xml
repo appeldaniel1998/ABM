@@ -37,7 +37,7 @@
                 android:gravity="center_vertical"
                 android:text="@string/pink"
                 android:textColor="@color/greyy"
-                android:textSize="20sp"
+                android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:paddingTop="10dp"/>
@@ -50,7 +50,7 @@
                 android:fontFamily="sans-serif-black"
                 android:text="1"
                 android:textColor="@color/greyy"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

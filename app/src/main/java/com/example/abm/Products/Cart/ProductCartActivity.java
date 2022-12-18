@@ -3,6 +3,7 @@ package com.example.abm.Products.Cart;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,8 @@ public class ProductCartActivity extends BaseActivity {
     private ArrayList<Cart> cart = new ArrayList<>();
     private CartAdapter adapter;
     private Button finishOrderButton;
+    private TextView totalPrice;
+    private int totalSum = 0;
 
 
     @Override
@@ -32,17 +35,22 @@ public class ProductCartActivity extends BaseActivity {
         super.initMenuSideBar();
         createCartList();
         finishOrderButton = findViewById(R.id.FinishOrder);
-        // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
+        totalPrice = findViewById(R.id.SetTotalPrice);
+
+
+        //go all over the cart array list and add each object to "Orders" collection in the database
         finishOrderButton.setOnClickListener(v -> {
+            for (Cart cart : cart) {
+                super.getCurrDatabase().collection("Orders").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Cart").document(cart.getProductColor()).set(cart);
+            }
+            // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
+            Toast.makeText(this, "Finish Order ! ", Toast.LENGTH_SHORT).show();
             super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").get().addOnSuccessListener(queryDocumentSnapshots -> {
                 for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
                     documentSnapshot.getReference().delete();
                 }
-                //back to appointments activity
-                Toast.makeText(this, "Finish Order ! ", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ProductCartActivity.this, CalendarMainActivity.class));
-
             });
+            startActivity(new Intent(ProductCartActivity.this, CalendarMainActivity.class));
         });
 
 
@@ -55,8 +63,14 @@ public class ProductCartActivity extends BaseActivity {
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                     Cart c = documentSnapshot.toObject(Cart.class);
+                    System.out.println(c);
+                    totalSum += c.getPrice();
+                    System.out.println("Total price: " + totalSum);
                     cart.add(c);
+
                 }
+                //init the total price of the cart
+                totalPrice.setText(String.valueOf(totalSum));
                 buildRecyclerView();
 
             }

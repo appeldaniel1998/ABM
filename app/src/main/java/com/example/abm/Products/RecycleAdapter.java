@@ -83,7 +83,6 @@ public class RecycleAdapter extends RecyclerView.Adapter<RecycleAdapter.ViewHold
         Product product = products.get(position);
         holder.imageView.setImageResource(product.getImage());
         holder.textView.setText(product.getColorName());
-
     }
 
     @Override

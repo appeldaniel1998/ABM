@@ -28,6 +28,9 @@ public class ProductsClickcardActivity extends BaseActivity {
     private Button plus;
     private Button minus;
     private TextView quantity;
+    private TextView priceIs;
+    private TextView priceCoins;
+    private TextView setPrice;
 
 
 
@@ -102,6 +105,8 @@ public class ProductsClickcardActivity extends BaseActivity {
         plus = findViewById(R.id.PlusPolish);
         minus = findViewById(R.id.MinusPolish);
         quantity = findViewById(R.id.quantity);
+        priceIs = findViewById(R.id.priceIs);
+        priceCoins = findViewById(R.id.PriceCoins);
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -158,10 +163,13 @@ public class ProductsClickcardActivity extends BaseActivity {
         }
         else {
             //create a new cart item and add it to the collection in the database
-            Cart cart = new Cart(product.getColorName(),product.getImage(), Integer.parseInt(quantity.getText().toString()));
+            //set cart's price
+            int totalPrice = Integer.parseInt(quantity.getText().toString()) * Integer.parseInt(product.getPrice());
+            Cart cart = new Cart(product.getColorName(),product.getImage(), Integer.parseInt(quantity.getText().toString()),totalPrice);
             super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").document(product.getColorName()).set(cart);
             //update the quantity of the product in the database
             int newQuantity = Integer.parseInt(product.getQuantity()) - Integer.parseInt(quantity.getText().toString());
+
             if (newQuantity <0){
                 Toast.makeText(this, "This amount isn't available, Please choose again!", Toast.LENGTH_SHORT).show();
                 quantity.setText("0");
@@ -183,8 +191,10 @@ public class ProductsClickcardActivity extends BaseActivity {
     private void initValuesOfLayout() {
         productImage = findViewById(R.id.Polish1);
         productColor = findViewById(R.id.PolishDetalis);
+        setPrice = findViewById(R.id.SetPrice);
         productColor.setText(product.getColorName());
         productImage.setImageResource(product.getImage());
+        setPrice.setText(product.getPrice());
 
     }
 }

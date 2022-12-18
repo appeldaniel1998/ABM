@@ -41,13 +41,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/AppBar" />
 
+        <LinearLayout
+            android:id="@+id/linearPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/FinishOrder"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/priceIs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/FinishOrder"
+                android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-black"
+                android:text="Total Price : "
+                android:textColor="@color/greyy"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/SetTotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="sans-serif-black"
+                android:text="0"
+                android:textColor="@color/greyy"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/PriceCoins"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:fontFamily="sans-serif-black"
+                android:text="₪"
+                android:textColor="@color/greyy"
+                android:textSize="22sp" />
+        </LinearLayout>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleViewCartActivity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/FinishOrder" />
+            app:layout_constraintTop_toBottomOf="@id/linearPrice" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

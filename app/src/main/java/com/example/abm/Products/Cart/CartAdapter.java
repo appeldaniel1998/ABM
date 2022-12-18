@@ -52,7 +52,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.productimage.setImageResource(cartItem.getProductImage());
         holder.Productcolor.setText(cartItem.getProductColor());
         //cast the quantity to string
-        holder.quantity.setText(String.valueOf(cartItem.getQuantity()));
+        holder.quantity.setText("Quantity: "+ String.valueOf(cartItem.getQuantity()));
 
     }
 
