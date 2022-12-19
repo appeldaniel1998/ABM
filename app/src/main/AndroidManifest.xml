@@ -75,7 +75,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Products.Cart.ProductCartActivity"
+            android:name=".Cart.ProductCartActivity"
             android:exported="false">
 
             <meta-data

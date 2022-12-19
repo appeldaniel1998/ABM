@@ -21,7 +21,7 @@ import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.LoginAndRegistration.LoginOrRegisterActivity;
-import com.example.abm.Products.Cart.ProductCartActivity;
+import com.example.abm.Cart.ProductCartActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +33,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private FirebaseAuth auth;
     private FirebaseFirestore database;
+
+    protected final int IMG_REQUEST_CODE_GALLERY = 10;
 
     public FirebaseAuth getCurrFirebaseAuth() {
         return auth;

@@ -44,7 +44,6 @@ public class EditClientActivity extends BaseActivity {
     private DatePickerDialog datePickerDialog;
 
     private StorageReference storageReference;
-    private final int IMG_REQUEST_CODE_GALLERY = 10;
 
 
     // Same as single client view but with editable fields
@@ -73,7 +72,7 @@ public class EditClientActivity extends BaseActivity {
 
         userIcon.setOnClickListener(v -> {
             Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            startActivityForResult(openGalleryIntent, IMG_REQUEST_CODE_GALLERY);
+            startActivityForResult(openGalleryIntent, super.IMG_REQUEST_CODE_GALLERY);
         });
 
 
@@ -150,7 +149,7 @@ public class EditClientActivity extends BaseActivity {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 Uri imageUri = data.getData();
-                userIcon.setImageURI(imageUri);
+                userIcon.setImageURI(imageUri); // set the image view to the image received from the client's gallery
 
                 uploadImageToFirebase(imageUri); // upload to firebase storage
             }

@@ -1,4 +1,4 @@
-package com.example.abm.Products.Cart;
+package com.example.abm.Cart;
 
 public class Cart {
     private String color_name;

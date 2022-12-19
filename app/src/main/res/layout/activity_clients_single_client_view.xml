@@ -36,84 +36,106 @@
             </androidx.appcompat.widget.Toolbar>
         </com.google.android.material.appbar.AppBarLayout>
 
-
-        <LinearLayout
-            android:id="@+id/fullNameLinearLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/nameAndPicLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:orientation="horizontal"
+            android:weightSum="100"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/AppBar">
+            app:layout_constraintTop_toBottomOf="@id/AppBar">
 
-            <TextView
-                android:id="@+id/fullName"
+            <ImageView
+                android:id="@+id/personIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:autofillHints="name"
-                android:gravity="center_vertical"
-                android:minHeight="48dp"
-                android:text="@string/full_name"
-                android:textColorHint="#757575"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:layout_marginEnd="16dp"
+                android:layout_weight="50"
+                android:adjustViewBounds="true"
+                android:maxHeight="100dp"
+                android:src="@drawable/person_icon"
+                app:layout_constraintEnd_toStartOf="@id/fullNameLinearLayout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/fullNamePlaceholder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="16dp"
-                android:autofillHints="name"
-                android:gravity="center_vertical"
-                android:minHeight="48dp"
-                android:text="@string/placeholder"
-                android:textColorHint="#757575"
-                android:textSize="18sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/emailLinearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/fullNameLinearLayout">
-
-            <TextView
-                android:id="@+id/email"
+            <LinearLayout
+                android:id="@+id/fullNameLinearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:autofillHints="name"
-                android:gravity="center_vertical"
-                android:minHeight="48dp"
-                android:text="@string/email"
-                android:textColorHint="#757575"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@id/personIcon"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/emailPlaceholder"
+                <TextView
+                    android:id="@+id/fullName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="name"
+                    android:gravity="center_vertical"
+                    android:minHeight="48dp"
+                    android:text="@string/full_name"
+                    android:textColorHint="#757575"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/fullNamePlaceholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="16dp"
+                    android:autofillHints="name"
+                    android:gravity="center_vertical"
+                    android:minHeight="48dp"
+                    android:text="@string/placeholder"
+                    android:textColorHint="#757575"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/emailLinearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="16dp"
-                android:autofillHints="name"
-                android:gravity="center_vertical"
-                android:minHeight="48dp"
-                android:text="@string/placeholder"
-                android:textColorHint="#757575"
-                android:textSize="18sp" />
-        </LinearLayout>
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toEndOf="@id/personIcon"
+                app:layout_constraintTop_toBottomOf="@+id/fullNameLinearLayout">
+
+                <TextView
+                    android:id="@+id/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="name"
+                    android:gravity="center_vertical"
+                    android:minHeight="48dp"
+                    android:text="@string/email"
+                    android:textColorHint="#757575"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/emailPlaceholder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="16dp"
+                    android:autofillHints="name"
+                    android:gravity="center_vertical"
+                    android:scrollbars="horizontal"
+                    android:minHeight="48dp"
+                    android:text="@string/placeholder"
+                    android:textColorHint="#757575"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <LinearLayout
@@ -124,7 +146,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/emailLinearLayout">
+            app:layout_constraintTop_toBottomOf="@+id/nameAndPicLinearLayout">
 
             <TextView
                 android:id="@+id/birthday"
