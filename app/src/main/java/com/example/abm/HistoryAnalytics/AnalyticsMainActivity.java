@@ -16,3 +16,14 @@ public class AnalyticsMainActivity extends BaseActivity {
         //Code here!
     }
 }
+
+/*
+ * For clients:
+ * make recycler view of appointments
+ * make recycler view of orders
+ *
+ * For managers:
+ * make recycler view of appointments with sum total
+ * make recycler view of orders with sum total
+ * make list per year per month revenues
+ */
