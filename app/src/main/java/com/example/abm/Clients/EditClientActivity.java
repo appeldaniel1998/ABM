@@ -21,7 +21,6 @@ import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class EditClientActivity extends BaseActivity {
@@ -53,7 +52,7 @@ public class EditClientActivity extends BaseActivity {
         setContentView(R.layout.activity_logreg_register);
 
         database = super.getCurrDatabase();
-        storageReference = FirebaseStorage.getInstance().getReference();
+        storageReference = super.getStorageReference();
 
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Edit Client", "Loading, please wait....", true);
@@ -138,9 +137,10 @@ public class EditClientActivity extends BaseActivity {
 
     /**
      * The function allows the user to choose an image from their phones gallery, which is then uploaded as their profile pic into Firebase Storage
-     * @param requestCode  Request code with which the request is sent (determined by us)
-     * @param resultCode returns ok if data retrieved successfully
-     * @param data represents the URI of the retrieved image
+     *
+     * @param requestCode Request code with which the request is sent (determined by us)
+     * @param resultCode  returns ok if data retrieved successfully
+     * @param data        represents the URI of the retrieved image
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

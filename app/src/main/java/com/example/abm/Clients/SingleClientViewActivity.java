@@ -4,11 +4,14 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
+import com.google.firebase.storage.StorageReference;
 
 public class SingleClientViewActivity extends BaseActivity {
 
@@ -50,6 +53,13 @@ public class SingleClientViewActivity extends BaseActivity {
             client = documentSnapshot.toObject(Client.class);
             initValuesOfLayout();
             progressDialog.dismiss();
+
+            ImageView profilePic = findViewById(R.id.personIcon);
+            StorageReference profilePicReference = super.getStorageReference().child("Clients").child(client.getUid()).child("profile.jpg");
+            //Connecting with Firebase storage and retrieving image
+            profilePicReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                Glide.with(SingleClientViewActivity.this).load(uri).into(profilePic);
+            });
 
             // onclick of "edit client"
             editClientButton.setOnClickListener(v -> {

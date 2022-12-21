@@ -1,14 +1,20 @@
 package com.example.abm.LoginAndRegistration;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
@@ -17,6 +23,7 @@ import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.StorageReference;
 
 public class RegisterActivity extends BaseActivity {
 //Class to Register (not exist account)
@@ -31,8 +38,13 @@ public class RegisterActivity extends BaseActivity {
 
     private TextView birthdayDate;
     private DatePickerDialog datePickerDialog;
+    private ImageView userIcon;
 
     private Button register;
+
+    private Uri profilePicUri;
+
+    private boolean profilePicWasChanged = false;
 
 
     @Override
@@ -50,12 +62,17 @@ public class RegisterActivity extends BaseActivity {
         findViewById(R.id.AppBar).setVisibility(View.GONE);//disable to view the menue bar
         register = findViewById(R.id.registerButton);
         birthdayDate = findViewById(R.id.birthdayDatePicker);
+        userIcon = findViewById(R.id.personIcon);
 
         // Initiating date picks handling
         // Initializes all parameters needed for date picker and sets default value of today
         datePickerDialog = DatePicker.initDatePicker(birthdayDate, this);
         birthdayDate.setText(DatePicker.getTodayDate()); // Set initial date to today's date
 
+        userIcon.setOnClickListener(v -> {
+            Intent openGalleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            startActivityForResult(openGalleryIntent, super.IMG_REQUEST_CODE_GALLERY);
+        });
 
         //onclick listener for register button
         register.setOnClickListener(v -> {
@@ -93,6 +110,9 @@ public class RegisterActivity extends BaseActivity {
 
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, userUID); //creating a new user
                 super.getCurrDatabase().collection("Clients").document(userUID).set(userToAdd); //adding user data to database
+                if (profilePicWasChanged) {
+                    uploadImageToFirebase(super.getStorageReference(), userUID);
+                }
 
                 Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                 //upon success, move to appointments main activity
@@ -109,5 +129,35 @@ public class RegisterActivity extends BaseActivity {
      */
     public void onClickBirthdayLinearLayout(View view) {
         datePickerDialog.show();
+    }
+
+    /**
+     * The function allows the user to choose an image from their phones gallery, which is then uploaded as their profile pic into Firebase Storage
+     *
+     * @param requestCode Request code with which the request is sent (determined by us)
+     * @param resultCode  returns ok if data retrieved successfully
+     * @param data        represents the URI of the retrieved image
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IMG_REQUEST_CODE_GALLERY) {
+            if (resultCode == Activity.RESULT_OK) {
+                assert data != null;
+                this.profilePicUri = data.getData();
+                userIcon.setImageURI(this.profilePicUri); // set the image view to the image received from the client's gallery
+
+//                uploadImageToFirebase(imageUri); // upload to firebase storage
+                this.profilePicWasChanged = true;
+            }
+        }
+    }
+
+    private void uploadImageToFirebase(StorageReference storageReference, String clientUID) {
+        // upload image to firebase storage
+        StorageReference fileRef = storageReference.child("Clients").child(clientUID).child("profile.jpg");
+        fileRef.putFile(profilePicUri)
+                .addOnSuccessListener(taskSnapshot -> Toast.makeText(RegisterActivity.this, "Profile image uploaded successfully!", Toast.LENGTH_SHORT).show())
+                .addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, "Image upload failed!", Toast.LENGTH_SHORT).show());
     }
 }

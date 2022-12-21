@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,24 +16,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.bumptech.glide.Glide;
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.AppointmentType.AppointmentTypesActivity;
+import com.example.abm.Cart.ProductCartActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
 import com.example.abm.LoginAndRegistration.LoginOrRegisterActivity;
-import com.example.abm.Cart.ProductCartActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawerLayout;
     private FirebaseAuth auth;
     private FirebaseFirestore database;
+    private StorageReference storageReference;
 
     protected final int IMG_REQUEST_CODE_GALLERY = 10;
 
@@ -44,11 +49,16 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return database;
     }
 
+    public StorageReference getStorageReference() {
+        return storageReference;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.auth = FirebaseAuth.getInstance();
         this.database = FirebaseFirestore.getInstance();
+        this.storageReference = FirebaseStorage.getInstance().getReference();
     }
 
     //On click listener: what to do when each button is clicked
@@ -91,6 +101,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.ProductsRecycleView); // init toolbar
         setSupportActionBar(toolbar);
 
+
         drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
 
@@ -105,10 +116,19 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         FirebaseUser user = this.auth.getCurrentUser();
         if (user != null) {
             String userUid = user.getUid();
+
             database.collection("Clients").document(userUid)
                     .get()
                     .addOnSuccessListener(documentSnapshot -> {
                         Client currUser = documentSnapshot.toObject(Client.class);
+
+                        ImageView profilePicNavBar = findViewById(R.id.profileImageMenuHeader);
+                        StorageReference profilePicReference = storageReference.child("Clients").child(userUid).child("profile.jpg");
+                        //Connecting with Firebase storage and retrieving image
+                        profilePicReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                            Glide.with(BaseActivity.this).load(uri).into(profilePicNavBar);
+                        });
+
                         TextView name = findViewById(R.id.nameMenuHeader);
                         if (currUser != null) {
                             //Toggle visibility for menu items in accordance to whether the user is a client or a manager
