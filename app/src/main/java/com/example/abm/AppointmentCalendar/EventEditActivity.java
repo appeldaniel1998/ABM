@@ -22,14 +22,15 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.UUID;
 
 public class EventEditActivity extends BaseActivity {
     ////Activity_appointments_calender_event_edit
     //Add new event , Time picker functions, and drop down lists
 
-    //private EditText eventNameET;//event Name Edit Text
+    private TextView appointmentType;//event Name Edit Text
 //    private TextView appointmentType;//event Name Edit Text
-    private TextView ClientName;//event Name Edit Text
+    private TextView ClientName;//Client Name Edit Text
     private TextView eventDateTV, eventTimeTV; //2 text views
     private LocalTime time;
     Button timeButton, saveButton, deleteButton;//time picker
@@ -39,7 +40,7 @@ public class EventEditActivity extends BaseActivity {
     ArrayList<String> appointmentTypes;//drop down list of types
     ArrayList<String> clientNames;//drop down list of clients names
 
-    AutoCompleteTextView appointmentTypeAutoCompleteTxt;//drop down list of types
+    AutoCompleteTextView appointmentTypeAutoCompleteTxt;//drop down list of Clients
     ArrayAdapter<String> adapterItems;//drop down list of types
 
     FirebaseFirestore database;
@@ -115,7 +116,7 @@ public class EventEditActivity extends BaseActivity {
         //eventNameET=findViewById(R.id.eventNameET);
         eventDateTV = findViewById(R.id.eventDateTV);
         eventTimeTV = findViewById(R.id.eventTimeTV);
-//        appointmentType = findViewById(R.id.auto_complete_txt);
+        appointmentType = findViewById(R.id.auto_complete_txt);
         ClientName = findViewById(R.id.auto_complete_txt_client);
 
         //activate the drop down list for appointment type
@@ -123,12 +124,13 @@ public class EventEditActivity extends BaseActivity {
     }
 
     public void saveNewEventAction(View view) {//save the event the user created
-//        String eventName = appointmentTypeAutoCompleteTxt.getText().toString();//get the name of the event
-//        String cliName = ClientName.getText().toString();//get the client name
+        String eventName = appointmentType.getText().toString();//get the name of the event
+        String cliName = ClientName.getText().toString();//get the client name
+        String IDclient=WeekViewActivity.getkey(cliName);//(cliName);
 //        //timeButton = findViewById(R.id.timeButton);
-//        final String uuid = UUID.randomUUID().toString().replace("-", "");
-//        Event newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()));//create new event
-//        Event.eventsList.add(newEvent);//add event to the list of events in this day
+        final String uuid = UUID.randomUUID().toString().replace("-", "");
+        Event newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()),IDclient);//create new event
+        Event.eventsList.add(newEvent);//add event to the list of events in this day
         Toast.makeText(this, "Save was clicked!", Toast.LENGTH_SHORT).show();
         EventEditActivity.this.startActivity(new Intent(EventEditActivity.this, WeekViewActivity.class));
         finish();//close the activity

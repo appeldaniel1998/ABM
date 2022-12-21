@@ -9,19 +9,23 @@ public class Event {
 
     private String appointmentId;
     private String appointmentType;
+    private String clientName;
     private String clientId;
+
     private int date;
     private String startTime;
 
     public Event(){}
 
     //constructors
-    public Event(String appointmentId, String typeName, String clientName, int date, String time) {
+    public Event(String appointmentId, String typeName, String clientName, int date, String time,String ID) {
         this.appointmentId = appointmentId;
         this.appointmentType = typeName;
         this.date = date;
         this.startTime = time;
-        this.clientId = clientName;
+        this.clientName = clientName;
+        this.clientId = ID;
+
     }
 
     //Getters and setters

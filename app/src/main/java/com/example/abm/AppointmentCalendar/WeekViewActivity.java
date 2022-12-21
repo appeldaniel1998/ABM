@@ -24,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class WeekViewActivity extends BaseActivity implements CalendarAdapter.OnItemListener {
     //Activity_appointments_calender_week_view
@@ -35,6 +36,21 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
     private FirebaseFirestore database;
     private FirebaseAuth auth;
     public static HashMap<String, Client> clients;
+
+    //function get client name and return his ID
+    static String getkey(String ClientName)
+    {
+        String tempName="";
+        String ID = "";
+        for (Map.Entry<String, Client> entry : clients.entrySet()) {
+            tempName=entry.getValue().getFirstName()+" "+entry.getValue().getLastName();
+            if (tempName.equals(ClientName)) {
+                //System.out.println(entry.getKey());
+                ID=entry.getValue().getUid();
+            }
+        }
+        return ID;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
