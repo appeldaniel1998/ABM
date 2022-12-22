@@ -14,18 +14,26 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.Clients.CreateClientActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 public class EventAddActivity extends BaseActivity {
@@ -138,10 +146,26 @@ public class EventAddActivity extends BaseActivity {
         String IDclient=WeekViewActivity.getkey(cliName);
 //        //timeButton = findViewById(R.id.timeButton);
         final String uuid = UUID.randomUUID().toString().replace("-", "");//Create a random UID for the new event
+        //final String uuid=
         Event newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()),IDclient);//create new event
         Event.eventsList.add(newEvent);//add event to the list of events in this day-For displaying
-        database.collection("Appointments").document(uuid).set(newEvent); //adding event data to database
-        Toast.makeText(this, "Save was clicked!", Toast.LENGTH_SHORT).show();
+        DocumentReference docRef=database.collection("Appointments").document(IDclient);
+        docRef.collection("Client Appointments").document(uuid).set(newEvent).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("1", 1);
+                docRef.set(data, SetOptions.merge());
+                Toast.makeText(EventAddActivity.this, "Save was clicked!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(EventAddActivity.this, "FAIL!", Toast.LENGTH_SHORT).show();
+
+            }
+        }); //adding event data to database
+//        Toast.makeText(this, "Save was clicked!", Toast.LENGTH_SHORT).show();
         EventAddActivity.this.startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to week view display
         finish();//close the activity
 
@@ -159,6 +183,7 @@ public class EventAddActivity extends BaseActivity {
 
             }
         };
+
 
         // int style = AlertDialog.THEME_HOLO_DARK; //different style of picker uf we want to change
 

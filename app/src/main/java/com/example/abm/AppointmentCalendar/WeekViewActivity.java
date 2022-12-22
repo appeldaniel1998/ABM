@@ -1,4 +1,5 @@
 package com.example.abm.AppointmentCalendar;
+import android.widget.ListView;
 
 import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
 import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
@@ -9,8 +10,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WeekViewActivity extends BaseActivity implements CalendarAdapter.OnItemListener {
+public class WeekViewActivity<listView> extends BaseActivity implements CalendarAdapter.OnItemListener {
     //Activity_appointments_calender_week_view
     //A lot of the functions here are adapted from Calendar Main Activity
     private TextView monthYearText;
@@ -81,6 +84,25 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
                 }
             }
         });
+//        ListView lView_item = findViewById(R.id.eventListView);
+////    listView//.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        lView_item.setOnItemClickListener(new AdapterView.OnItemClickListener());
+        ListView listView = findViewById(R.id.eventListView);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Event item = (Event) parent.getItemAtPosition(position);
+                Intent intent = new Intent(WeekViewActivity.this, EventEditActivity.class);
+                intent.putExtra("appointmentID",item.getAppointmentId() );
+                startActivity(intent);
+                editEventAction(view);
+                //startActivity(new Intent(this, EventEditActivity.class));
+
+                //Toast.makeText(getApplicationContext(), "You clicked: " + item, Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
     private void initWidgets() {
@@ -140,4 +162,13 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
         startActivity(new Intent(this, EventEditActivity.class));
 
     }
+
+//    ListView lView_item = findViewById(R.id.eventListView);
+////    listView//.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//    lView_item.setOnItemClickListener
+//        @Override
+//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//            // Handle the click event here
+//        }
+//    });
 }

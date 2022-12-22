@@ -25,6 +25,7 @@ public class CalendarDatabaseUtils {
      * @param progressDialog progress dialog to be dismissed when task is finished
      */
     public static void getAppointmentsFromDB(int fromDate, int toDate, FirebaseFirestore database, FirebaseUser user, ProgressDialog progressDialog) {//progressDialog-show the loading symbole
+        Event.eventsList=new ArrayList<>();
         if (fromDate == -1) fromDate = Integer.MIN_VALUE;
         if (toDate == -1) toDate = Integer.MAX_VALUE;
 
@@ -53,14 +54,23 @@ public class CalendarDatabaseUtils {
                                                         .get()
                                                         .addOnSuccessListener(queryDocumentSnapshots1 -> {
                                                             for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots1) { // for each appointment
-                                                                Event appointment = documentSnapshot2.toObject(Event.class);
+//                                                                Event appointment = documentSnapshot2.toObject(Event.class);
+                                                                Map<String, Object> data = documentSnapshot2.getData();
+                                                                String clientName = (String) data.get("clientName");
+                                                                String clientID = (String) data.get("clientId");
+                                                                String typeApp = (String) data.get("appointmentType");
+                                                                String idApp = (String) data.get("appointmentId");
+                                                                String startTime = (String) data.get("startTime");
+                                                                int date = Integer.parseInt(data.get("date")+"");
+
+                                                                Event appointment=new Event(idApp,typeApp,clientName,date,startTime,clientID);
                                                                 if (appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) { // if appointment is in range of dates
                                                                     Event.eventsList.add(appointment);
                                                                 }
                                                             }
-                                                            progressDialog.dismiss();//hide the loading symbole
                                                         });
                                             }
+                                            progressDialog.dismiss();//hide the loading symbol
                                         });
                             } else { // user is a client
                                 //display current event for specific client

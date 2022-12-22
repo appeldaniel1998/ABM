@@ -41,6 +41,11 @@ public class Event {
         return clientId;
     }
 
+    public String getClientName() {
+        return clientName;
+    }
+
+
     public int getDate() {
         return date;
     }
