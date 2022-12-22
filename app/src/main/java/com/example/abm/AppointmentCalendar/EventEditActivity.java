@@ -91,7 +91,7 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
 //                .get()
                 //.addOnSuccessListener(documentSnapshot -> {
                 //event = documentSnapshot.toObject(Event.class);
-                initValuesOfLayout();
+                initValuesOfLayout(eventNew);
                 progressDialogAppointmentTypes.dismiss();
                 progressDialogClientNames.dismiss();
 //                    doneEditingButton.setOnClickListener(v -> {
@@ -199,15 +199,16 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
 
     }
 
-    private void initValuesOfLayout()
+    private void initValuesOfLayout(Event eventNew)
     {
         //function display the data of event I would like to edit ,after clicking on the event
-        String fullName = event.getClientName();//get the client name
+        String fullName = eventNew.getClientName();//get the client name
         ClientName.setText(fullName);//set text of client name
-        eventDateTV.setText(event.getDate());//set text of event date
-        eventTimeTV.setText(event.getStartTime());//set text of event start time
-        appointmentType.setText(event.getAppointmentType());//set text of appointment type
-        doneEditingButton.setText("Done");
+        //birthday.setText(DatePicker.intToString(client.getBirthdayDate()));
+        eventDateTV.setText(DatePicker.intToString(eventNew.getDate()));//set text of event date
+        eventTimeTV.setText(eventNew.getStartTime());//set text of event start time
+        appointmentType.setText(eventNew.getAppointmentType());//set text of appointment type
+        //doneEditingButton.setText("Done");
 
 
     }

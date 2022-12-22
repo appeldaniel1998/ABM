@@ -97,7 +97,7 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
                 String appIDFromItem=item.getAppointmentId();
                 intent.putExtra("appointmentID",appIDFromItem );
                 startActivity(intent);
-                editEventAction(view);
+               // editEventAction(view);
                 //startActivity(new Intent(this, EventEditActivity.class));
 
                 //Toast.makeText(getApplicationContext(), "You clicked: " + item, Toast.LENGTH_SHORT).show();
