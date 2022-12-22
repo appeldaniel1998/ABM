@@ -133,6 +133,11 @@ public class WeekViewActivity extends BaseActivity implements CalendarAdapter.On
     }
 
     public void newEventAction(View view) {
+        startActivity(new Intent(this, EventAddActivity.class));
+    }
+
+    public void editEventAction(View view) {
         startActivity(new Intent(this, EventEditActivity.class));
+
     }
 }

@@ -184,16 +184,7 @@
                 android:textColor="#455A64"
                 android:textSize="20sp" />
 
-            <Button
-                android:id="@+id/buttonDelete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:backgroundTint="#F8F3CDDA"
-                android:onClick="deleteEventAction"
-                android:text="Delete"
-                android:textColor="#455A64"
-                android:textSize="20sp" />
+
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
