@@ -94,7 +94,8 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event item = (Event) parent.getItemAtPosition(position);
                 Intent intent = new Intent(WeekViewActivity.this, EventEditActivity.class);
-                intent.putExtra("appointmentID",item.getAppointmentId() );
+                String appIDFromItem=item.getAppointmentId();
+                intent.putExtra("appointmentID",appIDFromItem );
                 startActivity(intent);
                 editEventAction(view);
                 //startActivity(new Intent(this, EventEditActivity.class));

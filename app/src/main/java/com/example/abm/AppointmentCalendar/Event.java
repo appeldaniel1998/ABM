@@ -66,6 +66,18 @@ public class Event {
         }
         return events;
     }
+    //function get appointment ID and return the Event
+    public static Event getEvent(String appID)
+    {
+        Event specificEvent=new Event();
+        for (Event event : eventsList) {
+            if (event.getAppointmentId().equals(appID)) //if the eventID is equal to the eventID thats passed in
+            {
+                specificEvent= event;
+            }
+        }
+        return specificEvent;
+    }
 
     public static int localDateToInt(LocalDate localDate) {
         String[] arr = localDate.toString().split("-");

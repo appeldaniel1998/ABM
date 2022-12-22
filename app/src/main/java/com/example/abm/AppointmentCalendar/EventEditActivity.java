@@ -24,7 +24,9 @@ import com.example.abm.Clients.EditClientActivity;
 import com.example.abm.Clients.SingleClientViewActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 
@@ -78,16 +80,20 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
 //        Intent intent = getIntent();
 //        appointmentID = intent.getStringExtra("appointmentID");
         String appointmentID = getIntent().getStringExtra("appointmentID");
-
-
+        Event eventNew= Event.getEvent(appointmentID);
+        String idClientOfAppointment=eventNew.getClientId();
+        DocumentReference docRef=database.collection("Appointments").document(idClientOfAppointment);
+        docRef.collection("Client Appointments").document(appointmentID).set(eventNew).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override // If client info retrieved successfully from the DB
+            public void onSuccess(Void unused) {
 //////////////////////////////////////////////
-        database.collection("Appointments").document(appointmentID)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> { // If client info retrieved successfully from the DB
-                    event = documentSnapshot.toObject(Event.class);
-                    initValuesOfLayout();
-                    progressDialogAppointmentTypes.dismiss();
-                    progressDialogClientNames.dismiss();
+//        database.collection("Appointments").document(appointmentID)
+//                .get()
+                //.addOnSuccessListener(documentSnapshot -> {
+                //event = documentSnapshot.toObject(Event.class);
+                initValuesOfLayout();
+                progressDialogAppointmentTypes.dismiss();
+                progressDialogClientNames.dismiss();
 //                    doneEditingButton.setOnClickListener(v -> {
 //                        Client userToAdd = new Client(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
 //                                phoneNumber.getText().toString(), address.getText().toString(),
@@ -99,6 +105,7 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
 //                        EditClientActivity.this.startActivity(myIntent);
 //                        finish();
 //                    });
+            }
                 });
 
 
