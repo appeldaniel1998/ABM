@@ -24,6 +24,8 @@ import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.EditClientActivity;
 import com.example.abm.Clients.SingleClientViewActivity;
+import com.example.abm.Products.ProductsClickcardActivity;
+import com.example.abm.Products.ProductsMainActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -74,6 +76,10 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
         storageReference = super.getStorageReference();
         ProgressDialog progressDialogAppointmentTypes = ProgressDialog.show(this, "Edit Appointment", "Loading, please wait....", true);
         ProgressDialog progressDialogClientNames = ProgressDialog.show(this, "Edit Appointment", "Loading, please wait....", true);
+        appointmentTypes = CalendarDatabaseUtils.getAppointmentTypesFromDB(database, progressDialogAppointmentTypes); // get appointment types from database to present in the dropdown list
+        clientNames = CalendarDatabaseUtils.getClientNamesFromDB(progressDialogClientNames); // get client names to present in the dropdown list
+        //appointmentTypes=WeekViewActivity.GetAllAppointmentsTypesFromDB();
+        //clientNames=WeekViewActivity.GetAllClientsFromDB();
         //display information about the event
         eventDateTV = findViewById(R.id.eventDateTV);
         eventTimeTV = findViewById(R.id.eventTimeTV);
@@ -81,8 +87,6 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
         ClientName = findViewById(R.id.auto_complete_txt_client);
 
 
-        appointmentTypes = CalendarDatabaseUtils.getAppointmentTypesFromDB(database, progressDialogAppointmentTypes); // get appointment types from database to present in the dropdown list
-        clientNames = CalendarDatabaseUtils.getClientNamesFromDB(progressDialogClientNames); // get client names to present in the dropdown list
 
 //        Intent intent = getIntent();
 //        appointmentID = intent.getStringExtra("appointmentID");
@@ -286,6 +290,28 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
     }
+
+//    buttonDelete.setOnClickListener(new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            ProductsClickcardActivity.super.getCurrDatabase().collection("Products").document(product.getColorName()).delete();
+//            Toast.makeText(ProductsClickcardActivity.this, "Product deleted", Toast.LENGTH_SHORT).show();
+//            Intent intent = new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class);
+//            startActivity(intent);
+//        }
+//    });
+    public void deleteEventAction(View view)
+    {
+        //EventEditActivity.super.getCurrDatabase().collection("Products").document(product.getColorName()).delete();
+        String appointmentID = getIntent().getStringExtra("appointmentID");
+        Event eventNew= Event.getEvent(appointmentID);
+        String idClientOfAppointment=eventNew.getClientId();
+        DocumentReference docRef=database.collection("Appointments").document(idClientOfAppointment);
+        docRef.collection("Client Appointments").document(appointmentID).delete();
+        EventEditActivity.this.startActivity(new Intent(EventEditActivity.this, WeekViewActivity.class));//back to week view display
+        finish();//close the activity
+
+                                                                                                            }
 //    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 //        Log.i("HelloListView", "You clicked Item: " + id + " at position:" + position);
 //        // Then you start a new Activity via Intent
