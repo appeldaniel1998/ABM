@@ -1,10 +1,13 @@
 package com.example.abm.AppointmentCalendar;
 
+import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
+import com.example.abm.HistoryAnalytics.ClientActivities;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
-public class Event {
+public class Event implements ClientActivities {
     public static ArrayList<Event> eventsList = new ArrayList<>(); //Define new array list of event
 
     private String appointmentId;
@@ -46,8 +49,24 @@ public class Event {
     }
 
 
+    @Override
+    public String getActivityName() {
+        return appointmentType;
+    }
+
+    @Override
     public int getDate() {
         return date;
+    }
+
+    @Override
+    public String getTime() {
+        return this.startTime;
+    }
+
+    @Override
+    public String getPrice() {
+        return AnalyticsMainActivity.appointmentTypes.get(this.appointmentType).getPrice();
     }
 
     public String getStartTime() {
