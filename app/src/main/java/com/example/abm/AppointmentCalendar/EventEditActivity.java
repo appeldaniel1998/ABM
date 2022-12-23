@@ -18,21 +18,27 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.EditClientActivity;
 import com.example.abm.Clients.SingleClientViewActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.StorageReference;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.UUID;
 
 public class EventEditActivity extends BaseActivity{//} implements AdapterView.OnItemClickListener {
@@ -52,6 +58,7 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
     AutoCompleteTextView appointmentTypeAutoCompleteTxt;//drop down list of Clients
     ArrayAdapter<String> adapterItems;//drop down list of types
     private LocalTime time;
+    int hour, minute;//time picker
 
 
 
@@ -222,6 +229,62 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
 
         //activate the drop down list for appointment type
         appointmentTypeAutoCompleteTxt = findViewById(R.id.auto_complete_txt);
+    }
+
+    public void saveNewEventAction(View view) {//save the event the user created
+        //Converting fields to text
+        String eventName = appointmentType.getText().toString();//get the name of the event
+        String cliName = ClientName.getText().toString();//get the client name
+        String IDclient=WeekViewActivity.getkey(cliName);
+//        //timeButton = findViewById(R.id.timeButton);
+        //final String uuid = UUID.randomUUID().toString().replace("-", "");//Create a random UID for the new event
+        //final String uuid=
+        String appointmentID = getIntent().getStringExtra("appointmentID");
+        Event eventNew= Event.getEvent(appointmentID);
+        String idClientOfAppointment=eventNew.getClientId();
+        Event newEvent = new Event(appointmentID, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()),idClientOfAppointment);//create new event
+        Event.eventsList.add(newEvent);//add event to the list of events in this day-For displaying
+        DocumentReference docRef=database.collection("Appointments").document(idClientOfAppointment);
+        docRef.collection("Client Appointments").document(appointmentID).set(newEvent).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Map<String, Object> data = new HashMap<>();
+                data.put("1", 1);
+                docRef.set(data, SetOptions.merge());
+                Toast.makeText(EventEditActivity.this, "Save was clicked!", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(EventEditActivity.this, "FAIL!", Toast.LENGTH_SHORT).show();
+
+            }
+        }); //adding event data to database
+//        Toast.makeText(this, "Save was clicked!", Toast.LENGTH_SHORT).show();
+        EventEditActivity.this.startActivity(new Intent(EventEditActivity.this, WeekViewActivity.class));//back to week view display
+        finish();//close the activity
+
+    }
+    public void popTimePicker(View view) {
+        TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                hour = selectedHour;
+                minute = selectedMinute;
+                //timeButton.setText(String.format(Locale.getDefault(), "%02d:%02d",hour, minute));//display the chosen time on button, no need
+                //defined the time to be the time that the user selected next to "Time:"
+                eventTimeTV.setText("Time: " + String.format(Locale.getDefault(), "%02d:%02d", hour, minute));
+
+            }
+        };
+
+
+        // int style = AlertDialog.THEME_HOLO_DARK; //different style of picker uf we want to change
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, /*style,*/ onTimeSetListener, hour, minute, true);
+
+        timePickerDialog.setTitle("Select Time");
+        timePickerDialog.show();
     }
 //    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
 //        Log.i("HelloListView", "You clicked Item: " + id + " at position:" + position);
