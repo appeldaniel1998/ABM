@@ -2,8 +2,10 @@ package com.example.abm.Clients;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 
@@ -37,6 +40,7 @@ public class EditClientActivity extends BaseActivity {
     private TextView address;
     private ImageView userIcon;
     private Button doneEditingButton;
+    private Button deleteClientButton;
 
     FirebaseFirestore database;
 
@@ -66,6 +70,7 @@ public class EditClientActivity extends BaseActivity {
         address = findViewById(R.id.address);
         birthday = findViewById(R.id.birthdayDatePicker);
         userIcon = findViewById(R.id.personIcon);
+        deleteClientButton = findViewById(R.id.deleteButton);
         findViewById(R.id.password).setVisibility(View.GONE);
         findViewById(R.id.retypePassword).setVisibility(View.GONE);
 
@@ -74,12 +79,13 @@ public class EditClientActivity extends BaseActivity {
             startActivityForResult(openGalleryIntent, super.IMG_REQUEST_CODE_GALLERY);
         });
 
-
         // Initiating date picks handling
         datePickerDialog = DatePicker.initDatePicker(birthday, this);
 
         Intent intent = getIntent();
         clientUID = intent.getStringExtra("clientUID");
+
+//        handleDeleteButton(clientUID); //TODO verify that not needed
 
 
         ProgressDialog imageProgressDialog = ProgressDialog.show(this, "Edit Client", "Loading, please wait....", true);
@@ -162,5 +168,49 @@ public class EditClientActivity extends BaseActivity {
         fileRef.putFile(imageUri)
                 .addOnSuccessListener(taskSnapshot -> Toast.makeText(EditClientActivity.this, "Profile image uploaded successfully!", Toast.LENGTH_SHORT).show())
                 .addOnFailureListener(e -> Toast.makeText(EditClientActivity.this, "Image upload failed!", Toast.LENGTH_SHORT).show());
+    }
+
+    private void handleDeleteButton(String clientUID) {
+        deleteClientButton.setVisibility(View.VISIBLE);
+        deleteClientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(EditClientActivity.this);
+                alert.setTitle("Delete");
+                alert.setMessage("Are you sure you want to delete?");
+                alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!clientUID.equals(EditClientActivity.super.getCurrFirebaseAuth().getUid())) {
+                            database.collection("Clients").document(clientUID).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(EditClientActivity.this, "The client was deleted!", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(EditClientActivity.this, ClientsMainActivity.class));
+                                    finish();
+                                }
+                            });
+                            dialog.dismiss();
+                        }
+                        else
+                        {
+                            Toast.makeText(EditClientActivity.this, "You cannot delete yourself!", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+                alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+                alert.show();
+            }
+        });
     }
 }

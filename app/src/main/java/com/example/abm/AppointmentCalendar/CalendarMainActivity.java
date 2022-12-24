@@ -1,8 +1,10 @@
 package com.example.abm.AppointmentCalendar;
 
+import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
 import static com.example.abm.AppointmentCalendar.CalendarUtils.daysInMonthArray;
 import static com.example.abm.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +14,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.BaseActivity;
+import com.example.abm.Clients.Client;
 import com.example.abm.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class CalendarMainActivity extends BaseActivity implements CalendarAdapter.OnItemListener {//Activity_appointments_calender_main
 
@@ -30,11 +36,33 @@ public class CalendarMainActivity extends BaseActivity implements CalendarAdapte
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
 
+    FirebaseFirestore database;
+    FirebaseAuth auth;
+    public static HashMap<String, Client> clients;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_main);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
         super.initMenuSideBar();
+
+        database = super.getCurrDatabase();
+        auth = super.getCurrFirebaseAuth();
+        ProgressDialog clientsProgressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
+        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            Client currUser = documentSnapshot.toObject(Client.class);
+            if (currUser != null) {
+                if (currUser.getManager()) { // user is a manager
+                    // get all clients from DB to represent it in drop down list
+                    clients = getClientsIfManager(database, clientsProgressDialog);
+                } else {
+                    clients = new HashMap<>();
+                    clients.put(currUser.getUid(), currUser);
+                    clientsProgressDialog.dismiss();
+                }
+            }
+        });
+
         initWidgets();//define recycleviews
         //start to show the monthly calendar from current date
         CalendarUtils.selectedDate = LocalDate.now();//current date

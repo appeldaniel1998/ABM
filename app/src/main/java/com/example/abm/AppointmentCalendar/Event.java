@@ -1,6 +1,7 @@
 package com.example.abm.AppointmentCalendar;
 
-import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
+import com.example.abm.Clients.Client;
+import com.example.abm.HistoryAnalytics.HistoryActivity;
 import com.example.abm.HistoryAnalytics.ClientActivities;
 
 import java.time.LocalDate;
@@ -45,7 +46,10 @@ public class Event implements ClientActivities {
     }
 
     public String getClientName() {
-        return clientName;
+        Client currClient = CalendarMainActivity.clients.get(this.clientId);
+        assert currClient != null;
+        return currClient.getFirstName() + " " + currClient.getLastName();
+//        return clientName
     }
 
 
@@ -66,7 +70,12 @@ public class Event implements ClientActivities {
 
     @Override
     public String getPrice() {
-        return AnalyticsMainActivity.appointmentTypes.get(this.appointmentType).getPrice();
+        try {
+            return HistoryActivity.appointmentTypes.get(this.appointmentType).getPrice();
+        }
+        catch (Exception e) {
+            return "-1";
+        }
     }
 
     public String getStartTime() {

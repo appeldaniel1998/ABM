@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -17,20 +17,30 @@
         android:theme="@style/Theme.ABM"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        
         <activity
-            android:name=".AppointmentCalendar.EventAddActivity"
-            android:exported="true">
-
+            android:name=".HistoryAnalytics.AnalyticsActivity"
+            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
+        <activity
+            android:name=".HistoryAnalytics.HistoryActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AppointmentCalendar.EventAddActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".AppointmentCalendar.EventEditActivity"
             android:exported="true">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -38,7 +48,6 @@
         <activity
             android:name=".Products.EditProduct"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -46,7 +55,6 @@
         <activity
             android:name=".AppointmentCalendar.WeekViewActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -54,7 +62,6 @@
         <activity
             android:name=".AppointmentType.AddEditAppointmentTypeActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -62,7 +69,6 @@
         <activity
             android:name=".AppointmentCalendar.CalendarMainActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -70,7 +76,6 @@
         <activity
             android:name=".AppointmentType.AppointmentTypesActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -78,7 +83,6 @@
         <activity
             android:name=".Products.AddNewProduct"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -86,7 +90,6 @@
         <activity
             android:name=".Cart.ProductCartActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -94,7 +97,6 @@
         <activity
             android:name=".Clients.EditClientActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -102,7 +104,6 @@
         <activity
             android:name=".Clients.CreateClientActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -110,15 +111,6 @@
         <activity
             android:name=".Clients.SingleClientViewActivity"
             android:exported="false">
-
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".HistoryAnalytics.AnalyticsMainActivity"
-            android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -126,7 +118,6 @@
         <activity
             android:name=".Clients.ClientsMainActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -134,7 +125,6 @@
         <activity
             android:name=".Products.ProductsMainActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -142,7 +132,6 @@
         <activity
             android:name=".Products.ProductsClickcardActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -150,7 +139,6 @@
         <activity
             android:name=".LoginAndRegistration.LogInActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -158,7 +146,6 @@
         <activity
             android:name=".LoginAndRegistration.RegisterActivity"
             android:exported="false">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -166,13 +153,11 @@
         <activity
             android:name=".LoginAndRegistration.LoginOrRegisterActivity"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-             <intent-filter>
-             <action android:name="android.intent.action.MAIN" />
-
-
-             <category android:name="android.intent.category.LAUNCHER" />
-             </intent-filter>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"

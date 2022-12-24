@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.Clients.ClientsRecycleAdapter;
 import com.example.abm.R;
+import com.example.abm.Utils.DatePicker;
 
 import java.util.ArrayList;
 
@@ -80,8 +81,8 @@ public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAd
     public void onBindViewHolder(@NonNull HistoryRecycleAdapter.ClientActivityViewHolder holder, int position) {
         ClientActivities currActivity = this.clientActivities.get(position);
         holder.activityName.setText(currActivity.getActivityName());
-        holder.activityDate.setText(currActivity.getDate() + "");
-        holder.activityPrice.setText((Math.round(Double.parseDouble(currActivity.getPrice()) * 100) / 100) + "");
+        holder.activityDate.setText(DatePicker.intToString(currActivity.getDate()));
+        holder.activityPrice.setText((Math.round(Double.parseDouble(currActivity.getPrice()) * 100) / 100.0) + "");
         holder.clientName.setText(currActivity.getClientName());
     }
 

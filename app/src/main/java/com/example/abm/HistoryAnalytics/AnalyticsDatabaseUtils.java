@@ -1,9 +1,10 @@
 package com.example.abm.HistoryAnalytics;
 
-import static com.example.abm.HistoryAnalytics.AnalyticsMainActivity.clientActivities;
+import static com.example.abm.HistoryAnalytics.HistoryActivity.clientActivities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +14,6 @@ import com.example.abm.AppointmentCalendar.Event;
 import com.example.abm.AppointmentType.AppointmentType;
 import com.example.abm.Clients.Client;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -34,7 +34,7 @@ public class AnalyticsDatabaseUtils {
      * @param progressDialog progress dialog to be dismissed when task is finished
      */
     public static void getAppointmentsFromDB(int fromDate, int toDate, FirebaseFirestore database, FirebaseUser user, ProgressDialog progressDialog,
-                                             Context context, RecyclerView recyclerView) {//progressDialog-show the loading symbole
+                                             Context context, RecyclerView recyclerView, TextView totalRevenueTextView) {//progressDialog-show the loading symbole
         Event.eventsList = new ArrayList<>();
         if (fromDate == -1) fromDate = Integer.MIN_VALUE;
         if (toDate == -1) toDate = Integer.MAX_VALUE;
@@ -71,29 +71,30 @@ public class AnalyticsDatabaseUtils {
                                                 if (appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) {
                                                     Event.eventsList.add(appointment);
                                                 }
-                                                Event.eventsList.add(appointment);
                                             }
-                                            getAppointmentTypesFromDB(database, progressDialog, context, recyclerView);
-
+                                            getAppointmentTypesFromDB(database, progressDialog, context, recyclerView, totalRevenueTextView);
                                         });
                             } else { // user is a client
                                 //display current event for specific client
-                                database.collection("Appointments")
+                                // get all the documents from the Appointments collection and from each document get the appointments collection
+                                database.collectionGroup("Client Appointments")
                                         .get()
                                         .addOnSuccessListener(queryDocumentSnapshots -> {
-                                            for (QueryDocumentSnapshot documentSnapshot1 : queryDocumentSnapshots) {
-                                                CollectionReference appointmentsCollection = documentSnapshot1.getReference().collection("Client Appointments");
-                                                appointmentsCollection.get()
-                                                        .addOnSuccessListener(queryDocumentSnapshots1 -> {
-                                                            for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots1) {
-                                                                Event appointment = documentSnapshot2.toObject(Event.class);
-                                                                if (appointment.getClientId().equals(UserUid) && appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) {
-                                                                    Event.eventsList.add(appointment);
-                                                                }
-                                                            }
-                                                            getAppointmentTypesFromDB(database, progressDialog, context, recyclerView);
-                                                        });
+                                            for (QueryDocumentSnapshot documentSnapshot2 : queryDocumentSnapshots) {
+                                                Map<String, Object> data = documentSnapshot2.getData();
+                                                String clientName = (String) data.get("clientName");
+                                                String clientID = (String) data.get("clientId");
+                                                String typeApp = (String) data.get("appointmentType");
+                                                String idApp = (String) data.get("appointmentId");
+                                                String startTime = (String) data.get("startTime");
+                                                int date = Integer.parseInt(data.get("date") + "");
+
+                                                Event appointment = new Event(idApp, typeApp, clientName, date, startTime, clientID);
+                                                if (appointment.getClientId().equals(UserUid) && appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) {
+                                                    Event.eventsList.add(appointment);
+                                                }
                                             }
+                                            getAppointmentTypesFromDB(database, progressDialog, context, recyclerView, totalRevenueTextView);
                                         });
                             }
                         }
@@ -112,18 +113,17 @@ public class AnalyticsDatabaseUtils {
      *
      * @param database       Firestore database instance
      * @param progressDialog Porgress dialog to be dismissed when get is complete
-     * @return new arraylist of Appointment types
      */
     public static void getAppointmentTypesFromDB(FirebaseFirestore database, ProgressDialog progressDialog,
-                                                                             Context context, RecyclerView recyclerView) {
-        AnalyticsMainActivity.appointmentTypes = new HashMap<>();
+                                                 Context context, RecyclerView recyclerView, TextView totalRevenueTextView) {
+        HistoryActivity.appointmentTypes = new HashMap<>();
 //        ArrayList<AppointmentType> appointmentTypes = new ArrayList<>();
         database.collection("Appointment Types").orderBy("typeName")
                 .get()
                 .addOnCompleteListener(task -> {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         AppointmentType currType = document.toObject(AppointmentType.class);
-                        AnalyticsMainActivity.appointmentTypes.put(currType.getTypeName(), currType);
+                        HistoryActivity.appointmentTypes.put(currType.getTypeName(), currType);
                     }
                     progressDialog.dismiss();
                     RecyclerView.LayoutManager recyclerViewLayoutManager = new LinearLayoutManager(context);
@@ -134,6 +134,12 @@ public class AnalyticsDatabaseUtils {
 
                     clientActivities = new ArrayList<>();
                     clientActivities.addAll(Event.eventsList);
+
+                    double totalRevenue = 0;
+                    for (int i = 0; i < clientActivities.size(); i++) {
+                        totalRevenue += Math.round(Double.parseDouble(clientActivities.get(i).getPrice()) * 100) / 100.0;
+                    }
+                    totalRevenueTextView.setText(totalRevenue + "");
 
                     HistoryRecycleAdapter recyclerViewAdapter = new HistoryRecycleAdapter(clientActivities);
                     recyclerView.setAdapter(recyclerViewAdapter);

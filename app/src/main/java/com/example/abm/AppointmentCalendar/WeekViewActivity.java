@@ -1,8 +1,6 @@
 package com.example.abm.AppointmentCalendar;
-import android.widget.ListView;
 
 import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
-import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
 import static com.example.abm.AppointmentCalendar.CalendarUtils.daysInWeekArray;
 import static com.example.abm.AppointmentCalendar.CalendarUtils.monthYearFromDate;
 
@@ -13,7 +11,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +23,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class WeekViewActivity<listView> extends BaseActivity implements CalendarAdapter.OnItemListener {
@@ -38,14 +34,14 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
     private ProgressDialog progressDialog;
     private FirebaseFirestore database;
     private FirebaseAuth auth;
-    public static HashMap<String, Client> clients;
+
 
     //function get client name and return his ID
     static String getkey(String ClientName)
     {
         String tempName="";
         String ID = "";
-        for (Map.Entry<String, Client> entry : clients.entrySet()) {
+        for (Map.Entry<String, Client> entry : CalendarMainActivity.clients.entrySet()) {
             tempName=entry.getValue().getFirstName()+" "+entry.getValue().getLastName();
             if (tempName.equals(ClientName)) {
                 //System.out.println(entry.getKey());
@@ -70,20 +66,7 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
         //access data from DB
         getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
 //try to understand if this is manager or client
-        ProgressDialog clientsProgressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
-        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
-            Client currUser = documentSnapshot.toObject(Client.class);
-            if (currUser != null) {
-                if (currUser.getManager()) { // user is a manager
-                    // get all clients from DB to represent it in drop down list
-                    clients = getClientsIfManager(database, clientsProgressDialog);
-                } else {
-                    clients = new HashMap<>();
-                    clients.put(currUser.getUid(), currUser);
-                    clientsProgressDialog.dismiss();
-                }
-            }
-        });
+
 //        ListView lView_item = findViewById(R.id.eventListView);
 ////    listView//.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 //        lView_item.setOnItemClickListener(new AdapterView.OnItemClickListener());

@@ -22,7 +22,7 @@ import com.example.abm.AppointmentType.AppointmentTypesActivity;
 import com.example.abm.Cart.ProductCartActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
-import com.example.abm.HistoryAnalytics.AnalyticsMainActivity;
+import com.example.abm.HistoryAnalytics.HistoryActivity;
 import com.example.abm.LoginAndRegistration.LoginOrRegisterActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -53,6 +53,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return storageReference;
     }
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +79,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, ClientsMainActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemAnalytics) {
-            startActivity(new Intent(this, AnalyticsMainActivity.class));
+            startActivity(new Intent(this, HistoryActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemCart) {
             startActivity(new Intent(this, ProductCartActivity.class));
@@ -95,7 +96,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         } else return false;
     }
 
-    // init side menu in all activities TODO
     @SuppressLint("SetTextI18n")
     public void initMenuSideBar() {
         Toolbar toolbar = findViewById(R.id.ProductsRecycleView); // init toolbar

@@ -65,7 +65,6 @@ public class CalendarDatabaseUtils {
                                                 if (appointment.getDate() > finalFromDate && appointment.getDate() < finalToDate) {
                                                     Event.eventsList.add(appointment);
                                                 }
-                                                Event.eventsList.add(appointment);
                                             }
                                             progressDialog.dismiss();
                                         })
@@ -136,7 +135,7 @@ public class CalendarDatabaseUtils {
      */
     public static ArrayList<String> getClientNamesFromDB(ProgressDialog progressDialog) {
         ArrayList<String> clientNames = new ArrayList<>();
-        for (Client client : WeekViewActivity.clients.values()) {
+        for (Client client : CalendarMainActivity.clients.values()) {
             clientNames.add(client.getFirstName() + " " + client.getLastName());
         }
         progressDialog.dismiss();

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -14,16 +13,9 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
-import com.example.abm.Clients.ClientsMainActivity;
-import com.example.abm.Clients.CreateClientActivity;
 import com.example.abm.R;
-import com.example.abm.Utils.DatePicker;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -150,20 +142,19 @@ public class EventAddActivity extends BaseActivity {
         Event newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()),IDclient);//create new event
         Event.eventsList.add(newEvent);//add event to the list of events in this day-For displaying
         DocumentReference docRef=database.collection("Appointments").document(IDclient);
-        docRef.collection("Client Appointments").document(uuid).set(newEvent).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-                Map<String, Object> data = new HashMap<>();
-                data.put("1", 1);
-                docRef.set(data, SetOptions.merge());
-                Toast.makeText(EventAddActivity.this, "Save was clicked!", Toast.LENGTH_SHORT).show();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(EventAddActivity.this, "FAIL!", Toast.LENGTH_SHORT).show();
 
-            }
+        Map<String, Object> newEventMap = new HashMap<>();
+        newEventMap.put("appointmentId", newEvent.getAppointmentId());
+        newEventMap.put("appointmentType", newEvent.getAppointmentType());
+        newEventMap.put("clientId", newEvent.getClientId());
+        newEventMap.put("clientName", newEvent.getClientName());
+        newEventMap.put("date", newEvent.getDate());
+        newEventMap.put("startTime", newEvent.getStartTime());
+        docRef.collection("Client Appointments").document(uuid).set(newEventMap).addOnSuccessListener(unused -> {
+            Map<String, Object> data = new HashMap<>();
+            data.put("1", 1);
+            docRef.set(data, SetOptions.merge());
+//            Toast.makeText(EventAddActivity.this, "Save was clicked!", Toast.LENGTH_SHORT).show();
         }); //adding event data to database
 //        Toast.makeText(this, "Save was clicked!", Toast.LENGTH_SHORT).show();
         EventAddActivity.this.startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to week view display
