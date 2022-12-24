@@ -29,11 +29,11 @@ public class FutureEventsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_analytics);
+        setContentView(R.layout.activity_appointments_calendar_future_events);
         initMenuSideBar();
 
-        Button historyButton = findViewById(R.id.analyticsButton); //set onclick listener to button "History"
-        historyButton.setOnClickListener(v -> startActivity(new Intent(FutureEventsActivity.this, HistoryActivity.class)));
+//        Button historyButton = findViewById(R.id.analyticsButton); //set onclick listener to button "History"
+//        historyButton.setOnClickListener(v -> startActivity(new Intent(FutureEventsActivity.this, HistoryActivity.class)));
 
         //get the current date
         int currentDate=getCurrentDate();
@@ -44,34 +44,34 @@ public class FutureEventsActivity extends BaseActivity {
 
 
 
-
-        //Identifying the different years for which to do the calculations and sorting the event to arraylists (arraylist per year)
-        for (int i = 0; i < HistoryActivity.clientActivities.size(); i++) {
-            ClientActivities currActivity = HistoryActivity.clientActivities.get(i);
-            String currYear = (currActivity.getDate() / (100 * 100)) + "";
-            if (!clientActivitiesPerYear.containsKey(currYear)) {
-                clientActivitiesPerYear.put(currYear, new ArrayList<>());
-            }
-            clientActivitiesPerYear.get(currYear).add(currActivity);
-        }
-
-        relevantYears = new ArrayList<>();
-        relevantYears.addAll(clientActivitiesPerYear.keySet());
-
-        autoCompleteTextView = findViewById(R.id.auto_complete_txt);
-        adapterItems = new ArrayAdapter<>(this, R.layout.list_item, relevantYears);
-        autoCompleteTextView.setAdapter(adapterItems);
-        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-            String year = parent.getItemAtPosition(position).toString();
-            showYearData(year);
-        });
-
-        //set default value to the dropdown menu:
-        int currYear = Calendar.getInstance().get(Calendar.YEAR);
-        TextInputLayout textInputLayout = findViewById(R.id.autoCompleteWrapper);
-        assert textInputLayout.getEditText() != null;
-        textInputLayout.getEditText().setText(currYear + "");
-        showYearData(currYear + "");
+//
+//        //Identifying the different years for which to do the calculations and sorting the event to arraylists (arraylist per year)
+//        for (int i = 0; i < HistoryActivity.clientActivities.size(); i++) {
+//            ClientActivities currActivity = HistoryActivity.clientActivities.get(i);
+//            String currYear = (currActivity.getDate() / (100 * 100)) + "";
+//            if (!clientActivitiesPerYear.containsKey(currYear)) {
+//                clientActivitiesPerYear.put(currYear, new ArrayList<>());
+//            }
+//            clientActivitiesPerYear.get(currYear).add(currActivity);
+//        }
+//
+//        relevantYears = new ArrayList<>();
+//        relevantYears.addAll(clientActivitiesPerYear.keySet());
+//
+//        autoCompleteTextView = findViewById(R.id.auto_complete_txt);
+//        adapterItems = new ArrayAdapter<>(this, R.layout.list_item, relevantYears);
+//        autoCompleteTextView.setAdapter(adapterItems);
+//        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+//            String year = parent.getItemAtPosition(position).toString();
+//            showYearData(year);
+//        });
+//
+//        //set default value to the dropdown menu:
+//        int currYear = Calendar.getInstance().get(Calendar.YEAR);
+//        TextInputLayout textInputLayout = findViewById(R.id.autoCompleteWrapper);
+//        assert textInputLayout.getEditText() != null;
+//        textInputLayout.getEditText().setText(currYear + "");
+//        showYearData(currYear + "");
     }
 
     //function get current date as int in structure YYYYMMDD
