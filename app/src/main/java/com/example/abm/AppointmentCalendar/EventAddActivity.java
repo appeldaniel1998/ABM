@@ -16,8 +16,10 @@ import android.widget.Toast;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -134,8 +136,18 @@ public class EventAddActivity extends BaseActivity {
     public void saveNewEventAction(View view) {//save the event the user created
         //Converting fields to text
         String eventName = appointmentType.getText().toString();//get the name of the event
-        String cliName = ClientName.getText().toString();//get the client name
-        String IDclient=WeekViewActivity.getkey(cliName);
+        String cliName="";
+        String IDclient="";
+        if(checkUser() == 1)//if user is manager
+        {
+            cliName = ClientName.getText().toString();//get the client name
+            IDclient=WeekViewActivity.getkey(cliName);
+        }
+        else{//if user is client
+            cliName=this.clientNames.get(0);
+            IDclient=super.getCurrFirebaseAuth().getUid();
+        }
+
 //        //timeButton = findViewById(R.id.timeButton);
         final String uuid = UUID.randomUUID().toString().replace("-", "");//Create a random UID for the new event
         //final String uuid=
@@ -202,6 +214,23 @@ public class EventAddActivity extends BaseActivity {
         finish();//close the activity
     }
 
+    //function check if the user is manager or client
+    public int checkUser ()
+    {
+        final int[] userStatus = {0};
+        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                Map<String, Object> data = documentSnapshot.getData();
+                boolean isManager = (boolean) data.get("manager");
+                if (!isManager) {
+                    userStatus[0] = 0;}
+                else {
+                    userStatus[0] = 1;}
+            }
+        });
+        return userStatus[0];
+    }
 
 //     Log.i("testTag","before start adapter");
 //    StringArrayAdapter ad = new StringArrayAdapter (members,this);
