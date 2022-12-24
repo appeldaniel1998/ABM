@@ -36,21 +36,38 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
-
         <Button
             android:id="@+id/weeklyButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
             android:background="@null"
-            android:onClick="weeklyAction"
-            android:text="Weekly"
             android:backgroundTint="#F8F3CDDA"
             android:fontFamily="sans-serif-condensed"
+            android:onClick="weeklyAction"
+            android:text="Weekly"
             android:textColor="#455A64"
             android:textSize="17sp"
-            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.279"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/AppBar" />
+
+        <Button
+            android:id="@+id/futureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="@null"
+            android:backgroundTint="#F8F3CDDA"
+            android:fontFamily="sans-serif-condensed"
+            android:onClick="futureEventsAction"
+            android:text="Future Events"
+            android:textColor="#455A64"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.858"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/AppBar" />
 
