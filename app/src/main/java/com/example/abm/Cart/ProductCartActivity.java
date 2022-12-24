@@ -13,10 +13,14 @@ import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 public class ProductCartActivity extends BaseActivity {
     private RecyclerView recyclerView;
@@ -40,21 +44,28 @@ public class ProductCartActivity extends BaseActivity {
 
         //go all over the cart array list and add each object to "Orders" collection in the database
         finishOrderButton.setOnClickListener(v -> {
+            String orderID = UUID.randomUUID().toString();
             for (Cart cart : cart) {
-                super.getCurrDatabase().collection("Orders").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Cart").document(cart.getProductColor()).set(cart);
+                //add the cart object to the database, save each cart in different document
+                super.getCurrDatabase().collection("Orders").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("User Orders")
+                        .document(orderID).collection("Order Details").document(cart.getProductColor()).set(cart).addOnSuccessListener(aVoid -> {
+                    Toast.makeText(ProductCartActivity.this, "Order has been placed successfully", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ProductCartActivity.this, CalendarMainActivity.class);
+                    startActivity(intent);
+                });
             }
-            // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
-            Toast.makeText(this, "Finish Order ! ", Toast.LENGTH_SHORT).show();
-            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                    documentSnapshot.getReference().delete();
-                }
-            });
-            startActivity(new Intent(ProductCartActivity.this, CalendarMainActivity.class));
+        // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
+        Toast.makeText(this, "Finish Order ! ", Toast.LENGTH_SHORT).show();
+        super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                documentSnapshot.getReference().delete();
+            }
         });
+        startActivity(new Intent(ProductCartActivity.this, CalendarMainActivity.class));
+    });
 
 
-    }
+}
 
     private void createCartList() {
         //get all the data from the database from the current from Products collection and add it to the arraylist
