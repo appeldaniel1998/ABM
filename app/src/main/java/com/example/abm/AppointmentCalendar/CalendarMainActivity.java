@@ -113,4 +113,8 @@ public class CalendarMainActivity extends BaseActivity implements CalendarAdapte
     public void weeklyAction(View view) {
         startActivity(new Intent(this, WeekViewActivity.class));
     }
+
+    public void futureEventsAction(View view) {
+        startActivity(new Intent(this, FutureEventsActivity.class));
+    }
 }

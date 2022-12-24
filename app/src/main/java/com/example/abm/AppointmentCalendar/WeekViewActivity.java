@@ -147,12 +147,4 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
 
     }
 
-//    ListView lView_item = findViewById(R.id.eventListView);
-////    listView//.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//    lView_item.setOnItemClickListener
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//            // Handle the click event here
-//        }
-//    });
 }
