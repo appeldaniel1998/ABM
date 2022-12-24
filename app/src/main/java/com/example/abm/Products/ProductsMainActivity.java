@@ -3,7 +3,9 @@ package com.example.abm.Products;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,6 +24,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
@@ -149,6 +153,21 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         for (Product product : products) {
             super.getCurrDatabase().collection("Products").document(product.getColorName()).set(product);
         }
+
+        //give me all the pictures from the database in storage in client directory and save them as int in the product
+//           StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+//              for (Product product : products) {
+//                storageReference.child("Products").child(product.getColorName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                     @Override
+//                     public void onSuccess(Uri uri) {
+//                         //cast uri to int
+//                         int image = Integer.parseInt(uri.toString());
+//
+//                          product.setImage(image);
+//                     }
+//                });
+//              }
+
     }
 
     private void buildRecyclerView() {
