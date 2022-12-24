@@ -45,6 +45,7 @@ public class Event implements ClientActivities {
         return clientId;
     }
 
+    @Override
     public String getClientName() {
         Client currClient = CalendarMainActivity.clients.get(this.clientId);
         assert currClient != null;
