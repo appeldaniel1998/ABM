@@ -47,13 +47,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".AppointmentCalendar.EventEditActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".Products.EditProduct"
             android:exported="false">
             <meta-data

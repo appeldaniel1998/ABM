@@ -134,15 +134,14 @@ public class EventAddActivity extends BaseActivity {
 
         //function display the data of event I would like to edit ,after clicking on the event
         String fullName = eventNew.getClientName();//get the client name
-//        ClientName.setText(fullName);//set text of client name
-        //birthday.setText(DatePicker.intToString(client.getBirthdayDate()));
+        ClientName.setText(fullName);//set text of client name
         eventDateTV.setText(DatePicker.intToString(eventNew.getDate()));//set text of event date
-        eventTimeTV.setText(eventNew.getStartTime());//set text of event start time
-//        appointmentType.setText(eventNew.getAppointmentType());//set text of appointment type
+        eventTimeTV.setText(eventNew.getFormattedStartTime());//set text of event start time
+        appointmentType.setText(eventNew.getAppointmentType());//set text of appointment type
         //doneEditingButton.setText("Done");
 
-        clientsWrapper.getEditText().setText(fullName);
-        appointmentTypeWrapper.getEditText().setText(eventNew.getAppointmentType());
+//        clientsWrapper.getEditText().setText(fullName);
+//        appointmentTypeWrapper.getEditText().setText(eventNew.getAppointmentType());
 
         AutoCompleteTextView autoCompleteTextViewClients = findViewById(R.id.auto_complete_txt_client);
         ArrayAdapter<String> adapterItemsClients = new ArrayAdapter<>(this, R.layout.list_item, clientNames);
@@ -165,11 +164,6 @@ public class EventAddActivity extends BaseActivity {
         //activate the drop down list for appointment type
         appointmentTypeAutoCompleteTxt = findViewById(R.id.auto_complete_txt);
     }
-//
-//    public void saveNewEventAction(View view) {//save the event the user created
-//
-//
-//    }
 
     public void popTimePicker(View view) {
         TimePickerDialog.OnTimeSetListener onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
@@ -194,21 +188,21 @@ public class EventAddActivity extends BaseActivity {
     }
 
     public void deleteEventAction(View view)
-//    public void deleteEventAction(Event event)
     //by pressing delete button this will delete th event from DB and from the weekly display list of event.
     {
-        String eventName = appointmentType.getText().toString();//get the name of the event
         String cliName = ClientName.getText().toString();//get the client name
         String IDclient = WeekViewActivity.getKey(cliName);//(cliName);
-//        //timeButton = findViewById(R.id.timeButton);
-        final String uuid = UUID.randomUUID().toString().replace("-", "");
-        Event event = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()), IDclient);//create new event
 
-        ////////////////////////////////////////////////////////
-        Event.eventsList.remove(event);//remove the event from eventsList
-        Toast.makeText(this, "Event was deleted!", Toast.LENGTH_SHORT).show();
-        EventAddActivity.this.startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to the week view display
-        finish();//close the activity
+        database.collection("Appointments")
+                .document(IDclient)
+                .collection("Client Appointments")
+                .document(this.appointmentID)
+                .delete()
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(this, "Event was deleted!", Toast.LENGTH_SHORT).show();
+                    EventAddActivity.this.startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to the week view display
+                    finish();//close the activity
+                });
     }
 
     //save the event the user created
@@ -237,6 +231,13 @@ public class EventAddActivity extends BaseActivity {
             } else { //editing existing event
                 uuid = EventAddActivity.this.appointmentID;
                 newEvent = Event.getEvent(EventAddActivity.this.appointmentID);
+
+                database.collection("Appointments")
+                        .document(newEvent.getClientId())
+                        .collection("Client Appointments")
+                        .document(EventAddActivity.this.appointmentID)
+                        .delete();
+
                 newEvent.setEvent(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()), IDclient);
             }
 
@@ -257,24 +258,4 @@ public class EventAddActivity extends BaseActivity {
             finish();//close the activity
         });
     }
-
-
-//     Log.i("testTag","before start adapter");
-//    StringArrayAdapter ad = new StringArrayAdapter (members,this);
-//        Log.i("testTag","after start adapter");
-//        Log.i("testTag","set adapter");
-//        lv.setAdapter(ad);
-//   lv.setOnItemClickListener(new OnItemClickListener() {
-//        @Override
-//        public void onItemClick(AdapterView<?> parent, View view, int position,
-//        long id) {
-//            ListEntry entry= (ListEntry) parent.getAdapter().getItem(position);
-//            Intent intent = new Intent(MainActivity.this, SendMessage.class);
-//            String message = entry.getMessage();
-//            intent.putExtra(EXTRA_MESSAGE, message);
-//            startActivity(intent);
-//        }
-//    });
-
-
 }

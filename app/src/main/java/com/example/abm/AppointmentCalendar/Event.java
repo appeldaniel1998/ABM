@@ -91,6 +91,10 @@ public class Event implements ClientActivities {
         return startTime;
     }
 
+    public String getFormattedStartTime() {
+        return startTime.substring(0, 2) + ":" + startTime.substring(2, 4);
+    }
+
     //Function return all events for a given date
     public static ArrayList<Event> eventsForDate(LocalDate date) {
         int dateAsInt = localDateToInt(date);
@@ -135,12 +139,14 @@ public class Event implements ClientActivities {
     }
 
     public static String timeStringToInt(String time) {
-        String timeClean = "";
-        for (int i = 6; i < time.length(); i++) {
-            timeClean += time.charAt(i);
+        if (time.startsWith("Time:")) {
+            String timeClean = time.substring(6);
+            String[] timeSplit = timeClean.split(":");
+            return timeSplit[0] + "" + timeSplit[1];
+        } else {
+            String[] timeSplit = time.split(":");
+            return timeSplit[0] + "" + timeSplit[1];
         }
-        String[] timeSplit = timeClean.split(":");
-        return timeSplit[0] + "" + timeSplit[1];
     }
 
     public static int localTimeToInt(LocalTime localTime) {
