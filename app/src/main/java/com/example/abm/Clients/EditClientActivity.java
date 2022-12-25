@@ -171,11 +171,12 @@ public class EditClientActivity extends BaseActivity {
     private void handleDeleteButton(String clientUID) {
         deleteClientButton.setVisibility(View.VISIBLE);
         deleteClientButton.setOnClickListener(v -> {
-            AlertDialog.Builder alert = new AlertDialog.Builder(EditClientActivity.this);
+            AlertDialog.Builder alert = new AlertDialog.Builder(EditClientActivity.this); //verification dialog to confirm deletion
             alert.setTitle("Delete");
             alert.setMessage("Are you sure you want to delete?");
-            alert.setPositiveButton("Yes", (dialog, which) -> {
+            alert.setPositiveButton("Yes", (dialog, which) -> { //if yes was clicked
                 if (!clientUID.equals(EditClientActivity.super.getCurrFirebaseAuth().getUid())) {
+                    //need to delete all documents where the user exists (from every collection)
                     database.collection("Clients").document(clientUID).delete();
                     database.collection("Appointments").document(clientUID).delete();
                     database.collection("Orders").document(clientUID).delete();
@@ -185,7 +186,7 @@ public class EditClientActivity extends BaseActivity {
                     startActivity(new Intent(EditClientActivity.this, ClientsMainActivity.class));
                     finish();
                     dialog.dismiss();
-                } else {
+                } else { // if no was clicked
                     Toast.makeText(EditClientActivity.this, "You cannot delete yourself!", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 }
