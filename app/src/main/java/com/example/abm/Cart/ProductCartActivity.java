@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
+import com.example.abm.Utils.DatePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -30,6 +32,7 @@ public class ProductCartActivity extends BaseActivity {
     private Button finishOrderButton;
     private TextView totalPrice;
     private int totalSum = 0;
+    private String clientId;
 
 
     @Override
@@ -40,6 +43,7 @@ public class ProductCartActivity extends BaseActivity {
         createCartList();
         finishOrderButton = findViewById(R.id.FinishOrder);
         totalPrice = findViewById(R.id.SetTotalPrice);
+        clientId = super.getCurrFirebaseAuth().getCurrentUser().getUid();
 
 
         //go all over the cart array list and add each object to "Orders" collection in the database
@@ -47,13 +51,21 @@ public class ProductCartActivity extends BaseActivity {
             String orderID = UUID.randomUUID().toString();
             for (Cart cart : cart) {
                 //add the cart object to the database, save each cart in different document
-                super.getCurrDatabase().collection("Orders").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("User Orders")
+                super.getCurrDatabase().collection("Orders").document(clientId).collection("User Orders")
                         .document(orderID).collection("Order Details").document(cart.getProductColor()).set(cart).addOnSuccessListener(aVoid -> {
                     Toast.makeText(ProductCartActivity.this, "Order has been placed successfully", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(ProductCartActivity.this, CalendarMainActivity.class);
                     startActivity(intent);
                 });
             }
+            //Add the time, date, price to the same order document
+            LocalTime date = LocalTime.now(); //get current time. the time supposed to be with 4 digit.
+            String time = date.toString();
+            String CurrentTime = time.substring(0, 2) + time.substring(3, 5); //get just 4 digit from the time without the " : "
+            System.out.println("------------------------------------------------:::: " +CurrentTime);
+            Orders order = new Orders(clientId,String.valueOf(totalSum) , DatePicker.stringToInt(DatePicker.getTodayDate()), CurrentTime);
+            super.getCurrDatabase().collection("Orders").document(clientId).collection("User Orders")
+                    .document(orderID).set(order);
         // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
         Toast.makeText(this, "Finish Order ! ", Toast.LENGTH_SHORT).show();
         super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").get().addOnSuccessListener(queryDocumentSnapshots -> {
