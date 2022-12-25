@@ -82,32 +82,6 @@ public class ProductCartActivity extends BaseActivity {
         });
         getOrdersFromDB();
 
-
-        //get all the orders from the database and add to the orders list
-//        super.getCurrDatabase().collectionGroup("User Orders").get().addOnSuccessListener(queryDocumentSnapshots -> {
-//            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-//                Map<String, Object> data = documentSnapshot.getData();
-//                System.out.println("------------------------------------------------:::: data " +data);
-//                Orders order = new Orders(data.get("clientName").toString(), data.get("price").toString(), Integer.parseInt(data.get("date").toString()), data.get("time").toString());
-//                ordersList.add(order);
-//            }
-//            for (Orders order : ordersList) {
-//                System.out.println("------------------------------------------------:::: order list " +order.toString());
-//            }
-//        });
-        //print the orders
-//        super.getCurrDatabase().collection("Orders").document(clientId).collection("User Orders").get().addOnSuccessListener(queryDocumentSnapshots -> {
-//            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-//                Map<String, Object> data = documentSnapshot.getData();
-//                System.out.println("------------------------------------------------:::: data " +data);
-//                Orders order = new Orders(data.get("clientName").toString(), data.get("price").toString(), Integer.parseInt(data.get("date").toString()), data.get("time").toString());
-//                ordersList.add(order);
-//            }
-//            for (Orders order : ordersList) {
-//                System.out.println("------------------------------------------------:::: order list " +order.toString());
-//            }
-//        });
-
     }
 
     private void createCartList() {
