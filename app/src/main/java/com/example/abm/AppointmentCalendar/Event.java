@@ -1,8 +1,8 @@
 package com.example.abm.AppointmentCalendar;
 
 import com.example.abm.Clients.Client;
-import com.example.abm.HistoryAnalytics.HistoryActivity;
 import com.example.abm.HistoryAnalytics.ClientActivities;
+import com.example.abm.HistoryAnalytics.HistoryActivity;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -19,17 +19,26 @@ public class Event implements ClientActivities {
     private int date;
     private String startTime;
 
-    public Event(){}
+    public Event() {
+    }
 
     //constructors
-    public Event(String appointmentId, String typeName, String clientName, int date, String time,String ID) {
+    public Event(String appointmentId, String typeName, String clientName, int date, String time, String ID) {
         this.appointmentId = appointmentId;
         this.appointmentType = typeName;
         this.date = date;
         this.startTime = time;
         this.clientName = clientName;
         this.clientId = ID;
+    }
 
+    public void setEvent(String appointmentId, String typeName, String clientName, int date, String time, String ID) {
+        this.appointmentId = appointmentId;
+        this.appointmentType = typeName;
+        this.date = date;
+        this.startTime = time;
+        this.clientName = clientName;
+        this.clientId = ID;
     }
 
     //Getters and setters
@@ -73,14 +82,17 @@ public class Event implements ClientActivities {
     public String getPrice() {
         try {
             return HistoryActivity.appointmentTypes.get(this.appointmentType).getPrice();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             return "-1";
         }
     }
 
     public String getStartTime() {
         return startTime;
+    }
+
+    public String getFormattedStartTime() {
+        return startTime.substring(0, 2) + ":" + startTime.substring(2, 4);
     }
 
     //Function return all events for a given date
@@ -95,17 +107,16 @@ public class Event implements ClientActivities {
         }
         return events;
     }
+
     //function get appointment ID and return the Event
-    public static Event getEvent(String appID)
-    {
-        Event specificEvent=new Event();
+    public static Event getEvent(String appID) {
         for (Event event : eventsList) {
             if (event.getAppointmentId().equals(appID)) //if the eventID is equal to the eventID thats passed in
             {
-                specificEvent= event;
+                return event;
             }
         }
-        return specificEvent;
+        return null;
     }
 
     public static int localDateToInt(LocalDate localDate) {
@@ -128,12 +139,14 @@ public class Event implements ClientActivities {
     }
 
     public static String timeStringToInt(String time) {
-        String timeClean = "";
-        for (int i = 6; i < time.length(); i++) {
-            timeClean += time.charAt(i);
+        if (time.startsWith("Time:")) {
+            String timeClean = time.substring(6);
+            String[] timeSplit = timeClean.split(":");
+            return timeSplit[0] + "" + timeSplit[1];
+        } else {
+            String[] timeSplit = time.split(":");
+            return timeSplit[0] + "" + timeSplit[1];
         }
-        String[] timeSplit = timeClean.split(":");
-        return timeSplit[0] + "" + timeSplit[1];
     }
 
     public static int localTimeToInt(LocalTime localTime) {

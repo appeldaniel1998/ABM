@@ -689,11 +689,11 @@
                     android:layout_weight="30"
                     android:autofillHints="name"
                     android:ems="10"
-                    android:textStyle="bold"
                     android:gravity="center"
                     android:hint="Total"
                     android:minHeight="24dp"
                     android:textColorHint="#757575"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -705,7 +705,6 @@
                 <TextView
                     android:id="@+id/totalRevenueTextView"
                     android:layout_width="0dp"
-                    android:textStyle="bold"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="16dp"
@@ -715,7 +714,8 @@
                     android:gravity="center"
                     android:hint="@string/placeholder"
                     android:minHeight="24dp"
-                    android:textColorHint="#757575" />
+                    android:textColorHint="#757575"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </LinearLayout>

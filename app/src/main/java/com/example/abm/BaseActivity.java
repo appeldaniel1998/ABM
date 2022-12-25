@@ -39,7 +39,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseFirestore database;
     private StorageReference storageReference;
 
-    protected final int IMG_REQUEST_CODE_GALLERY = 10;
+    public final int IMG_REQUEST_CODE_GALLERY = 10;
 
     public FirebaseAuth getCurrFirebaseAuth() {
         return auth;
