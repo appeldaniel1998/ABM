@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.AppointmentCalendar.Event;
 import com.example.abm.AppointmentType.AppointmentType;
+import com.example.abm.Cart.ProductCartActivity;
 import com.example.abm.Clients.Client;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -72,7 +73,7 @@ public class AnalyticsDatabaseUtils {
                                                     Event.eventsList.add(appointment);
                                                 }
                                             }
-                                            getAppointmentTypesFromDB(database, progressDialog, context, recyclerView, totalRevenueTextView);
+                                            getAppointmentTypesFromDB(database, progressDialog, context, recyclerView, totalRevenueTextView, user);
                                         });
                             } else { // user is a client
                                 //display current event for specific client
@@ -94,7 +95,7 @@ public class AnalyticsDatabaseUtils {
                                                     Event.eventsList.add(appointment);
                                                 }
                                             }
-                                            getAppointmentTypesFromDB(database, progressDialog, context, recyclerView, totalRevenueTextView);
+                                            getAppointmentTypesFromDB(database, progressDialog, context, recyclerView, totalRevenueTextView, user);
                                         });
                             }
                         }
@@ -115,7 +116,7 @@ public class AnalyticsDatabaseUtils {
      * @param progressDialog Porgress dialog to be dismissed when get is complete
      */
     public static void getAppointmentTypesFromDB(FirebaseFirestore database, ProgressDialog progressDialog,
-                                                 Context context, RecyclerView recyclerView, TextView totalRevenueTextView) {
+                                                 Context context, RecyclerView recyclerView, TextView totalRevenueTextView, FirebaseUser user) {
         HistoryActivity.appointmentTypes = new HashMap<>();
 //        ArrayList<AppointmentType> appointmentTypes = new ArrayList<>();
         database.collection("Appointment Types").orderBy("typeName")
@@ -125,24 +126,28 @@ public class AnalyticsDatabaseUtils {
                         AppointmentType currType = document.toObject(AppointmentType.class);
                         HistoryActivity.appointmentTypes.put(currType.getTypeName(), currType);
                     }
-                    progressDialog.dismiss();
-                    RecyclerView.LayoutManager recyclerViewLayoutManager = new LinearLayoutManager(context);
-
-                    recyclerView.hasFixedSize();
-                    recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
-                    recyclerView.setLayoutManager(recyclerViewLayoutManager);
-
                     clientActivities = new ArrayList<>();
                     clientActivities.addAll(Event.eventsList);
 
-                    double totalRevenue = 0;
-                    for (int i = 0; i < clientActivities.size(); i++) {
-                        totalRevenue += Math.round(Double.parseDouble(clientActivities.get(i).getPrice()) * 100) / 100.0;
-                    }
-                    totalRevenueTextView.setText(totalRevenue + "");
-
-                    HistoryRecycleAdapter recyclerViewAdapter = new HistoryRecycleAdapter(clientActivities);
-                    recyclerView.setAdapter(recyclerViewAdapter);
+                    ProductCartActivity.getOrdersFromDB(user.getUid(), progressDialog, context, recyclerView, totalRevenueTextView);
                 });
+    }
+
+    public static void initRecyclerView(ProgressDialog progressDialog, Context context, RecyclerView recyclerView, TextView totalRevenueTextView) {
+        RecyclerView.LayoutManager recyclerViewLayoutManager = new LinearLayoutManager(context);
+
+        recyclerView.hasFixedSize();
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(recyclerViewLayoutManager);
+
+        double totalRevenue = 0;
+        for (int i = 0; i < clientActivities.size(); i++) {
+            totalRevenue += Math.round(Double.parseDouble(clientActivities.get(i).getPrice()) * 100) / 100.0;
+        }
+        totalRevenueTextView.setText(totalRevenue + "");
+
+        HistoryRecycleAdapter recyclerViewAdapter = new HistoryRecycleAdapter(clientActivities);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        progressDialog.dismiss();
     }
 }

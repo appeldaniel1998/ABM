@@ -1,5 +1,9 @@
 package com.example.abm.Cart;
 
+import static com.example.abm.HistoryAnalytics.HistoryActivity.clientActivities;
+
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,19 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
+import com.example.abm.HistoryAnalytics.AnalyticsDatabaseUtils;
+import com.example.abm.HistoryAnalytics.ClientActivities;
 import com.example.abm.Products.ProductsClickcardActivity;
-import com.example.abm.Products.ProductsMainActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
@@ -32,7 +35,7 @@ public class ProductCartActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Cart> cart = new ArrayList<>();
-    private ArrayList<Orders> ordersList = new ArrayList<>();
+    public static ArrayList<ClientActivities> ordersList = new ArrayList<>();
     private CartAdapter adapter;
     private Button finishOrderButton;
     private TextView totalPrice;
@@ -80,8 +83,6 @@ public class ProductCartActivity extends BaseActivity {
             });
             startActivity(new Intent(ProductCartActivity.this, CalendarMainActivity.class));
         });
-        getOrdersFromDB();
-
     }
 
     private void createCartList() {
@@ -134,41 +135,36 @@ public class ProductCartActivity extends BaseActivity {
         });
     }
 
-    private void getOrdersFromDB() {
-        super.getCurrDatabase().collection("Clients").document(clientId)
+    public static void getOrdersFromDB(String clientId, ProgressDialog progressDialog, Context context, RecyclerView recyclerView, TextView totalRevenueTextView) {
+        FirebaseFirestore database = FirebaseFirestore.getInstance();
+        database.collection("Clients").document(clientId)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> {
                     Client currUser = documentSnapshot.toObject(Client.class);
                     if (currUser != null) {
                         if (currUser.getManager()) {
                             //get all the orders from the database and add to the orders list
-                            super.getCurrDatabase().collectionGroup("User Orders").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                            database.collectionGroup("User Orders").get().addOnSuccessListener(queryDocumentSnapshots -> {
                                 for (DocumentSnapshot documentSnapshot2 : queryDocumentSnapshots.getDocuments()) {
                                     Map<String, Object> data = documentSnapshot2.getData();
-                                    //System.out.println("------------------------------------------------:::: data " + data);
                                     Orders order = new Orders(data.get("clientName").toString(), data.get("price").toString(), Integer.parseInt(data.get("date").toString()), data.get("time").toString());
                                     ordersList.add(order);
                                 }
-//                                for (Orders order : ordersList) {
-//                                    System.out.println("------------------------------------------------:::: order list " + order.toString());
-//                                }
+                                clientActivities.addAll(ordersList);
+                                AnalyticsDatabaseUtils.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
                             });
                         } else {
                             //print the orders
-                            super.getCurrDatabase().collection("Orders").document(clientId).collection("User Orders").get().addOnSuccessListener(queryDocumentSnapshots -> {
+                            database.collection("Orders").document(clientId).collection("User Orders").get().addOnSuccessListener(queryDocumentSnapshots -> {
                                 for (DocumentSnapshot documentSnapshot2 : queryDocumentSnapshots.getDocuments()) {
                                     Map<String, Object> data = documentSnapshot2.getData();
-                                    //System.out.println("------------------------------------------------:::: data " + data);
                                     Orders order = new Orders(data.get("clientName").toString(), data.get("price").toString(), Integer.parseInt(data.get("date").toString()), data.get("time").toString());
                                     ordersList.add(order);
                                 }
-//                                for (Orders order : ordersList) {
-//                                    System.out.println("------------------------------------------------:::: order list " + order.toString());
-//                                }
+                                clientActivities.addAll(ordersList);
+                                AnalyticsDatabaseUtils.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
                             });
-
                         }
-
                     }
                 });
     }

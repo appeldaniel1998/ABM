@@ -42,6 +42,13 @@ public class AnalyticsActivity extends BaseActivity {
             clientActivitiesPerYear.get(currYear).add(currActivity);
         }
 
+        //set default value to the dropdown menu:
+        int currYear = Calendar.getInstance().get(Calendar.YEAR);
+        TextInputLayout textInputLayout = findViewById(R.id.autoCompleteWrapper);
+        assert textInputLayout.getEditText() != null;
+        textInputLayout.getEditText().setText(currYear + "");
+        showYearData(currYear + "");
+
         relevantYears = new ArrayList<>();
         relevantYears.addAll(clientActivitiesPerYear.keySet());
 
@@ -53,12 +60,7 @@ public class AnalyticsActivity extends BaseActivity {
             showYearData(year);
         });
 
-        //set default value to the dropdown menu:
-        int currYear = Calendar.getInstance().get(Calendar.YEAR);
-        TextInputLayout textInputLayout = findViewById(R.id.autoCompleteWrapper);
-        assert textInputLayout.getEditText() != null;
-        textInputLayout.getEditText().setText(currYear + "");
-        showYearData(currYear + "");
+
     }
 
     private void showYearData(String year) {
