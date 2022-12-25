@@ -62,7 +62,6 @@ public class ProductsClickcardActivity extends BaseActivity {
                     }
                 });
 
-
     }
 
     private void checkMangerOrClient() {

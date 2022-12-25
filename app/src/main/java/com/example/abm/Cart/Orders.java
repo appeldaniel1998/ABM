@@ -21,6 +21,16 @@ public class Orders implements ClientActivities{
     }
 
 
+    public String toString() {
+        return "Orders{" +
+                "clientId='" + clientId + '\'' +
+                ", totalPrice='" + totalPrice + '\'' +
+                ", date=" + date +
+                ", time='" + time + '\'' +
+                '}';
+    }
+
+
 
     @Override
     public String getActivityName() {
