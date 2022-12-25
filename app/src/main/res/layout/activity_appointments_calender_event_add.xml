@@ -54,6 +54,7 @@
         <!--            app:layout_constraintTop_toBottomOf="@id/name" />-->
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/appointmentTypeWrapper"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,7 +147,7 @@
         <!--            app:layout_constraintTop_toBottomOf="@id/clientname" />-->
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/clientsInputField"
+            android:id="@+id/clientsWrapper"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -171,10 +172,10 @@
             android:orientation="horizontal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/clientsInputField">
+            app:layout_constraintTop_toBottomOf="@+id/clientsWrapper">
 
             <Button
-                android:id="@+id/Savebutton"
+                android:id="@+id/saveButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
@@ -184,6 +185,16 @@
                 android:textColor="#455A64"
                 android:textSize="20sp" />
 
+            <Button
+                android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:backgroundTint="#F8F3CDDA"
+                android:onClick="saveNewEventAction"
+                android:text="Delete"
+                android:textColor="#455A64"
+                android:textSize="20sp" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

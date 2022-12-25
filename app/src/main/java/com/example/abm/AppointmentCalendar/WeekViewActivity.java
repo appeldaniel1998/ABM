@@ -37,18 +37,14 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
 
 
     //function get client name and return his ID
-    static String getkey(String ClientName)
-    {
-        String tempName="";
-        String ID = "";
+    public static String getKey(String clientName) {
         for (Map.Entry<String, Client> entry : CalendarMainActivity.clients.entrySet()) {
-            tempName=entry.getValue().getFirstName()+" "+entry.getValue().getLastName();
-            if (tempName.equals(ClientName)) {
-                //System.out.println(entry.getKey());
-                ID=entry.getValue().getUid();
+            String tempName = entry.getValue().getFirstName() + " " + entry.getValue().getLastName();
+            if (tempName.equals(clientName)) {
+                return entry.getValue().getUid();
             }
         }
-        return ID;
+        return null;
     }
 
     @Override
@@ -76,14 +72,10 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event item = (Event) parent.getItemAtPosition(position);
-                Intent intent = new Intent(WeekViewActivity.this, EventEditActivity.class);
-                String appIDFromItem=item.getAppointmentId();
-                intent.putExtra("appointmentID",appIDFromItem );
+                Intent intent = new Intent(WeekViewActivity.this, EventAddActivity.class);
+                String appIDFromItem = item.getAppointmentId();
+                intent.putExtra("appointmentID", appIDFromItem);
                 startActivity(intent);
-               // editEventAction(view);
-                //startActivity(new Intent(this, EventEditActivity.class));
-
-                //Toast.makeText(getApplicationContext(), "You clicked: " + item, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -139,12 +131,14 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
     }
 
     public void newEventAction(View view) {
-        startActivity(new Intent(this, EventAddActivity.class));
+        Intent intent = new Intent(WeekViewActivity.this, EventAddActivity.class);
+        intent.putExtra("appointmentID", "-1");
+        startActivity(intent);
     }
 
-    public void editEventAction(View view) {
-        startActivity(new Intent(this, EventEditActivity.class));
-
-    }
+//    public void editEventAction(View view) {
+//        startActivity(new Intent(this, EventEditActivity.class));
+//
+//    }
 
 }

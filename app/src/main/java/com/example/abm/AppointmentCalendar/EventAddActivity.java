@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -16,10 +15,10 @@ import android.widget.Toast;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.R;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.abm.Utils.DatePicker;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
@@ -35,7 +34,7 @@ public class EventAddActivity extends BaseActivity {
     //Add new event , Time picker functions, and drop down lists
 
     private TextView appointmentType;//event Name Edit Text
-//    private TextView appointmentType;//event Name Edit Text
+    //    private TextView appointmentType;//event Name Edit Text
     private TextView ClientName;//Client Name Edit Text
     private TextView eventDateTV, eventTimeTV; //2 text views
     private LocalTime time;
@@ -52,7 +51,10 @@ public class EventAddActivity extends BaseActivity {
     FirebaseFirestore database;
     FirebaseAuth auth;
     private Button Savebutton;
+    private String appointmentID;
 
+    private TextInputLayout clientsWrapper;
+    private TextInputLayout appointmentTypeWrapper;
 
 
     @Override
@@ -74,7 +76,7 @@ public class EventAddActivity extends BaseActivity {
         database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
             Client currUser = documentSnapshot.toObject(Client.class);
             if (!currUser.getManager()) { // user is a client
-                findViewById(R.id.clientsInputField).setVisibility(View.GONE);
+                findViewById(R.id.clientsWrapper).setVisibility(View.GONE);
                 findViewById(R.id.clientname).setVisibility(View.GONE);
             }
             progressDialog.dismiss();
@@ -102,13 +104,54 @@ public class EventAddActivity extends BaseActivity {
         adapterItems = new ArrayAdapter<>(this, R.layout.list_item, clientNames);
         appointmentTypeAutoCompleteTxt.setAdapter(adapterItems);
 
-        appointmentTypeAutoCompleteTxt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //String item = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), "Client selected! ", Toast.LENGTH_SHORT).show();//"Item: "+item,Toast.LENGTH_SHORT).show()
-            }
+        appointmentTypeAutoCompleteTxt.setOnItemClickListener((parent, view, position, id) -> {
+            //String item = parent.getItemAtPosition(position).toString();
+            Toast.makeText(getApplicationContext(), "Client selected! ", Toast.LENGTH_SHORT).show();//"Item: "+item,Toast.LENGTH_SHORT).show()
         });
+
+        Button deleteButton = findViewById(R.id.deleteButton);
+        this.appointmentID = getIntent().getStringExtra("appointmentID");
+        if (!appointmentID.equals("-1")) {
+            deleteButton.setOnClickListener(v -> {
+                Event eventNew = Event.getEvent(appointmentID);
+                String idClientOfAppointment = eventNew.getClientId();
+                DocumentReference docRef = database.collection("Appointments").document(idClientOfAppointment);
+                docRef.collection("Client Appointments").document(appointmentID).delete();
+                startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to week view display
+                finish();//close the activity
+            });
+            initValuesOfLayout(Event.getEvent(appointmentID));
+        } else {
+            deleteButton.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    private void initValuesOfLayout(Event eventNew) {
+        clientsWrapper = findViewById(R.id.clientsWrapper);
+        appointmentTypeWrapper = findViewById(R.id.appointmentTypeWrapper);
+
+        //function display the data of event I would like to edit ,after clicking on the event
+        String fullName = eventNew.getClientName();//get the client name
+//        ClientName.setText(fullName);//set text of client name
+        //birthday.setText(DatePicker.intToString(client.getBirthdayDate()));
+        eventDateTV.setText(DatePicker.intToString(eventNew.getDate()));//set text of event date
+        eventTimeTV.setText(eventNew.getStartTime());//set text of event start time
+//        appointmentType.setText(eventNew.getAppointmentType());//set text of appointment type
+        //doneEditingButton.setText("Done");
+
+        clientsWrapper.getEditText().setText(fullName);
+        appointmentTypeWrapper.getEditText().setText(eventNew.getAppointmentType());
+
+        AutoCompleteTextView autoCompleteTextViewClients = findViewById(R.id.auto_complete_txt_client);
+        ArrayAdapter<String> adapterItemsClients = new ArrayAdapter<>(this, R.layout.list_item, clientNames);
+        autoCompleteTextViewClients.setAdapter(adapterItemsClients);
+
+        AutoCompleteTextView autoCompleteTextViewAppTypes = findViewById(R.id.auto_complete_txt);
+        ArrayAdapter<String> adapterItemsAppTypes = new ArrayAdapter<>(this, R.layout.list_item, appointmentTypes);
+        autoCompleteTextViewAppTypes.setAdapter(adapterItemsAppTypes);
+
 
     }
 
@@ -156,10 +199,10 @@ public class EventAddActivity extends BaseActivity {
     {
         String eventName = appointmentType.getText().toString();//get the name of the event
         String cliName = ClientName.getText().toString();//get the client name
-        String IDclient=WeekViewActivity.getkey(cliName);//(cliName);
+        String IDclient = WeekViewActivity.getKey(cliName);//(cliName);
 //        //timeButton = findViewById(R.id.timeButton);
         final String uuid = UUID.randomUUID().toString().replace("-", "");
-        Event event = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()),IDclient);//create new event
+        Event event = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()), IDclient);//create new event
 
         ////////////////////////////////////////////////////////
         Event.eventsList.remove(event);//remove the event from eventsList
@@ -169,52 +212,49 @@ public class EventAddActivity extends BaseActivity {
     }
 
     //save the event the user created
-    public void saveNewEventAction (View view)
-    {
-        final int[] userStatus = {0};
-        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                Map<String, Object> data = documentSnapshot.getData();
-                boolean isManager = (boolean) data.get("manager");
-                //Converting fields to text
-                String eventName = appointmentType.getText().toString();//get the name of the event
-                String cliName="";
-                String IDclient="";
-                if(isManager)//if user is manager
-                {
-                    cliName = ClientName.getText().toString();//get the client name
-                    IDclient=WeekViewActivity.getkey(cliName);
-                }
-                else{//if user is client
-                    cliName=clientNames.get(0);
-                    IDclient=getCurrFirebaseAuth().getUid();
-                }
-
-//        //timeButton = findViewById(R.id.timeButton);
-                final String uuid = UUID.randomUUID().toString().replace("-", "");//Create a random UID for the new event
-                //final String uuid=
-                Event newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()),IDclient);//create new event
-                Event.eventsList.add(newEvent);//add event to the list of events in this day-For displaying
-                DocumentReference docRef=database.collection("Appointments").document(IDclient);
-
-                Map<String, Object> newEventMap = new HashMap<>();
-                newEventMap.put("appointmentId", newEvent.getAppointmentId());
-                newEventMap.put("appointmentType", newEvent.getAppointmentType());
-                newEventMap.put("clientId", newEvent.getClientId());
-                newEventMap.put("clientName", newEvent.getClientName());
-                newEventMap.put("date", newEvent.getDate());
-                newEventMap.put("startTime", newEvent.getStartTime());
-                docRef.collection("Client Appointments").document(uuid).set(newEventMap).addOnSuccessListener(unused -> {
-                    Map<String, Object> data_temp = new HashMap<>();
-                    data_temp.put("1", 1);
-                    docRef.set(data_temp, SetOptions.merge());
-//            Toast.makeText(EventAddActivity.this, "Save was clicked!", Toast.LENGTH_SHORT).show();
-                }); //adding event data_temp to database
-//        Toast.makeText(this, "Save was clicked!", Toast.LENGTH_SHORT).show();
-                EventAddActivity.this.startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to week view display
-                finish();//close the activity
+    public void saveNewEventAction(View view) {
+        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            Map<String, Object> data = documentSnapshot.getData();
+            boolean isManager = (boolean) data.get("manager");
+            //Converting fields to text
+            String eventName = appointmentType.getText().toString();//get the name of the event
+            String cliName;
+            String IDclient;
+            if (isManager) { //if user is manager
+                cliName = ClientName.getText().toString();//get the client name
+                IDclient = WeekViewActivity.getKey(cliName);
+            } else { //if user is client
+                cliName = clientNames.get(0);
+                IDclient = getCurrFirebaseAuth().getUid();
             }
+
+            String uuid;
+            Event newEvent;
+            if (EventAddActivity.this.appointmentID.equals("-1")) { // adding new event
+                uuid = UUID.randomUUID().toString().replace("-", "");//Create a random UID for the new event
+                newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()), IDclient);//create new event
+                Event.eventsList.add(newEvent);//add event to the list of events in this day-For displaying
+            } else { //editing existing event
+                uuid = EventAddActivity.this.appointmentID;
+                newEvent = Event.getEvent(EventAddActivity.this.appointmentID);
+                newEvent.setEvent(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()), IDclient);
+            }
+
+            DocumentReference docRef = database.collection("Appointments").document(IDclient);
+            Map<String, Object> newEventMap = new HashMap<>();
+            newEventMap.put("appointmentId", newEvent.getAppointmentId());
+            newEventMap.put("appointmentType", newEvent.getAppointmentType());
+            newEventMap.put("clientId", newEvent.getClientId());
+            newEventMap.put("clientName", newEvent.getClientName());
+            newEventMap.put("date", newEvent.getDate());
+            newEventMap.put("startTime", newEvent.getStartTime());
+            docRef.collection("Client Appointments").document(uuid).set(newEventMap).addOnSuccessListener(unused -> {
+                Map<String, Object> data_temp = new HashMap<>();
+                data_temp.put("1", 1);
+                docRef.set(data_temp, SetOptions.merge());
+            }); //adding event data_temp to database
+            EventAddActivity.this.startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to week view display
+            finish();//close the activity
         });
     }
 

@@ -5,15 +5,12 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -22,10 +19,6 @@ import androidx.annotation.NonNull;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
-import com.example.abm.Clients.EditClientActivity;
-import com.example.abm.Clients.SingleClientViewActivity;
-import com.example.abm.Products.ProductsClickcardActivity;
-import com.example.abm.Products.ProductsMainActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -41,7 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.UUID;
 
 public class EventEditActivity extends BaseActivity{//} implements AdapterView.OnItemClickListener {
     FirebaseFirestore database;
@@ -84,7 +76,7 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
         database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
             Client currUser = documentSnapshot.toObject(Client.class);
             if (!currUser.getManager()) { // user is a client
-                findViewById(R.id.clientsInputField).setVisibility(View.GONE);
+                findViewById(R.id.clientsWrapper).setVisibility(View.GONE);
                 findViewById(R.id.clientname).setVisibility(View.GONE);
             }
             progressDialog.dismiss();
@@ -192,7 +184,7 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
         //Converting fields to text
         String eventName = appointmentType.getText().toString();//get the name of the event
         String cliName = ClientName.getText().toString();//get the client name
-        String IDclient=WeekViewActivity.getkey(cliName);
+        String IDclient=WeekViewActivity.getKey(cliName);
 //        //timeButton = findViewById(R.id.timeButton);
         //final String uuid = UUID.randomUUID().toString().replace("-", "");//Create a random UID for the new event
         //final String uuid=
@@ -253,17 +245,17 @@ public class EventEditActivity extends BaseActivity{//} implements AdapterView.O
 //            startActivity(intent);
 //        }
 //    });
-    public void deleteEventAction(View view)
-    {
-        //EventEditActivity.super.getCurrDatabase().collection("Products").document(product.getColorName()).delete();
-        String appointmentID = getIntent().getStringExtra("appointmentID");
-        Event eventNew= Event.getEvent(appointmentID);
-        String idClientOfAppointment=eventNew.getClientId();
-        DocumentReference docRef=database.collection("Appointments").document(idClientOfAppointment);
-        docRef.collection("Client Appointments").document(appointmentID).delete();
-        EventEditActivity.this.startActivity(new Intent(EventEditActivity.this, WeekViewActivity.class));//back to week view display
-        finish();//close the activity
-
-                                                                                                            }
+//    public void deleteEventAction(View view)
+//    {
+//        //EventEditActivity.super.getCurrDatabase().collection("Products").document(product.getColorName()).delete();
+//        String appointmentID = getIntent().getStringExtra("appointmentID");
+//        Event eventNew= Event.getEvent(appointmentID);
+//        String idClientOfAppointment=eventNew.getClientId();
+//        DocumentReference docRef=database.collection("Appointments").document(idClientOfAppointment);
+//        docRef.collection("Client Appointments").document(appointmentID).delete();
+//        EventEditActivity.this.startActivity(new Intent(EventEditActivity.this, WeekViewActivity.class));//back to week view display
+//        finish();//close the activity
+//
+//                                                                                                            }
 }
 
