@@ -31,7 +31,6 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ListView eventListView;
-    private ProgressDialog progressDialog;
     private FirebaseFirestore database;
     private FirebaseAuth auth;
 
@@ -56,16 +55,11 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
         initWidgets();
         setWeekView();
 
-        progressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
         database = super.getCurrDatabase();
         auth = super.getCurrFirebaseAuth();
         //access data from DB
-        getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
 //try to understand if this is manager or client
 
-//        ListView lView_item = findViewById(R.id.eventListView);
-////    listView//.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//        lView_item.setOnItemClickListener(new AdapterView.OnItemClickListener());
         ListView listView = findViewById(R.id.eventListView);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -135,10 +129,5 @@ public class WeekViewActivity<listView> extends BaseActivity implements Calendar
         intent.putExtra("appointmentID", "-1");
         startActivity(intent);
     }
-
-//    public void editEventAction(View view) {
-//        startActivity(new Intent(this, EventEditActivity.class));
-//
-//    }
 
 }

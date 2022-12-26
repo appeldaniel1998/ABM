@@ -87,6 +87,14 @@ public class Event implements ClientActivities {
         }
     }
 
+//    public String getPriceToFutureEvents() {
+//        try {
+//            return HistoryActivity.appointmentTypes.get(this.appointmentType).getPrice();
+//        } catch (Exception e) {
+//            return "-1";
+//        }
+//    }
+
     public String getStartTime() {
         return startTime;
     }

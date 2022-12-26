@@ -3,6 +3,7 @@ package com.example.abm.AppointmentCalendar;
 import android.app.ProgressDialog;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.Clients.Client;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -189,4 +190,6 @@ public class CalendarDatabaseUtils {
                 });
         return clients;
     }
+
+
 }
