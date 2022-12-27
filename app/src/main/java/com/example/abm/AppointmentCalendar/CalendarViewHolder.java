@@ -17,7 +17,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     public final TextView dayOfMonth;
     private final CalendarAdapter.OnItemListener onItemListener;
     public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days)
-    {
+    {//constructor
         super(itemView);
         parentView = itemView.findViewById(R.id.cellDayText);
         dayOfMonth = itemView.findViewById(R.id.cellDayText);//define day of moth by id (define in calendar_cell.xml)

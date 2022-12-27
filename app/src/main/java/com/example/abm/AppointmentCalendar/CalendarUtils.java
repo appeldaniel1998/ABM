@@ -19,7 +19,7 @@ public class CalendarUtils
     }
 
     public static String formatteTime(LocalTime time)
-    {//Define day format
+    {//Define time format
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm:ss a");//hour,minutes,seconds, am/pm
         return time.format(formatter);
     }
