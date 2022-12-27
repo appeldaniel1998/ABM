@@ -1,5 +1,10 @@
 package com.example.abm.AppointmentCalendar;
 
+import static com.example.abm.Cart.ProductCartActivity.ordersList;
+import static com.example.abm.HistoryAnalytics.HistoryActivity.clientActivities;
+
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -7,17 +12,33 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.abm.AppointmentType.AppointmentType;
 import com.example.abm.BaseActivity;
+import com.example.abm.Cart.Orders;
+import com.example.abm.Cart.ProductCartActivity;
+import com.example.abm.Clients.Client;
 import com.example.abm.HistoryAnalytics.AnalyticsActivity;
+import com.example.abm.HistoryAnalytics.AnalyticsDatabaseUtils;
 import com.example.abm.HistoryAnalytics.ClientActivities;
 import com.example.abm.HistoryAnalytics.HistoryActivity;
+import com.example.abm.HistoryAnalytics.HistoryRecycleAdapter;
 import com.example.abm.R;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 
 public class FutureEventsActivity extends BaseActivity {
     private final HashMap<String, ArrayList<ClientActivities>> clientActivitiesPerYear = new HashMap<>();
@@ -25,6 +46,10 @@ public class FutureEventsActivity extends BaseActivity {
     AutoCompleteTextView autoCompleteTextView;
     ArrayAdapter<String> adapterItems;
     FirebaseFirestore database;
+    private FirebaseAuth auth;
+    private ProgressDialog progressDialog;
+    private RecyclerView recyclerView;
+    static ArrayList<Event> clientFutureEvents = new ArrayList<>();//Create new list of all events of current client
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,44 +61,30 @@ public class FutureEventsActivity extends BaseActivity {
 //        historyButton.setOnClickListener(v -> startActivity(new Intent(FutureEventsActivity.this, HistoryActivity.class)));
 
         //get the current date
-        int currentDate=getCurrentDate();
+        int currentDate = getCurrentDate();
         /////////////////I need to display here all event that their dated are bigger or equal to currentDate
         database = super.getCurrDatabase();
         database.collection("Appointment").get();
+        progressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
+        auth = super.getCurrFirebaseAuth();
+        recyclerView = findViewById(R.id.recyclerViewFuture);
+        /////////////////////////////////////////////
+        clientFutureEvents.addAll(Event.eventsList);
+        for (int i = 0; i < clientFutureEvents.size(); i++) {
+            int dateOfEvent = clientFutureEvents.get(i).getDate();
+            if (currentDate>dateOfEvent)//if this is not a future event (i.e its date supposed to be bigger then today's date)
+            {
+                clientFutureEvents.remove(clientFutureEvents.get(i));//remove this event from clientFutureEvents array
+            }
+        }
+//////////////////////////////////////////////////////////////////////////////
+        initRecyclerView(progressDialog,this,recyclerView);
 
 
+//.addOnSuccessListener
 
 
-//
-//        //Identifying the different years for which to do the calculations and sorting the event to arraylists (arraylist per year)
-//        for (int i = 0; i < HistoryActivity.clientActivities.size(); i++) {
-//            ClientActivities currActivity = HistoryActivity.clientActivities.get(i);
-//            String currYear = (currActivity.getDate() / (100 * 100)) + "";
-//            if (!clientActivitiesPerYear.containsKey(currYear)) {
-//                clientActivitiesPerYear.put(currYear, new ArrayList<>());
-//            }
-//            clientActivitiesPerYear.get(currYear).add(currActivity);
-//        }
-//
-//        relevantYears = new ArrayList<>();
-//        relevantYears.addAll(clientActivitiesPerYear.keySet());
-//
-//        autoCompleteTextView = findViewById(R.id.auto_complete_txt);
-//        adapterItems = new ArrayAdapter<>(this, R.layout.list_item, relevantYears);
-//        autoCompleteTextView.setAdapter(adapterItems);
-//        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-//            String year = parent.getItemAtPosition(position).toString();
-//            showYearData(year);
-//        });
-//
-//        //set default value to the dropdown menu:
-//        int currYear = Calendar.getInstance().get(Calendar.YEAR);
-//        TextInputLayout textInputLayout = findViewById(R.id.autoCompleteWrapper);
-//        assert textInputLayout.getEditText() != null;
-//        textInputLayout.getEditText().setText(currYear + "");
-//        showYearData(currYear + "");
-    }
-
+}
     //function get current date as int in structure YYYYMMDD
     private int getCurrentDate() {
         Calendar calendar = Calendar.getInstance();//get the current date in Android Studio
@@ -85,49 +96,18 @@ public class FutureEventsActivity extends BaseActivity {
         return date;//return the number we get as the current date
     }
 
-    private void showYearData(String year) {
-        //calculate monthly revenue
-        double[] monthlyRevenue = new double[12];
-        ArrayList<ClientActivities> currYear = clientActivitiesPerYear.get(year);
-        if (currYear != null) {
-            for (int i = 0; i < currYear.size(); i++) {
-                ClientActivities currActivity = currYear.get(i);
-                int month = (currActivity.getDate() / 100) % 100;
-                monthlyRevenue[month - 1] += Double.parseDouble(currActivity.getPrice());
-            }
-        }
-        //*******************************************//
+    public static void initRecyclerView(ProgressDialog progressDialog, Context context, RecyclerView recyclerView) {
+        RecyclerView.LayoutManager recyclerViewLayoutManager = new LinearLayoutManager(context);
 
-        //Initialize text views to put data into them
-        TextView[] monthlyTextViews = new TextView[12];
-        monthlyTextViews[0] = findViewById(R.id.januaryTextView);
-        monthlyTextViews[1] = findViewById(R.id.februaryTextView);
-        monthlyTextViews[2] = findViewById(R.id.marchTextView);
-        monthlyTextViews[3] = findViewById(R.id.aprilTextView);
-        monthlyTextViews[4] = findViewById(R.id.mayTextView);
-        monthlyTextViews[5] = findViewById(R.id.juneTextView);
-        monthlyTextViews[6] = findViewById(R.id.julyTextView);
-        monthlyTextViews[7] = findViewById(R.id.augustTextView);
-        monthlyTextViews[8] = findViewById(R.id.septemberTextView);
-        monthlyTextViews[9] = findViewById(R.id.octoberTextView);
-        monthlyTextViews[10] = findViewById(R.id.novemberTextView);
-        monthlyTextViews[11] = findViewById(R.id.decemberTextView);
-        //*******************************************//
+        recyclerView.hasFixedSize();
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(recyclerViewLayoutManager);
 
-        //Set the new values for the placeholders
-        for (int i = 0; i < 12; i++) {
-            monthlyTextViews[i].setText((Math.round(monthlyRevenue[i] * 100) / 100.0) + "");
-        }
+        // Sort the ArrayList in descending order by the date
+        Collections.sort(clientFutureEvents, (o1, o2) -> o2.getDate() - o1.getDate());
 
-
-        //Calculate and set the total revenue of the year
-        TextView totalRevenue = findViewById(R.id.totalRevenueTextView);
-        double revenue = 0;
-        for(int i = 0; i < 12; i++) {
-            revenue += monthlyRevenue[i];
-        }
-        totalRevenue.setText((Math.round(revenue * 100) / 100.0) + "");
-
+        FutureEventsRecycleViewAdapter recyclerViewAdapter = new FutureEventsRecycleViewAdapter(clientFutureEvents);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        progressDialog.dismiss();
     }
-
 }

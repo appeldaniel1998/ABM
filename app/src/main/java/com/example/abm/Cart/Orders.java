@@ -1,7 +1,5 @@
 package com.example.abm.Cart;
-import com.example.abm.AppointmentCalendar.CalendarMainActivity;
-import com.example.abm.Clients.Client;
-import com.example.abm.Utils.DatePicker;
+
 import com.example.abm.HistoryAnalytics.ClientActivities;
 
 public class Orders implements ClientActivities{
@@ -55,8 +53,9 @@ public class Orders implements ClientActivities{
 
     @Override
     public String getClientName() {
-        Client currClient = CalendarMainActivity.clients.get(this.clientId);
-        assert currClient != null;
-        return currClient.getFirstName() + " " + currClient.getLastName();
+//        Client currClient = CalendarMainActivity.clients.get(this.clientId);
+//        assert currClient != null;
+//        return currClient.getFirstName() + " " + currClient.getLastName();
+        return this.clientId;
     }
 }

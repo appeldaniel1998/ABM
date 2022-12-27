@@ -1,5 +1,6 @@
 package com.example.abm.AppointmentCalendar;
 
+import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getAppointmentsFromDB;
 import static com.example.abm.AppointmentCalendar.CalendarDatabaseUtils.getClientsIfManager;
 import static com.example.abm.AppointmentCalendar.CalendarUtils.daysInMonthArray;
 import static com.example.abm.AppointmentCalendar.CalendarUtils.monthYearFromDate;
@@ -39,6 +40,7 @@ public class CalendarMainActivity extends BaseActivity implements CalendarAdapte
     FirebaseFirestore database;
     FirebaseAuth auth;
     public static HashMap<String, Client> clients;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,9 @@ public class CalendarMainActivity extends BaseActivity implements CalendarAdapte
         //start to show the monthly calendar from current date
         CalendarUtils.selectedDate = LocalDate.now();//current date
         setMonthView();
+        progressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
+        getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
+
     }
 
     //define the calendar recycle view and the title (between 2 arrows)
