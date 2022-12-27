@@ -1,4 +1,5 @@
 package com.example.abm.AppointmentCalendar;
+
 import com.example.abm.R;
 
 import android.view.View;
@@ -10,26 +11,24 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-{
+public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private final ArrayList<LocalDate> days;
     public final View parentView;
     public final TextView dayOfMonth;
     private final CalendarAdapter.OnItemListener onItemListener;
-    public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days)
-    {//constructor
+
+    public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days) {//constructor
         super(itemView);
         parentView = itemView.findViewById(R.id.cellDayText);
         dayOfMonth = itemView.findViewById(R.id.cellDayText);//define day of moth by id (define in calendar_cell.xml)
         this.onItemListener = onItemListener;
         itemView.setOnClickListener(this);
-        this.days=days;
+        this.days = days;
     }
 
     @Override
     //Need to be implemented because of View.OnClickListener
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         onItemListener.onItemClick(getAdapterPosition(), days.get(getAdapterPosition()));
     }
 }

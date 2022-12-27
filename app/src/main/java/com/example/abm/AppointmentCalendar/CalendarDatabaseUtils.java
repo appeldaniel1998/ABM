@@ -114,11 +114,6 @@ public class CalendarDatabaseUtils {
                             progressDialog.dismiss();
                         }
                     });
-//            try {
-//                Tasks.await(database.collection("Clients").document(UserUid).get());
-//            } catch (ExecutionException | InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 

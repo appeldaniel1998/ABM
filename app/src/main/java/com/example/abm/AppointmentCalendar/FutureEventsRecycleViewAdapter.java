@@ -12,11 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.AppointmentCalendar.Event;
+import com.example.abm.AppointmentType.AppointmentType;
 import com.example.abm.Clients.ClientsRecycleAdapter;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * This class  is the adapter for the recycler view in the ClientsMainActivity
@@ -26,14 +30,15 @@ import java.util.ArrayList;
  * It is a subclass of View.OnClickListener
  * We used this tutorial to create this class: https://www.youtube.com/watch?v=Nw9JF55LDzE
  */
-public class FutureEventsRecycleViewAdapter extends RecyclerView.Adapter<FutureEventsRecycleViewAdapter.ClientActivityViewHolder>{
+public class FutureEventsRecycleViewAdapter extends RecyclerView.Adapter<FutureEventsRecycleViewAdapter.ClientActivityViewHolder> {
 
     private ArrayList<Event> clientFutureEvents;
     private ClientsRecycleAdapter.OnItemClickListener clickListener; //instance of interface below
 
+
     //Interface for onclick listener
     public interface OnItemClickListener {
-        void onItemClick (int position);
+        void onItemClick(int position);
     }
 
     public void setOnItemClickListener(ClientsRecycleAdapter.OnItemClickListener listener) {
@@ -55,11 +60,9 @@ public class FutureEventsRecycleViewAdapter extends RecyclerView.Adapter<FutureE
             clientName = itemView.findViewById(R.id.clientName);
 
             itemView.setOnClickListener(v -> {
-                if (listener != null)
-                {
+                if (listener != null) {
                     int position = getAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION)
-                    {
+                    if (position != RecyclerView.NO_POSITION) {
                         listener.onItemClick(position);
                     }
                 }
@@ -87,7 +90,7 @@ public class FutureEventsRecycleViewAdapter extends RecyclerView.Adapter<FutureE
         holder.activityName.setText(currEvent.getActivityName());
         holder.activityDate.setText(DatePicker.intToString(currEvent.getDate()));
         holder.clientName.setText(currEvent.getClientName());
-        holder.activityPrice.setText(currEvent.getPrice());
+        holder.activityPrice.setText(currEvent.getPriceToFutureEvents());
 
     }
 
@@ -95,4 +98,6 @@ public class FutureEventsRecycleViewAdapter extends RecyclerView.Adapter<FutureE
     public int getItemCount() {
         return this.clientFutureEvents.size();
     }
+
+
 }
