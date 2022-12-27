@@ -16,7 +16,7 @@ import com.example.abm.R;
 import java.util.List;
 
 public class EventAdapter extends ArrayAdapter<Event> {
-    //constructor
+        //constructor
     public EventAdapter(@NonNull Context context, List<Event> events) {
         super(context, 0, events);
     }
