@@ -62,6 +62,8 @@ public class ProductsClickcardActivity extends BaseActivity {
                     }
                 });
 
+
+
     }
 
     private void checkMangerOrClient() {
@@ -74,6 +76,7 @@ public class ProductsClickcardActivity extends BaseActivity {
                             Client client = documentSnapshot.toObject(Client.class);
                             TextView name = findViewById(R.id.nameMenuHeader);
                             if (client != null) {
+                                findViewById(R.id.deleteFromCart).setVisibility(View.GONE);
                                 //check if the current user is a client or manager
                                 if (client.getManager()) {
                                     // remove any button which are not needed for the manager- set invisible linear layout
@@ -154,7 +157,7 @@ public class ProductsClickcardActivity extends BaseActivity {
         });
     }
 
-    private void AddToCart() {
+    public void AddToCart() {
         if (quantity.getText().toString().equals("0")) {
             Toast.makeText(this, "You Didn't Pick anything! ", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));

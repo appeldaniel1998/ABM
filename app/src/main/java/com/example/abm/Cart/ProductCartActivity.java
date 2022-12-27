@@ -119,7 +119,7 @@ public class ProductCartActivity extends BaseActivity {
             @Override
             public void onItemClick(int position) {
                 cart.get(position);
-                Intent intent = new Intent(ProductCartActivity.this, ProductsClickcardActivity.class);
+                Intent intent = new Intent(ProductCartActivity.this, CartClickCardActivity.class);
                 intent.putExtra("Product", (CharSequence) cart.get(position).getProductColor());
                 startActivity(intent);
 
