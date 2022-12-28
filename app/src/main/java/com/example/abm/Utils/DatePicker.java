@@ -82,11 +82,16 @@ public class DatePicker {
     //converting to and from database format (2 following functions)
     public static int stringToInt(String date) {
         String[] arr = date.split(" ");
-        int day = Integer.parseInt(arr[0]);
+        String day = formatDay(Integer.parseInt(arr[0]));
         int month = Integer.parseInt(getMonthFormat(arr[1]));
         int year = Integer.parseInt(arr[2]);
         String tempDate = year + "" + month + "" + day;
         return Integer.parseInt(tempDate);
+    }
+
+    public static String formatDay(int day) {
+        if (day >= 10) return day + "";
+        else return "0" + day;
     }
 
     public static String intToString(int date) {

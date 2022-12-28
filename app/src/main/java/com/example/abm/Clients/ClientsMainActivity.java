@@ -47,6 +47,10 @@ public class ClientsMainActivity extends BaseActivity {
         // start new activity where a new clients info is to be entered
         addClientButton.setOnClickListener(v -> ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClientActivity.class)));
 
+        getFromDatabase(progressDialog);
+    }
+
+    private void getFromDatabase(ProgressDialog progressDialog) {
         //accessing database
         super.getCurrDatabase().collection("Clients").orderBy("firstName")
                 .get()
@@ -59,18 +63,22 @@ public class ClientsMainActivity extends BaseActivity {
                             String uid = (String) data.get("uid");
                             clients.add(new Client(data.get("firstName").toString(), data.get("lastName").toString(), email, uid));
                         }
-                        recyclerViewAdapter = new ClientsRecycleAdapter(clients);
-                        recyclerView.setAdapter(recyclerViewAdapter);
-
-                        progressDialog.dismiss(); // disable loading screen
-
-                        //onclick of each item in the recycle view (client in the list)
-                        recyclerViewAdapter.setOnItemClickListener(position -> {
-                            Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
-                            myIntent.putExtra("clientUID", clients.get(position).getUid()); //Optional parameters
-                            ClientsMainActivity.this.startActivity(myIntent);
-                        });
+                        initFieldsOnSuccessDatabaseGet(progressDialog);
                     }
                 });
+    }
+
+    private void initFieldsOnSuccessDatabaseGet(ProgressDialog progressDialog){
+        recyclerViewAdapter = new ClientsRecycleAdapter(clients);
+        recyclerView.setAdapter(recyclerViewAdapter);
+
+        progressDialog.dismiss(); // disable loading screen
+
+        //onclick of each item in the recycle view (client in the list)
+        recyclerViewAdapter.setOnItemClickListener(position -> {
+            Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
+            myIntent.putExtra("clientUID", clients.get(position).getUid()); //Optional parameters
+            ClientsMainActivity.this.startActivity(myIntent);
+        });
     }
 }
