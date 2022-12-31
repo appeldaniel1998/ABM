@@ -157,7 +157,7 @@ public class ProductsClickcardActivity extends BaseActivity {
         });
     }
 
-    public void AddToCart() {
+    private void AddToCart() {
         if (quantity.getText().toString().equals("0")) {
             Toast.makeText(this, "You Didn't Pick anything! ", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
