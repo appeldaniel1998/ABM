@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.abm.Clients.ClientsRecycleAdapter;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 
@@ -22,28 +21,28 @@ import java.util.ArrayList;
  * It is a subclass of View.OnClickListener
  * We used this tutorial to create this class: https://www.youtube.com/watch?v=Nw9JF55LDzE
  */
-public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAdapter.ClientActivityViewHolder>{
+public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAdapter.HistoryActivityViewHolder>{
 
     private ArrayList<ClientActivities> clientActivities;
-    private ClientsRecycleAdapter.OnItemClickListener clickListener; //instance of interface below
+    private HistoryRecycleAdapter.OnItemClickListener clickListener; //instance of interface below
 
     //Interface for onclick listener
     public interface OnItemClickListener {
         void onItemClick (int position);
     }
 
-    public void setOnItemClickListener(ClientsRecycleAdapter.OnItemClickListener listener) {
+    public void setOnItemClickListener(HistoryRecycleAdapter.OnItemClickListener listener) {
         this.clickListener = listener;
     }
 
     //This is a static class that is a subclass of RecyclerView.ViewHolder
-    public static class ClientActivityViewHolder extends RecyclerView.ViewHolder {
+    public static class HistoryActivityViewHolder extends RecyclerView.ViewHolder {
         public TextView activityName; // Parameters of the XML item
         public TextView activityDate;
         public TextView activityPrice;
         public TextView clientName;
 
-        public ClientActivityViewHolder(@NonNull View itemView, ClientsRecycleAdapter.OnItemClickListener listener) {
+        public HistoryActivityViewHolder(@NonNull View itemView, HistoryRecycleAdapter.OnItemClickListener listener) {
             super(itemView);
             activityName = itemView.findViewById(R.id.activityName);
             activityDate = itemView.findViewById(R.id.activityDate);
@@ -70,15 +69,15 @@ public class HistoryRecycleAdapter extends RecyclerView.Adapter<HistoryRecycleAd
     @NonNull
     @Override
     //This method is called when the recycler view is created and it creates the view holder
-    public HistoryRecycleAdapter.ClientActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HistoryRecycleAdapter.HistoryActivityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.utils_client_activity_item, parent, false);
-        HistoryRecycleAdapter.ClientActivityViewHolder clientActivityViewHolder = new HistoryRecycleAdapter.ClientActivityViewHolder(view, clickListener);
-        return clientActivityViewHolder;
+        HistoryRecycleAdapter.HistoryActivityViewHolder historyActivityViewHolder = new HistoryRecycleAdapter.HistoryActivityViewHolder(view, clickListener);
+        return historyActivityViewHolder;
     }
 
     @Override
     //This method is called when the recycler view is created and it binds the view holder to the data
-    public void onBindViewHolder(@NonNull HistoryRecycleAdapter.ClientActivityViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HistoryRecycleAdapter.HistoryActivityViewHolder holder, int position) {
         ClientActivities currActivity = this.clientActivities.get(position);
         holder.activityName.setText(currActivity.getActivityName());
         holder.activityDate.setText(DatePicker.intToString(currActivity.getDate()));

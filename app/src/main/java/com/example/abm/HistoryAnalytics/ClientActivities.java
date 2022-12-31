@@ -2,16 +2,13 @@ package com.example.abm.HistoryAnalytics;
 
 public interface ClientActivities {
 
-    public String getActivityName();
+    String getActivityName();
 
-    public int getDate();
+    int getDate();
 
-    public String getTime();
+    String getTime();
 
-    public String getPrice();
+    String getPrice();
 
-    public String getClientName();
-
-
-
+    String getClientName();
 }

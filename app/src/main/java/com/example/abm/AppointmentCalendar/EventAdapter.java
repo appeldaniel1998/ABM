@@ -26,13 +26,14 @@ public class EventAdapter extends ArrayAdapter<Event> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Event event = getItem(position);
 
-        if (convertView == null) convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_appointments_calender_event_cell, parent, false);
+        if (convertView == null)
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.activity_appointments_calender_event_cell, parent, false);
 
         TextView eventCellTV = convertView.findViewById(R.id.eventCellTV);//view of event in event list (part of recycle view display)
 
         Client currClient = CalendarMainActivity.clients.get(event.getClientId());
         //get details to represent it in wee view as list of all events
-        String eventTitle = event.getAppointmentType() +":"+ currClient.getFirstName() + " " + currClient.getLastName() +": " + Event.timeIntToString(event.getStartTime());
+        String eventTitle = event.getAppointmentType() + ":" + currClient.getFirstName() + " " + currClient.getLastName() + ": " + Event.timeIntToString(event.getStartTime());
         eventCellTV.setText(eventTitle);
         return convertView;
     }

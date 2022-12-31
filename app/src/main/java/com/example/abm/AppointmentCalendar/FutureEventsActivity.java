@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,6 +51,7 @@ public class FutureEventsActivity extends BaseActivity {
     private ProgressDialog progressDialog;
     private RecyclerView recyclerView;
     static ArrayList<Event> clientFutureEvents = new ArrayList<>();//Create new list of all events of current client
+    public static HashMap<String, AppointmentType> appointmentTypes = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,42 +59,43 @@ public class FutureEventsActivity extends BaseActivity {
         setContentView(R.layout.activity_appointments_calendar_future_events);
         initMenuSideBar();
 
-//        Button historyButton = findViewById(R.id.analyticsButton); //set onclick listener to button "History"
-//        historyButton.setOnClickListener(v -> startActivity(new Intent(FutureEventsActivity.this, HistoryActivity.class)));
-
         //get the current date
         int currentDate = getCurrentDate();
-        /////////////////I need to display here all event that their dated are bigger or equal to currentDate
+        //now we will display all events that their date is bigger or equal to currentDate
         database = super.getCurrDatabase();
         database.collection("Appointment").get();
         progressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
         auth = super.getCurrFirebaseAuth();
         recyclerView = findViewById(R.id.recyclerViewFuture);
-        /////////////////////////////////////////////
-        clientFutureEvents.addAll(Event.eventsList);
-        for (int i = 0; i < clientFutureEvents.size(); i++) {
-            int dateOfEvent = clientFutureEvents.get(i).getDate();
-            if (currentDate>dateOfEvent)//if this is not a future event (i.e its date supposed to be bigger then today's date)
-            {
-                clientFutureEvents.remove(clientFutureEvents.get(i));//remove this event from clientFutureEvents array
+        for (int i = 0; i < Event.eventsList.size(); i++) {
+            if (currentDate <= Event.eventsList.get(i).getDate()) {
+                clientFutureEvents.add(Event.eventsList.get(i));
             }
         }
-//////////////////////////////////////////////////////////////////////////////
-        initRecyclerView(progressDialog,this,recyclerView);
+        getAllAppointmentTypesAndPrices();
+    }
 
+    private void getAllAppointmentTypesAndPrices() {
+        database = super.getCurrDatabase();
+        database.collection("Appointment Types").get()
+                //.addOnFailureListener(e-> Toast.makeText(FutureEventsActivity.this, "Fail!", Toast.LENGTH_SHORT).show());
+                .addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        AppointmentType currType = document.toObject(AppointmentType.class);
+                        appointmentTypes.put(currType.getTypeName(), currType);
+                    }
+                    initRecyclerView(progressDialog, this, recyclerView);
+                });
+    }
 
-//.addOnSuccessListener
-
-
-}
     //function get current date as int in structure YYYYMMDD
     private int getCurrentDate() {
         Calendar calendar = Calendar.getInstance();//get the current date in Android Studio
         String year = String.valueOf(calendar.get(Calendar.YEAR));
-        String month = String.valueOf(calendar.get(Calendar.MONTH));
-        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
-        String currDate= year+month+day;//merge all to one string
-        int date= Integer.parseInt(currDate);//convert the string to int
+        String month = String.valueOf(calendar.get(Calendar.MONTH) + 1);
+        String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH) + 1);
+        String currDate = year + month + day;//merge all to one string
+        int date = Integer.parseInt(currDate);//convert the string to int
         return date;//return the number we get as the current date
     }
 
@@ -110,4 +113,5 @@ public class FutureEventsActivity extends BaseActivity {
         recyclerView.setAdapter(recyclerViewAdapter);
         progressDialog.dismiss();
     }
+
 }

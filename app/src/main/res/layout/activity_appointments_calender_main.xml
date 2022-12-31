@@ -48,8 +48,7 @@
             android:text="Weekly"
             android:textColor="#455A64"
             android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.279"
+            android:layout_marginStart="32dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/AppBar" />
 
@@ -66,9 +65,9 @@
             android:text="Future Events"
             android:textColor="#455A64"
             android:textSize="17sp"
+            android:layout_marginEnd="32dp"
+
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.858"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/AppBar" />
 
         <LinearLayout

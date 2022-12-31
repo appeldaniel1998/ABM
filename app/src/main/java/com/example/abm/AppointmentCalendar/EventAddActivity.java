@@ -38,7 +38,6 @@ public class EventAddActivity extends BaseActivity {
     private TextView ClientName;//Client Name Edit Text
     private TextView eventDateTV, eventTimeTV; //2 text views
     private LocalTime time;
-    Button timeButton, saveButton, deleteButton;//time picker
     int hour, minute;//time picker
     private ProgressDialog progressDialog;
 

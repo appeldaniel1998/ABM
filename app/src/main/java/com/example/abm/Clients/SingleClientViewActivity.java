@@ -48,27 +48,36 @@ public class SingleClientViewActivity extends BaseActivity {
         phoneNumber = findViewById(R.id.phoneNumberPlaceholder);
         address = findViewById(R.id.addressPlaceholder);
 
+        databaseGetClient(progressDialog);
+    }
+
+    private void databaseGetClient(ProgressDialog progressDialog) {
         super.getCurrDatabase().collection("Clients").document(clientUID).get().addOnSuccessListener(documentSnapshot -> {
             // If client info retrieved successfully from the DB
             client = documentSnapshot.toObject(Client.class);
-            initValuesOfLayout();
-            progressDialog.dismiss();
-
-            ImageView profilePic = findViewById(R.id.personIcon);
-            StorageReference profilePicReference = super.getStorageReference().child("Clients").child(client.getUid()).child("profile.jpg");
-            //Connecting with Firebase storage and retrieving image
-            profilePicReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                Glide.with(SingleClientViewActivity.this).load(uri).into(profilePic);
-            });
-
-            // onclick of "edit client"
-            editClientButton.setOnClickListener(v -> {
-                Intent myIntent = new Intent(SingleClientViewActivity.this, EditClientActivity.class);
-                myIntent.putExtra("clientUID", clientUID); //Optional parameters
-                SingleClientViewActivity.this.startActivity(myIntent);
-            });
+            onClientGetOnSuccess(progressDialog);
         });
     }
+
+    private void onClientGetOnSuccess(ProgressDialog progressDialog) {
+        initValuesOfLayout();
+        progressDialog.dismiss();
+
+        ImageView profilePic = findViewById(R.id.personIcon);
+        StorageReference profilePicReference = super.getStorageReference().child("Clients").child(client.getUid()).child("profile.jpg");
+        //Connecting with Firebase storage and retrieving image
+        profilePicReference.getDownloadUrl().addOnSuccessListener(uri -> {
+            Glide.with(SingleClientViewActivity.this).load(uri).into(profilePic);
+        });
+
+        // onclick of "edit client"
+        editClientButton.setOnClickListener(v -> {
+            Intent myIntent = new Intent(SingleClientViewActivity.this, EditClientActivity.class);
+            myIntent.putExtra("clientUID", clientUID); //Optional parameters
+            SingleClientViewActivity.this.startActivity(myIntent);
+        });
+    }
+
 
     // display the real data of client taken from database
     private void initValuesOfLayout() {

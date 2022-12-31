@@ -98,25 +98,34 @@ public class EditClientActivity extends BaseActivity {
             imageProgressDialog.dismiss();
         });
 
+        databaseGetClient(progressDialog);
+
+    }
+
+    private void databaseGetClient(ProgressDialog progressDialog) {
         database.collection("Clients").document(clientUID)
                 .get()
                 .addOnSuccessListener(documentSnapshot -> { // If client info retrieved successfully from the DB
                     client = documentSnapshot.toObject(Client.class);
-                    initValuesOfLayout();
-                    progressDialog.dismiss();
-
-                    doneEditingButton.setOnClickListener(v -> {
-                        Client userToAdd = new Client(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
-                                phoneNumber.getText().toString(), address.getText().toString(),
-                                DatePicker.stringToInt(birthday.getText().toString()), clientUID); //creating a new user
-                        database.collection("Clients").document(clientUID).set(userToAdd); //adding user data to database
-
-                        Intent myIntent = new Intent(EditClientActivity.this, SingleClientViewActivity.class);
-                        myIntent.putExtra("clientUID", clientUID); //Optional parameters
-                        EditClientActivity.this.startActivity(myIntent);
-                        finish();
-                    });
+                    onClientGetOnSuccess(progressDialog);
                 });
+    }
+
+    private void onClientGetOnSuccess(ProgressDialog progressDialog) {
+        initValuesOfLayout();
+        progressDialog.dismiss();
+
+        doneEditingButton.setOnClickListener(v -> {
+            Client userToAdd = new Client(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
+                    phoneNumber.getText().toString(), address.getText().toString(),
+                    DatePicker.stringToInt(birthday.getText().toString()), clientUID); //creating a new user
+            database.collection("Clients").document(clientUID).set(userToAdd); //adding user data to database
+
+            Intent myIntent = new Intent(EditClientActivity.this, SingleClientViewActivity.class);
+            myIntent.putExtra("clientUID", clientUID); //Optional parameters
+            EditClientActivity.this.startActivity(myIntent);
+            finish();
+        });
     }
 
     @SuppressLint("SetTextI18n")

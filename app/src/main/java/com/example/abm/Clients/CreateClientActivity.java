@@ -98,7 +98,6 @@ public class CreateClientActivity extends BaseActivity {
                 finish();
             }
         });
-
     }
 
     /**

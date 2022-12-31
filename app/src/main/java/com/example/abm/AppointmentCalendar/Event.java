@@ -10,16 +10,15 @@ import java.util.ArrayList;
 
 public class Event implements ClientActivities {
     public static ArrayList<Event> eventsList = new ArrayList<>(); //Define new array list of event
-
     private String appointmentId;
     private String appointmentType;
     private String clientName;
     private String clientId;
-
     private int date;
     private String startTime;
 
-    public Event() {
+    public Event()//constructor
+    {
     }
 
     //constructors
@@ -87,13 +86,12 @@ public class Event implements ClientActivities {
         }
     }
 
-//    public String getPriceToFutureEvents() {
-//        try {
-//            return HistoryActivity.appointmentTypes.get(this.appointmentType).getPrice();
-//        } catch (Exception e) {
-//            return "-1";
-//        }
-//    }
+    public String getPriceToFutureEvents() {
+        String price = FutureEventsActivity.appointmentTypes.get(this.appointmentType).getPrice();
+        double roundprice = Math.round(Double.parseDouble(price) * 100) / 100.0;
+        return roundprice + "";
+        // appointmentTypes.get(this.appointmentType).getPrice()
+    }
 
     public String getStartTime() {
         return startTime;
