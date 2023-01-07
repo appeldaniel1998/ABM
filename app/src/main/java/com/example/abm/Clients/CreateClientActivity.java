@@ -21,6 +21,7 @@ import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
+import com.google.gson.Gson;
 
 public class CreateClientActivity extends BaseActivity {
 
@@ -85,9 +86,13 @@ public class CreateClientActivity extends BaseActivity {
             if (TextUtils.isEmpty(textFirstName) || TextUtils.isEmpty(textEmail)) {
                 Toast.makeText(CreateClientActivity.this, "Empty email or first name!", Toast.LENGTH_SHORT).show();
             } else {
-                //if the manger add client, we create an id.
+                //if the manger adds a client, we create an id.
                 String uid = String.valueOf(java.util.UUID.randomUUID()); //Create a random UID for the new client
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, uid); //creating a new user
+
+                Gson gson = new Gson();
+                String jsonString = gson.toJson(userToAdd); //converting the user to json
+
                 database.collection("Clients").document(uid).set(userToAdd); //adding user data to database
                 if (profilePicWasChanged) {
                     uploadImageToFirebase(super.getStorageReference(), uid);

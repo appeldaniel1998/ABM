@@ -11,10 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-
-import java.util.ArrayList;
-import java.util.Map;
+import com.example.abm.Utils.BackendHandling;
+import com.example.abm.Utils.CallbackInterface;
 
 public class ClientsMainActivity extends BaseActivity {
 
@@ -22,7 +20,7 @@ public class ClientsMainActivity extends BaseActivity {
     private ClientsRecycleAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
     private Button addClientButton;
-    private ArrayList<Client> clients;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +29,6 @@ public class ClientsMainActivity extends BaseActivity {
         super.initMenuSideBar();
 
         // loading screen
-        ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Clients", "Loading, please wait....", true);
 
 
@@ -42,43 +39,27 @@ public class ClientsMainActivity extends BaseActivity {
         recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerView.setLayoutManager(recyclerViewLayoutManager);
 
-        clients = new ArrayList<>();
-
         // start new activity where a new clients info is to be entered
         addClientButton.setOnClickListener(v -> ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClientActivity.class)));
 
-        getFromDatabase(progressDialog);
+        // get clients from database
+        super.postRequest("Clients", new CallbackClass());
     }
 
-    private void getFromDatabase(ProgressDialog progressDialog) {
-        //accessing database
-        super.getCurrDatabase().collection("Clients").orderBy("firstName")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        //save client data from database
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Map<String, Object> data = document.getData();
-                            String email = (String) data.get("email");
-                            String uid = (String) data.get("uid");
-                            clients.add(new Client(data.get("firstName").toString(), data.get("lastName").toString(), email, uid));
-                        }
-                        initFieldsOnSuccessDatabaseGet(progressDialog);
-                    }
-                });
-    }
+    private class CallbackClass implements CallbackInterface {
+        @Override
+        public void onCall() { // initialize the UI of activity
+            recyclerViewAdapter = new ClientsRecycleAdapter(BackendHandling.clients);
+            recyclerView.setAdapter(recyclerViewAdapter);
 
-    private void initFieldsOnSuccessDatabaseGet(ProgressDialog progressDialog){
-        recyclerViewAdapter = new ClientsRecycleAdapter(clients);
-        recyclerView.setAdapter(recyclerViewAdapter);
+            progressDialog.dismiss(); // disable loading screen
 
-        progressDialog.dismiss(); // disable loading screen
-
-        //onclick of each item in the recycle view (client in the list)
-        recyclerViewAdapter.setOnItemClickListener(position -> {
-            Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
-            myIntent.putExtra("clientUID", clients.get(position).getUid()); //Optional parameters
-            ClientsMainActivity.this.startActivity(myIntent);
-        });
+            //onclick of each item in the recycle view (client in the list)
+            recyclerViewAdapter.setOnItemClickListener(position -> {
+                Intent myIntent = new Intent(ClientsMainActivity.this, SingleClientViewActivity.class);
+                myIntent.putExtra("clientUID", BackendHandling.clients.get(position).getUid()); //Optional parameters
+                ClientsMainActivity.this.startActivity(myIntent);
+            });
+        }
     }
 }
