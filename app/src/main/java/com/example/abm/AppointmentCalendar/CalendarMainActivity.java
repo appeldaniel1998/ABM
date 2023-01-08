@@ -34,54 +34,41 @@ public class CalendarMainActivity extends BaseActivity implements CalendarAdapte
     //To build daily calender I used:
     //https://www.youtube.com/watch?v=Aig99t-gNqM&t=0s
 
-    private TextView monthYearText;
-    private RecyclerView calendarRecyclerView;
+    private static TextView monthYearText;
+    private static RecyclerView calendarRecyclerView;
 
-    FirebaseFirestore database;
-    FirebaseAuth auth;
+
     public static HashMap<String, Client> clients;
-    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_main);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
         super.initMenuSideBar();
+        EventDatabaseUtils.Retrivel(this);
 
-        database = super.getCurrDatabase();
-        auth = super.getCurrFirebaseAuth();
-        ProgressDialog clientsProgressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
-        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
-            Client currUser = documentSnapshot.toObject(Client.class);
-            if (currUser != null) {
-                if (currUser.getManager()) { // user is a manager
-                    // get all clients from DB to represent it in drop down list
-                    clients = getClientsIfManager(database, clientsProgressDialog);
-                } else {
-                    clients = new HashMap<>();
-                    clients.put(currUser.getUid(), currUser);
-                    clientsProgressDialog.dismiss();
-                }
-            }
-        });
-
-        initWidgets();//define recycleviews
-        //start to show the monthly calendar from current date
-        CalendarUtils.selectedDate = LocalDate.now();//current date
-        setMonthView();
-        progressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
-        getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
 
     }
 
+
+    static void initAndSetMonthView(CalendarMainActivity obj,FirebaseFirestore database, FirebaseAuth auth, ProgressDialog progressDialog)
+    {
+        obj.initWidgets();//define recycleviews
+        //start to show the monthly calendar from current date
+        CalendarUtils.selectedDate = LocalDate.now();//current date
+        obj.setMonthView();
+        progressDialog = ProgressDialog.show(obj, "Appointments", "Loading, please wait....", true);
+        getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
+
+    }
     //define the calendar recycle view and the title (between 2 arrows)
-    private void initWidgets() {
+    void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView22);//id from activity_appointments_calender_main.xml
         monthYearText = findViewById(R.id.monthYearTV22);//text between 2 arrows
     }
 
     //define monthly viewing
-    private void setMonthView() {
+    void setMonthView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
