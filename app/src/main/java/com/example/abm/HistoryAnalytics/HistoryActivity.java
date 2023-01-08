@@ -2,12 +2,15 @@ package com.example.abm.HistoryAnalytics;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.AppointmentType.AppointmentType;
@@ -21,6 +24,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,6 +86,27 @@ public class HistoryActivity extends BaseActivity {
 
         //get orders from appropriate function.
         //clientActivities.addAll(orders);
+    }
+
+    public static void initRecyclerView(ProgressDialog progressDialog, Context context, RecyclerView recyclerView, TextView totalRevenueTextView) {
+        RecyclerView.LayoutManager recyclerViewLayoutManager = new LinearLayoutManager(context);
+
+        recyclerView.hasFixedSize();
+        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
+        recyclerView.setLayoutManager(recyclerViewLayoutManager);
+
+        double totalRevenue = 0;
+        for (int i = 0; i < clientActivities.size(); i++) {
+            totalRevenue += Math.round(Double.parseDouble(clientActivities.get(i).getPrice()) * 100) / 100.0;
+        }
+        totalRevenueTextView.setText(totalRevenue + "");
+
+        // Sort the ArrayList in descending order by the date
+        Collections.sort(clientActivities, (o1, o2) -> o2.getDate() - o1.getDate());
+
+        HistoryRecycleAdapter recyclerViewAdapter = new HistoryRecycleAdapter(clientActivities);
+        recyclerView.setAdapter(recyclerViewAdapter);
+        progressDialog.dismiss();
     }
 }
 

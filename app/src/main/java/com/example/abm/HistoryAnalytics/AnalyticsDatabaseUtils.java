@@ -6,8 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.widget.TextView;
 
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.AppointmentCalendar.Event;
@@ -19,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +41,7 @@ public class AnalyticsDatabaseUtils {
         int finalFromDate = fromDate;
         int finalToDate = toDate;
 
-        if (user != null) //if we seccuees to get from DB
+        if (user != null) //if we successfully get from DB
         {
             // getting data and checking if user is manager or client
             String UserUid = user.getUid();
@@ -101,11 +98,6 @@ public class AnalyticsDatabaseUtils {
                             }
                         }
                     });
-//            try {
-//                Tasks.await(database.collection("Clients").document(UserUid).get());
-//            } catch (ExecutionException | InterruptedException e) {
-//                e.printStackTrace();
-//            }
         }
     }
 
@@ -132,26 +124,5 @@ public class AnalyticsDatabaseUtils {
 
                     ProductCartActivity.getOrdersFromDB(user.getUid(), progressDialog, context, recyclerView, totalRevenueTextView);
                 });
-    }
-
-    public static void initRecyclerView(ProgressDialog progressDialog, Context context, RecyclerView recyclerView, TextView totalRevenueTextView) {
-        RecyclerView.LayoutManager recyclerViewLayoutManager = new LinearLayoutManager(context);
-
-        recyclerView.hasFixedSize();
-        recyclerView.addItemDecoration(new DividerItemDecoration(context, LinearLayoutManager.VERTICAL));
-        recyclerView.setLayoutManager(recyclerViewLayoutManager);
-
-        double totalRevenue = 0;
-        for (int i = 0; i < clientActivities.size(); i++) {
-            totalRevenue += Math.round(Double.parseDouble(clientActivities.get(i).getPrice()) * 100) / 100.0;
-        }
-        totalRevenueTextView.setText(totalRevenue + "");
-
-        // Sort the ArrayList in descending order by the date
-        Collections.sort(clientActivities, (o1, o2) -> o2.getDate() - o1.getDate());
-
-        HistoryRecycleAdapter recyclerViewAdapter = new HistoryRecycleAdapter(clientActivities);
-        recyclerView.setAdapter(recyclerViewAdapter);
-        progressDialog.dismiss();
     }
 }

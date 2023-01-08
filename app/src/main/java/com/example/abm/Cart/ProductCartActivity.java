@@ -16,9 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
-import com.example.abm.HistoryAnalytics.AnalyticsDatabaseUtils;
 import com.example.abm.HistoryAnalytics.ClientActivities;
-import com.example.abm.Products.ProductsClickcardActivity;
+import com.example.abm.HistoryAnalytics.HistoryActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -151,7 +150,7 @@ public class ProductCartActivity extends BaseActivity {
                                     ordersList.add(order);
                                 }
                                 clientActivities.addAll(ordersList);
-                                AnalyticsDatabaseUtils.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
+                                HistoryActivity.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
                             });
                         } else {
                             //print the orders
@@ -162,7 +161,7 @@ public class ProductCartActivity extends BaseActivity {
                                     ordersList.add(order);
                                 }
                                 clientActivities.addAll(ordersList);
-                                AnalyticsDatabaseUtils.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
+                                HistoryActivity.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
                             });
                         }
                     }

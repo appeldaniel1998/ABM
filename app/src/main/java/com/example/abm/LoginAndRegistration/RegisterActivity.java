@@ -19,11 +19,11 @@ import androidx.annotation.Nullable;
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
+import com.example.abm.Clients.ClientsDatabaseUtils;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.StorageReference;
 
 public class RegisterActivity extends BaseActivity {
 //Class to Register (not exist account)
@@ -109,9 +109,9 @@ public class RegisterActivity extends BaseActivity {
                 String userUID = user.getUid();//get user ID
 
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, userUID); //creating a new user
-                super.getCurrDatabase().collection("Clients").document(userUID).set(userToAdd); //adding user data to database
+                ClientsDatabaseUtils.addClientToFirebase(userToAdd, userUID);//add the user to the database
                 if (profilePicWasChanged) {
-                    uploadImageToFirebase(super.getStorageReference(), userUID);
+                    ClientsDatabaseUtils.uploadImageToFirebase(super.getStorageReference(), userUID, profilePicUri, this);
                 }
 
                 Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
@@ -146,18 +146,8 @@ public class RegisterActivity extends BaseActivity {
                 assert data != null;
                 this.profilePicUri = data.getData();
                 userIcon.setImageURI(this.profilePicUri); // set the image view to the image received from the client's gallery
-
-//                uploadImageToFirebase(imageUri); // upload to firebase storage
                 this.profilePicWasChanged = true;
             }
         }
-    }
-
-    private void uploadImageToFirebase(StorageReference storageReference, String clientUID) {
-        // upload image to firebase storage
-        StorageReference fileRef = storageReference.child("Clients").child(clientUID).child("profile.jpg");
-        fileRef.putFile(profilePicUri)
-                .addOnSuccessListener(taskSnapshot -> Toast.makeText(RegisterActivity.this, "Profile image uploaded successfully!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(RegisterActivity.this, "Image upload failed!", Toast.LENGTH_SHORT).show());
     }
 }
