@@ -81,7 +81,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".AppointmentType.AppointmentTypesActivity"
+            android:name=".AppointmentType.AppointmentTypesMainActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

@@ -101,7 +101,6 @@ public class AnalyticsDatabaseUtils {
         }
     }
 
-
     /**
      * The function gets the apponintment types from the database into an arraylist which it returns.
      *
@@ -111,7 +110,6 @@ public class AnalyticsDatabaseUtils {
     public static void getAppointmentTypesFromDB(FirebaseFirestore database, ProgressDialog progressDialog,
                                                  Context context, RecyclerView recyclerView, TextView totalRevenueTextView, FirebaseUser user) {
         HistoryActivity.appointmentTypes = new HashMap<>();
-//        ArrayList<AppointmentType> appointmentTypes = new ArrayList<>();
         database.collection("Appointment Types").orderBy("typeName")
                 .get()
                 .addOnCompleteListener(task -> {

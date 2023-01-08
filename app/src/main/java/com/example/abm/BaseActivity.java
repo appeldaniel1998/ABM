@@ -19,7 +19,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.bumptech.glide.Glide;
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
-import com.example.abm.AppointmentType.AppointmentTypesActivity;
+import com.example.abm.AppointmentType.AppointmentTypesMainActivity;
 import com.example.abm.Cart.ProductCartActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
@@ -53,29 +53,17 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth auth;
     private FirebaseFirestore database;
     private StorageReference storageReference;
-    private String url = "http://192.168.1.246:5000";
-    private RequestBody requestBody;
-    private String postBodyString;
-    private MediaType mediaType;
-    protected final Object lock = new Object();
-//    private String POST = "POST";
-//    private String GET="GET";
-
-
+    private final String url = "http://192.168.1.246:5000";
     public final int IMG_REQUEST_CODE_GALLERY = 10;
-
     public FirebaseAuth getCurrFirebaseAuth() {
         return auth;
     }
-
     public FirebaseFirestore getCurrDatabase() {
         return database;
     }
-
     public StorageReference getStorageReference() {
         return storageReference;
     }
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -86,10 +74,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private RequestBody buildRequestBody(String msg) {
-        postBodyString = msg;
-        mediaType = MediaType.parse("text/plain");
-        requestBody = RequestBody.create(postBodyString, mediaType);
-        return requestBody;
+        MediaType mediaType = MediaType.parse("text/plain");
+        return RequestBody.create(msg, mediaType);
     }
 
     public void postRequest(String message, CallbackInterface callBack) {
@@ -98,14 +84,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         Request request = new Request.Builder().post(requestBody).url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
-            public void onFailure(final Call call, final IOException e) {
+            public void onFailure(@NonNull final Call call, @NonNull final IOException e) {
                 runOnUiThread(() -> {
                     Toast.makeText(BaseActivity.this, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     call.cancel();
                 });
             }
             @Override
-            public void onResponse(Call call, final Response response) {
+            public void onResponse(@NonNull Call call, @NonNull final Response response) {
                 runOnUiThread(() -> {
                     boolean success = false;
                     while (!success) {
@@ -115,7 +101,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                             BackendHandling.handleServerResponses(jsonArray);
                             callBack.onCall();
                             success = true;
-                        } catch (Exception e) {
+                        } catch (Exception ignored) {
                         }
                     }
                 });
@@ -132,7 +118,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, CalendarMainActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemAppointmentTypes) {
-            startActivity(new Intent(this, AppointmentTypesActivity.class));
+            startActivity(new Intent(this, AppointmentTypesMainActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemProducts) {
             startActivity(new Intent(this, ProductsMainActivity.class));
@@ -185,9 +171,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 ImageView profilePicNavBar = findViewById(R.id.profileImageMenuHeader);
                 StorageReference profilePicReference = storageReference.child("Clients").child(userUid).child("profile.jpg");
                 //Connecting with Firebase storage and retrieving image
-                profilePicReference.getDownloadUrl().addOnSuccessListener(uri -> {
-                    Glide.with(BaseActivity.this).load(uri).into(profilePicNavBar);
-                });
+                profilePicReference.getDownloadUrl().addOnSuccessListener(uri -> Glide.with(BaseActivity.this).load(uri).into(profilePicNavBar));
 
                 TextView name = findViewById(R.id.nameMenuHeader);
                 if (currUser != null) {

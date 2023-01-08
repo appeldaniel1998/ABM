@@ -1,17 +1,10 @@
 package com.example.abm.AppointmentCalendar;
 
-import static com.example.abm.Cart.ProductCartActivity.ordersList;
-import static com.example.abm.HistoryAnalytics.HistoryActivity.clientActivities;
-
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,19 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.AppointmentType.AppointmentType;
 import com.example.abm.BaseActivity;
-import com.example.abm.Cart.Orders;
-import com.example.abm.Cart.ProductCartActivity;
-import com.example.abm.Clients.Client;
-import com.example.abm.HistoryAnalytics.AnalyticsActivity;
-import com.example.abm.HistoryAnalytics.AnalyticsDatabaseUtils;
 import com.example.abm.HistoryAnalytics.ClientActivities;
-import com.example.abm.HistoryAnalytics.HistoryActivity;
-import com.example.abm.HistoryAnalytics.HistoryRecycleAdapter;
 import com.example.abm.R;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -39,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 public class FutureEventsActivity extends BaseActivity {
     private final HashMap<String, ArrayList<ClientActivities>> clientActivitiesPerYear = new HashMap<>();
