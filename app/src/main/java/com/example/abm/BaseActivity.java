@@ -36,20 +36,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.concurrent.TimeUnit;
 
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -96,79 +92,35 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return requestBody;
     }
 
-//    public void postRequest(String message, CallbackInterface callBack) {
-//        RequestBody requestBody = buildRequestBody(message);
-//        OkHttpClient okHttpClient = new OkHttpClient();
-//        Request request = new Request.Builder().post(requestBody).url(url).build();
-//        okHttpClient.newCall(request).enqueue(new Callback() {
-//            @Override
-//            public void onFailure(final Call call, final IOException e) {
-//                runOnUiThread(() -> {
-//                    Toast.makeText(BaseActivity.this, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    call.cancel();
-//                });
-//            }
-//            @Override
-//            public void onResponse(Call call, final Response response) {
-//                runOnUiThread(() -> {
-//                    boolean success = false;
-//                    while (!success) {
-//                        try {
-//                            String jsonString = response.body().string();
-//                            JSONArray jsonArray = new JSONArray(jsonString);
-//                            BackendHandling.handleServerResponses(jsonArray);
-//                            callBack.onCall();
-//                            success = true;
-//                        } catch (Exception e) {
-//                        }
-//                    }
-//                });
-//            }
-//        });
-//    }
-
     public void postRequest(String message, CallbackInterface callBack) {
-        new Thread(() ->
-        {
-            // Used to set custom name to the current thread
-            Thread.currentThread().setName("myThread");
-            try {
-                URL newUrl = new URL(url);
-                HttpURLConnection conn = (HttpURLConnection) newUrl.openConnection();
-                conn.setRequestMethod("POST");
-
-                conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                conn.setDoOutput(true);
-
-                OutputStream outputStream = conn.getOutputStream();
-                outputStream.write(message.getBytes(StandardCharsets.UTF_8));
-
-                TimeUnit.SECONDS.sleep(5);
-
-                InputStream inputStream = conn.getInputStream();
-
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-                StringBuilder response = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    response.append(line);
-                    response.append('\r');
-                }
-                reader.close();
-
-                // print the response
-                JSONArray jsonArray = new JSONArray(response.toString());
-                BackendHandling.handleServerResponses(jsonArray);
-                callBack.onCall();
-
-//                outputStream.close();
-            } catch (IOException | JSONException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        RequestBody requestBody = buildRequestBody(message);
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder().post(requestBody).url(url).build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(final Call call, final IOException e) {
+                runOnUiThread(() -> {
+                    Toast.makeText(BaseActivity.this, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    call.cancel();
+                });
             }
-        }).start();
-
+            @Override
+            public void onResponse(Call call, final Response response) {
+                runOnUiThread(() -> {
+                    boolean success = false;
+                    while (!success) {
+                        try {
+                            String jsonString = response.body().string();
+                            JSONArray jsonArray = new JSONArray(jsonString);
+                            BackendHandling.handleServerResponses(jsonArray);
+                            callBack.onCall();
+                            success = true;
+                        } catch (Exception e) {
+                        }
+                    }
+                });
+            }
+        });
     }
 
 

@@ -43,8 +43,7 @@ public class ClientsMainActivity extends BaseActivity {
         addClientButton.setOnClickListener(v -> ClientsMainActivity.this.startActivity(new Intent(ClientsMainActivity.this, CreateClientActivity.class)));
 
         // get clients from database
-//        super.postRequest("getAllClients", new CallbackClass());
-        super.postRequest("{\"query\":\"getAllClients\"}", new CallbackClass());
+        super.postRequest("Clients", new CallbackClass());
     }
 
     private class CallbackClass implements CallbackInterface {

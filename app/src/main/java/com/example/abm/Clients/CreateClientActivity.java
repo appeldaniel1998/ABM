@@ -116,6 +116,8 @@ public class CreateClientActivity extends BaseActivity {
                 assert data != null;
                 this.profilePicUri = data.getData();
                 userIcon.setImageURI(this.profilePicUri); // set the image view to the image received from the client's gallery
+
+//                uploadImageToFirebase(imageUri); // upload to firebase storage
                 this.profilePicWasChanged = true;
             }
         }
