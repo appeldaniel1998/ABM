@@ -39,10 +39,8 @@ public class ProductsClickcardActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_clickcard);
         super.initMenuSideBar();
-        checkMangerOrClient();
+        ProductsClickCardDatabaseUtils.databaseGetClientOrManager(this);
         initValues();
-
-
 
         ProgressDialog progressDialog;
         progressDialog = ProgressDialog.show(this, "Product", "Loading, please wait...", true);
@@ -50,54 +48,29 @@ public class ProductsClickcardActivity extends BaseActivity {
         // what we get from the last activity
         Intent intent = getIntent();
         String productPositon = intent.getStringExtra("Product");
-
-        super.getCurrDatabase().collection("Products").document(productPositon)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        product = documentSnapshot.toObject(Product.class);
-                        initValuesOfLayout();
-                        progressDialog.dismiss();
-                    }
-                });
-
+        ProductsClickCardDatabaseUtils.databaseSetSingleProduct(productPositon, progressDialog, this);
 
 
     }
+    public void SetProduct(Product product){
+        this.product= product;
+    }
 
-    private void checkMangerOrClient() {
-            FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
-            if (user != null) {
-                String UserUid = user.getUid();
-                super.getCurrDatabase().collection("Clients").document(UserUid)
-                        .get()
-                        .addOnSuccessListener(documentSnapshot -> {
-                            Client client = documentSnapshot.toObject(Client.class);
-                            TextView name = findViewById(R.id.nameMenuHeader);
-                            if (client != null) {
-                                findViewById(R.id.deleteFromCart).setVisibility(View.GONE);
-                                //check if the current user is a client or manager
-                                if (client.getManager()) {
-                                    // remove any button which are not needed for the manager- set invisible linear layout
-                                    findViewById(R.id.MinusPolish).setVisibility(View.GONE);
-                                    findViewById(R.id.PlusPolish).setVisibility(View.GONE);
-                                    findViewById(R.id.quantity).setVisibility(View.GONE);
-                                    findViewById(R.id.addToCart).setVisibility(View.GONE);
+    public void SetIfManager() {
+        findViewById(R.id.MinusPolish).setVisibility(View.GONE);
+        findViewById(R.id.PlusPolish).setVisibility(View.GONE);
+        findViewById(R.id.quantity).setVisibility(View.GONE);
+        findViewById(R.id.addToCart).setVisibility(View.GONE);
 
-                                } else {
-                                    // remove any button which are not needed for the client
-                                    findViewById(R.id.EditProduct).setVisibility(View.GONE);
-                                    findViewById(R.id.deleteProduct).setVisibility(View.GONE);
+    }
 
-                                }
-                            }
-                        });
-            }
+    // if the user is client, remove any button which are not needed for the client
+    public void SetIfClient() {
+        findViewById(R.id.EditProduct).setVisibility(View.GONE);
+        findViewById(R.id.deleteProduct).setVisibility(View.GONE);
+        findViewById(R.id.deleteFromCart).setVisibility(View.GONE);
 
-        }
-
-
+    }
 
     // Initialize the values of the layout, and set on click listeners for the buttons.
     private void initValues() {
@@ -190,7 +163,7 @@ public class ProductsClickcardActivity extends BaseActivity {
     }
 
     // init the values og new image and polish details on each click.
-    private void initValuesOfLayout() {
+    public void initValuesOfLayout() {
         productImage = findViewById(R.id.Polish1);
         productColor = findViewById(R.id.PolishDetalis);
         setPrice = findViewById(R.id.SetPrice);

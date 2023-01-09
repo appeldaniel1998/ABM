@@ -38,7 +38,7 @@ public class CartClickCardActivity extends BaseActivity {
         // what we get from the last activity
         Intent intent = getIntent();
         String productPositon = intent.getStringExtra("Product");
-        System.out.println("productPositon: " + productPositon);
+
 
         super.getCurrDatabase().collection("Products").document(productPositon)
                 .get()
@@ -86,7 +86,6 @@ public class CartClickCardActivity extends BaseActivity {
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         Cart cart = documentSnapshot.toObject(Cart.class);
                         String q = String.valueOf(cart.getQuantity());
-                        System.out.println("cart--------: " + cart);
                         quantity.setText(q);
                     }
                 });
