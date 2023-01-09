@@ -1,7 +1,5 @@
 package com.example.abm.Cart;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +11,6 @@ import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.Products.Product;
-import com.example.abm.Products.ProductsClickcardActivity;
-import com.example.abm.Products.ProductsMainActivity;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -71,7 +67,7 @@ public class CartClickCardActivity extends BaseActivity {
                     @Override
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(CartClickCardActivity.this, "Product deleted from cart", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CartClickCardActivity.this, ProductCartActivity.class);
+                        Intent intent = new Intent(CartClickCardActivity.this, CartMainActivity.class);
                         startActivity(intent);
                     }
                 });
@@ -134,7 +130,7 @@ public class CartClickCardActivity extends BaseActivity {
 
             if (quantity.getText().toString().equals("0")) {
                 Toast.makeText(this, "You Didn't Pick anything! ", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(CartClickCardActivity.this, ProductCartActivity.class));
+                startActivity(new Intent(CartClickCardActivity.this, CartMainActivity.class));
 
             }
             else {
@@ -156,7 +152,7 @@ public class CartClickCardActivity extends BaseActivity {
                     String newQuantityString = String.valueOf(newQuantity);
                     super.getCurrDatabase().collection("Products").document(product.getColorName()).update("quantity", newQuantityString);
                     Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(CartClickCardActivity.this, ProductCartActivity.class));
+                    startActivity(new Intent(CartClickCardActivity.this, CartMainActivity.class));
                 }
 
             }

@@ -20,7 +20,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.bumptech.glide.Glide;
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.AppointmentType.AppointmentTypesMainActivity;
-import com.example.abm.Cart.ProductCartActivity;
+import com.example.abm.Cart.CartMainActivity;
 import com.example.abm.Clients.Client;
 import com.example.abm.Clients.ClientsMainActivity;
 import com.example.abm.HistoryAnalytics.HistoryActivity;
@@ -130,7 +130,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, HistoryActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemCart) {
-            startActivity(new Intent(this, ProductCartActivity.class));
+            startActivity(new Intent(this, CartMainActivity.class));
             return true;
         } else if (item.getItemId() == R.id.menuItemSignOut) {
             this.auth.signOut();

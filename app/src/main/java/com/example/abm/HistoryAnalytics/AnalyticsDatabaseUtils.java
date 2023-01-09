@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.AppointmentCalendar.Event;
 import com.example.abm.AppointmentType.AppointmentType;
-import com.example.abm.Cart.ProductCartActivity;
+import com.example.abm.Cart.CartMainActivity;
 import com.example.abm.Clients.Client;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -120,7 +120,7 @@ public class AnalyticsDatabaseUtils {
                     clientActivities = new ArrayList<>();
                     clientActivities.addAll(Event.eventsList);
 
-                    ProductCartActivity.getOrdersFromDB(user.getUid(), progressDialog, context, recyclerView, totalRevenueTextView);
+                    CartMainActivity.getOrdersFromDB(user.getUid(), progressDialog, context, recyclerView, totalRevenueTextView);
                 });
     }
 }

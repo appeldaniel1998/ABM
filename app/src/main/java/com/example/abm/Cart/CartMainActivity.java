@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.UUID;
 
-public class ProductCartActivity extends BaseActivity {
+public class CartMainActivity extends BaseActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private ArrayList<Cart> cart = new ArrayList<>();
@@ -47,7 +47,7 @@ public class ProductCartActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_cart);
         super.initMenuSideBar();
-        createCartList();
+        CartDatabaseUtils.databaseGetCart(this);
         finishOrderButton = findViewById(R.id.FinishOrder);
         totalPrice = findViewById(R.id.SetTotalPrice);
         clientId = super.getCurrFirebaseAuth().getCurrentUser().getUid();
@@ -57,58 +57,32 @@ public class ProductCartActivity extends BaseActivity {
         finishOrderButton.setOnClickListener(v -> {
             String orderID = UUID.randomUUID().toString();
             for (Cart cart : cart) {
-                //add the cart object to the database, save each cart in different document
-                super.getCurrDatabase().collection("Orders").document(clientId).collection("User Orders")
-                        .document(orderID).collection("Order Details").document(cart.getProductColor()).set(cart).addOnSuccessListener(aVoid -> {
-                            Toast.makeText(ProductCartActivity.this, "Order has been placed successfully", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(ProductCartActivity.this, CalendarMainActivity.class);
-                            startActivity(intent);
-                        });
+                CartDatabaseUtils.databaseFinishOrder(cart, clientId, orderID, this);
             }
             //Add the time, date, price to the same order document
             LocalTime date = LocalTime.now(); //get current time. the time supposed to be with 4 digit.
             String time = date.toString();
             String CurrentTime = time.substring(0, 2) + time.substring(3, 5); //get just 4 digit from the time without the " : "
-
             Order order = new Order(clientId, String.valueOf(totalSum), DatePicker.stringToInt(DatePicker.getTodayDate()), CurrentTime);
-            super.getCurrDatabase().collection("Orders").document(clientId).collection("User Orders")
-                    .document(orderID).set(order);
-            // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
+            CartDatabaseUtils.addOrder(orderID, order, clientId);
             Toast.makeText(this, "Finish Order ! ", Toast.LENGTH_SHORT).show();
-            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").get().addOnSuccessListener(queryDocumentSnapshots -> {
-                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
-                    documentSnapshot.getReference().delete();
-                }
-            });
-            startActivity(new Intent(ProductCartActivity.this, CalendarMainActivity.class));
+            // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
+            CartDatabaseUtils.deleteCart();
+            startActivity(new Intent(CartMainActivity.this, CalendarMainActivity.class));
         });
     }
 
-    private void createCartList() {
-        //get all the data from the database from the current from Products collection and add it to the arraylist
-        super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getUid()).collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Cart c = documentSnapshot.toObject(Cart.class);
-                    System.out.println(c);
-                    totalSum += c.getPrice();
-                    System.out.println("Total price: " + totalSum);
-                    cart.add(c);
+    public void SetCart(ArrayList<Cart> cart){
+        this.cart = cart;
+    }
 
-                }
-                //init the total price of the cart
-                totalPrice.setText(String.valueOf(totalSum));
-                buildRecyclerView();
-
-            }
-
-        });
-
+    public void SetTotalPrice(int totalSum){
+        this.totalSum = totalSum;
+        totalPrice.setText(String.valueOf(totalSum));
     }
 
 
-    private void buildRecyclerView() {
+    public void buildRecyclerView() {
         recyclerView = findViewById(R.id.recycleViewCartActivity); //recycleView is the id of the recycleView in the xml file
         recyclerView.setHasFixedSize(true); //recycler view will not change in size
         layoutManager = new LinearLayoutManager(this); //layout manager is the way the items are displayed
@@ -119,18 +93,15 @@ public class ProductCartActivity extends BaseActivity {
             @Override
             public void onItemClick(int position) {
                 cart.get(position);
-                Intent intent = new Intent(ProductCartActivity.this, CartClickCardActivity.class);
+                Intent intent = new Intent(CartMainActivity.this, CartClickCardActivity.class);
                 intent.putExtra("Product", (CharSequence) cart.get(position).getProductColor());
                 startActivity(intent);
-
             }
 
             @Override
             public void onAddClick(int position) {
 
             }
-
-
         });
     }
 
