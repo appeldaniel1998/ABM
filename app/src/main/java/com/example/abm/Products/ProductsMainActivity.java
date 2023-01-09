@@ -39,7 +39,6 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
     private RecycleAdapter adapter;
     private FloatingActionButton cartButton;
     private Button addProductButton;
-    //private  ProgressDialog progressDialog;
 
 
     @SuppressLint("MissingInflatedId")
@@ -48,8 +47,6 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_products_main);
         super.initMenuSideBar();
-        //createProductsList();
-        //buildRecyclerView(); tryyyyyyy
         initValues();
         //getProductFromDatabase();
 
@@ -59,18 +56,7 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         progressDialog = ProgressDialog.show(this, "Product", "Loading, please wait...", true);
 
         //build list of product for the recycle view. get all the product from the database
-        super.getCurrDatabase().collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Product product = documentSnapshot.toObject(Product.class);
-                    new_products.add(product);
-                }
-                progressDialog.dismiss();
-                products = new_products;
-                buildRecyclerView();
-            }
-        });
+        ProductsDatabaseUtils.databaseGetProducts(progressDialog, this);
     }
 
     // init the buttons in the activity
@@ -83,7 +69,8 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
             }
         });
 
-        checkClientorManger();
+        //check if the user is a client or a manager and set visibility of the buttons accordingly
+        ProductsDatabaseUtils.databaseGetClientOrManager(this);
         addProductButton = findViewById(R.id.addProduct);
         addProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,84 +80,25 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         });
     }
 
-    private void getProductFromDatabase() {
-        super.getCurrDatabase().collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                    Product product = documentSnapshot.toObject(Product.class);
-                    new_products.add(product);
-                }
-                //products = new_products;
-                buildRecyclerView();
-            }
-        });
+    public void setProducts(ArrayList<Product> products) {
+        this.products = products;
     }
 
-    // check if the user is a client or a manager and set visibility of the buttons accordingly
-    private void checkClientorManger() {
-        FirebaseUser user = super.getCurrFirebaseAuth().getCurrentUser();
-        if (user != null) {
-            String UserUid = user.getUid();
-            super.getCurrDatabase().collection("Clients").document(UserUid)
-                    .get()
-                    .addOnSuccessListener(documentSnapshot -> {
-                        Client client = documentSnapshot.toObject(Client.class);
-                        TextView name = findViewById(R.id.nameMenuHeader);
-                        if (client != null) {
-                            //check if the current user is a client or manager
-                            if (client.getManager()) {
-                                // remove any button which are not needed for the manager
-                                View cart = findViewById(R.id.flaotingCartButton);
-                                cart.setVisibility(View.GONE);
-
-                            } else {
-                                // remove any button which are not needed for the client
-                                View addProductButton = findViewById(R.id.addProduct);
-                                addProductButton.setVisibility(View.GONE);
-                            }
-                        }
-                    });
-        }
-    }
-
-    //init the first list of products and add them to the database
-    private void createProductsList() {
-        //creata a list of products for the recycler view
-        products.add(new Product("Dark Pink", R.drawable.canni1, "15", "15"));
-        products.add(new Product("Blue", R.drawable.canni2, "15", "15"));
-        products.add(new Product("light Pink", R.drawable.canni3, "15", "15"));
-        products.add(new Product("Bezh", R.drawable.canni4, "15", "15"));
-        products.add(new Product("Grey", R.drawable.canni10, "15", "15"));
-        products.add(new Product("Orange", R.drawable.canni6, "15", "15"));
-        products.add(new Product("Green", R.drawable.canni11, "15", "15"));
-        products.add(new Product("Red", R.drawable.canni12, "15", "15"));
-        products.add(new Product("Purple", R.drawable.images, "15", "15"));
-        products.add(new Product("White", R.drawable.canni14, "15", "15"));
-        products.add(new Product("Light Green", R.drawable.canni13, "15", "15"));
-
-        //add all the products to the database
-        for (Product product : products) {
-            super.getCurrDatabase().collection("Products").document(product.getColorName()).set(product);
-        }
-
-        //give me all the pictures from the database in storage in client directory and save them as int in the product
-//           StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-//              for (Product product : products) {
-//                storageReference.child("Products").child(product.getColorName()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                     @Override
-//                     public void onSuccess(Uri uri) {
-//                         //cast uri to int
-//                         int image = Integer.parseInt(uri.toString());
-//
-//                          product.setImage(image);
-//                     }
-//                });
-//              }
+    // If the current user is manager, remove any button which are not needed for the manager
+    public void SetIfManager() {
+        View cart = findViewById(R.id.flaotingCartButton);
+        cart.setVisibility(View.GONE);
 
     }
 
-    private void buildRecyclerView() {
+    // if the user is client, remove any button which are not needed for the client
+    public void SetIfClient() {
+        View addProductButton = findViewById(R.id.addProduct);
+        addProductButton.setVisibility(View.GONE);
+    }
+
+
+    public void buildRecyclerView() {
         //create the recycler view and set the adapter and layout manager for it
         recyclerView = findViewById(R.id.recycleView); //recycleView is the id of the recycleView in the xml file
         recyclerView.setHasFixedSize(true); //recycler view will not change in size
