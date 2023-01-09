@@ -3,7 +3,6 @@ package com.example.abm.AppointmentCalendar;
 import android.app.ProgressDialog;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.abm.Clients.Client;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,7 +28,7 @@ public class CalendarDatabaseUtils {
      * @param user           Firebase authentication user
      * @param progressDialog progress dialog to be dismissed when task is finished
      */
-    public static void getAppointmentsFromDB(int fromDate, int toDate, FirebaseFirestore database, FirebaseUser user, ProgressDialog progressDialog) {//progressDialog-show the loading symbole
+    public static void getAppointmentsFromDB(int fromDate, int toDate, FirebaseFirestore database, FirebaseUser user, ProgressDialog progressDialog) { //progressDialog-show the loading symbol
         Event.eventsList = new ArrayList<>();
         if (fromDate == -1) fromDate = Integer.MIN_VALUE;
         if (toDate == -1) toDate = Integer.MAX_VALUE;
@@ -37,7 +36,7 @@ public class CalendarDatabaseUtils {
         int finalFromDate = fromDate;
         int finalToDate = toDate;
 
-        if (user != null) //if we seccuees to get from DB
+        if (user != null) //if we success to get from DB
         {
             // getting data and checking if user is manager or client
             String UserUid = user.getUid();
@@ -118,7 +117,7 @@ public class CalendarDatabaseUtils {
     }
 
     /**
-     * The function gets the apponintment types names from the database into an arraylist which it returns.
+     * The function gets the appointment types names from the database into an arraylist which it returns.
      *
      * @param database       Firestore database instance
      * @param progressDialog Porgress dialog to be dismissed when get is complete
@@ -185,6 +184,4 @@ public class CalendarDatabaseUtils {
                 });
         return clients;
     }
-
-
 }

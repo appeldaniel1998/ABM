@@ -21,14 +21,12 @@ import com.bumptech.glide.Glide;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.StorageReference;
 
 public class EditClientActivity extends BaseActivity {
 
     Client client;
     String clientUID;
-
     private TextView titleName;
     private TextView firstName;
     private TextView lastName;
@@ -39,11 +37,7 @@ public class EditClientActivity extends BaseActivity {
     private ImageView userIcon;
     private Button doneEditingButton;
     private Button deleteClientButton;
-
-    FirebaseFirestore database;
-
     private DatePickerDialog datePickerDialog;
-
     private StorageReference storageReference;
 
 
@@ -53,7 +47,6 @@ public class EditClientActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logreg_register);
 
-        database = super.getCurrDatabase();
         storageReference = super.getStorageReference();
 
         ProgressDialog progressDialog;
@@ -98,20 +91,12 @@ public class EditClientActivity extends BaseActivity {
             imageProgressDialog.dismiss();
         });
 
-        databaseGetClient(progressDialog);
+        ClientsDatabaseUtils.databaseGetClient(progressDialog, clientUID, this);
 
     }
 
-    private void databaseGetClient(ProgressDialog progressDialog) {
-        database.collection("Clients").document(clientUID)
-                .get()
-                .addOnSuccessListener(documentSnapshot -> { // If client info retrieved successfully from the DB
-                    client = documentSnapshot.toObject(Client.class);
-                    onClientGetOnSuccess(progressDialog);
-                });
-    }
-
-    private void onClientGetOnSuccess(ProgressDialog progressDialog) {
+    public void onClientGetOnSuccess(ProgressDialog progressDialog, Client newClient) {
+        this.client = newClient;
         initValuesOfLayout();
         progressDialog.dismiss();
 
@@ -119,7 +104,7 @@ public class EditClientActivity extends BaseActivity {
             Client userToAdd = new Client(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
                     phoneNumber.getText().toString(), address.getText().toString(),
                     DatePicker.stringToInt(birthday.getText().toString()), clientUID); //creating a new user
-            database.collection("Clients").document(clientUID).set(userToAdd); //adding user data to database
+            ClientsDatabaseUtils.addClientToFirebase(userToAdd, clientUID);
 
             Intent myIntent = new Intent(EditClientActivity.this, SingleClientViewActivity.class);
             myIntent.putExtra("clientUID", clientUID); //Optional parameters
@@ -185,12 +170,7 @@ public class EditClientActivity extends BaseActivity {
             alert.setMessage("Are you sure you want to delete?");
             alert.setPositiveButton("Yes", (dialog, which) -> { //if yes was clicked
                 if (!clientUID.equals(EditClientActivity.super.getCurrFirebaseAuth().getUid())) {
-                    //need to delete all documents where the user exists (from every collection)
-                    database.collection("Clients").document(clientUID).delete();
-                    database.collection("Appointments").document(clientUID).delete();
-                    database.collection("Orders").document(clientUID).delete();
-                    database.collection("Cart").document(clientUID).delete();
-
+                    ClientsDatabaseUtils.databaseDeleteClient(clientUID);
                     Toast.makeText(EditClientActivity.this, "The client was deleted!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(EditClientActivity.this, ClientsMainActivity.class));
                     finish();

@@ -1,8 +1,10 @@
 package com.example.abm.Cart;
 
+import com.example.abm.AppointmentCalendar.CalendarMainActivity;
+import com.example.abm.Clients.Client;
 import com.example.abm.HistoryAnalytics.ClientActivities;
 
-public class Orders implements ClientActivities{
+public class Order implements ClientActivities{
 
     //date, price, time
     private String clientId;
@@ -11,7 +13,7 @@ public class Orders implements ClientActivities{
     private String time;
 
 
-    public Orders(String clientId, String totalPrice, int date, String time) {
+    public Order(String clientId, String totalPrice, int date, String time) {
         this.clientId = clientId;
         this.totalPrice = totalPrice;
         this.date = date;
@@ -53,9 +55,8 @@ public class Orders implements ClientActivities{
 
     @Override
     public String getClientName() {
-//        Client currClient = CalendarMainActivity.clients.get(this.clientId);
-//        assert currClient != null;
-//        return currClient.getFirstName() + " " + currClient.getLastName();
-        return this.clientId;
+        Client currClient = CalendarMainActivity.clients.get(this.clientId);
+        assert currClient != null;
+        return currClient.getFirstName() + " " + currClient.getLastName();
     }
 }

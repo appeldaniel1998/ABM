@@ -83,7 +83,7 @@ public class DatePicker {
     public static int stringToInt(String date) {
         String[] arr = date.split(" ");
         String day = formatDay(Integer.parseInt(arr[0]));
-        int month = Integer.parseInt(getMonthFormat(arr[1]));
+        String month = getMonthFormat(arr[1]);
         int year = Integer.parseInt(arr[2]);
         String tempDate = year + "" + month + "" + day;
         return Integer.parseInt(tempDate);

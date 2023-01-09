@@ -19,8 +19,6 @@ import androidx.annotation.Nullable;
 import com.example.abm.BaseActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.StorageReference;
 
 public class CreateClientActivity extends BaseActivity {
 
@@ -34,8 +32,6 @@ public class CreateClientActivity extends BaseActivity {
 
     private DatePickerDialog datePickerDialog;
 
-    private FirebaseFirestore database;
-
     private Button addClient;
     private Uri profilePicUri;
     private ImageView userIcon;
@@ -46,8 +42,6 @@ public class CreateClientActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logreg_register);
         super.initMenuSideBar();
-
-        database = super.getCurrDatabase();
 
         firstName = findViewById(R.id.firstName);
         lastName = findViewById(R.id.lastName);
@@ -85,12 +79,12 @@ public class CreateClientActivity extends BaseActivity {
             if (TextUtils.isEmpty(textFirstName) || TextUtils.isEmpty(textEmail)) {
                 Toast.makeText(CreateClientActivity.this, "Empty email or first name!", Toast.LENGTH_SHORT).show();
             } else {
-                //if the manger add client, we create an id.
+                //if the manger adds a client, we create an id.
                 String uid = String.valueOf(java.util.UUID.randomUUID()); //Create a random UID for the new client
                 Client userToAdd = new Client(textFirstName, textLastName, textEmail, textPhoneNumber, textAddress, textBirthdayDate, uid); //creating a new user
-                database.collection("Clients").document(uid).set(userToAdd); //adding user data to database
+                ClientsDatabaseUtils.addClientToFirebase(userToAdd, uid); //adding user data to database
                 if (profilePicWasChanged) {
-                    uploadImageToFirebase(super.getStorageReference(), uid);
+                    ClientsDatabaseUtils.uploadImageToFirebase(super.getStorageReference(), uid, profilePicUri, CreateClientActivity.this);
                 }
 
                 Toast.makeText(CreateClientActivity.this, "Client added successfully", Toast.LENGTH_SHORT).show();
@@ -127,13 +121,5 @@ public class CreateClientActivity extends BaseActivity {
                 this.profilePicWasChanged = true;
             }
         }
-    }
-
-    private void uploadImageToFirebase(StorageReference storageReference, String clientUID) {
-        // upload image to firebase storage
-        StorageReference fileRef = storageReference.child("Clients").child(clientUID).child("profile.jpg");
-        fileRef.putFile(profilePicUri)
-                .addOnSuccessListener(taskSnapshot -> Toast.makeText(CreateClientActivity.this, "Profile image uploaded successfully!", Toast.LENGTH_SHORT).show())
-                .addOnFailureListener(e -> Toast.makeText(CreateClientActivity.this, "Image upload failed!", Toast.LENGTH_SHORT).show());
     }
 }

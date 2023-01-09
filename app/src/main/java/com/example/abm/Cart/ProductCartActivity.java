@@ -16,9 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.abm.AppointmentCalendar.CalendarMainActivity;
 import com.example.abm.BaseActivity;
 import com.example.abm.Clients.Client;
-import com.example.abm.HistoryAnalytics.AnalyticsDatabaseUtils;
 import com.example.abm.HistoryAnalytics.ClientActivities;
-import com.example.abm.Products.ProductsClickcardActivity;
+import com.example.abm.HistoryAnalytics.HistoryActivity;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -71,7 +70,7 @@ public class ProductCartActivity extends BaseActivity {
             String time = date.toString();
             String CurrentTime = time.substring(0, 2) + time.substring(3, 5); //get just 4 digit from the time without the " : "
 
-            Orders order = new Orders(clientId, String.valueOf(totalSum), DatePicker.stringToInt(DatePicker.getTodayDate()), CurrentTime);
+            Order order = new Order(clientId, String.valueOf(totalSum), DatePicker.stringToInt(DatePicker.getTodayDate()), CurrentTime);
             super.getCurrDatabase().collection("Orders").document(clientId).collection("User Orders")
                     .document(orderID).set(order);
             // go to cart collection in the database, get the current user's cart according to document id (uid), get the products and delete them
@@ -147,22 +146,22 @@ public class ProductCartActivity extends BaseActivity {
                             database.collectionGroup("User Orders").get().addOnSuccessListener(queryDocumentSnapshots -> {
                                 for (DocumentSnapshot documentSnapshot2 : queryDocumentSnapshots.getDocuments()) {
                                     Map<String, Object> data = documentSnapshot2.getData();
-                                    Orders order = new Orders(data.get("clientName").toString(), data.get("price").toString(), Integer.parseInt(data.get("date").toString()), data.get("time").toString());
+                                    Order order = new Order(data.get("clientName").toString(), data.get("price").toString(), Integer.parseInt(data.get("date").toString()), data.get("time").toString());
                                     ordersList.add(order);
                                 }
                                 clientActivities.addAll(ordersList);
-                                AnalyticsDatabaseUtils.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
+                                HistoryActivity.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
                             });
                         } else {
                             //print the orders
                             database.collection("Orders").document(clientId).collection("User Orders").get().addOnSuccessListener(queryDocumentSnapshots -> {
                                 for (DocumentSnapshot documentSnapshot2 : queryDocumentSnapshots.getDocuments()) {
                                     Map<String, Object> data = documentSnapshot2.getData();
-                                    Orders order = new Orders(data.get("clientName").toString(), data.get("price").toString(), Integer.parseInt(data.get("date").toString()), data.get("time").toString());
+                                    Order order = new Order(data.get("clientName").toString(), data.get("price").toString(), Integer.parseInt(data.get("date").toString()), data.get("time").toString());
                                     ordersList.add(order);
                                 }
                                 clientActivities.addAll(ordersList);
-                                AnalyticsDatabaseUtils.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
+                                HistoryActivity.initRecyclerView(progressDialog, context, recyclerView, totalRevenueTextView);
                             });
                         }
                     }
