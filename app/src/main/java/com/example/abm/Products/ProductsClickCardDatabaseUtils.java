@@ -2,6 +2,7 @@ package com.example.abm.Products;
 
 import android.app.ProgressDialog;
 
+import com.example.abm.Cart.Cart;
 import com.example.abm.Clients.Client;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,6 +31,16 @@ public class ProductsClickCardDatabaseUtils {
                         progressDialog.dismiss();
                     }
                 });
+
+
+    }
+
+    public static void databaseAddProductToCart(Product product, Cart cart){
+        database.collection("Cart").document(auth.getCurrentUser().getUid()).collection("Products").document(product.getColorName()).set(cart);
+    }
+
+    public static void databaseUpdateQuantity(Product product, String quantity){
+        database.collection("Products").document(product.getColorName()).update("quantity", quantity);
 
 
     }

@@ -61,6 +61,7 @@ public class ProductsClickcardActivity extends BaseActivity {
         findViewById(R.id.PlusPolish).setVisibility(View.GONE);
         findViewById(R.id.quantity).setVisibility(View.GONE);
         findViewById(R.id.addToCart).setVisibility(View.GONE);
+        findViewById(R.id.deleteFromCart).setVisibility(View.GONE);
 
     }
 
@@ -141,7 +142,7 @@ public class ProductsClickcardActivity extends BaseActivity {
             //set cart's price
             int totalPrice = Integer.parseInt(quantity.getText().toString()) * Integer.parseInt(product.getPrice());
             Cart cart = new Cart(product.getColorName(),product.getImage(), Integer.parseInt(quantity.getText().toString()),totalPrice);
-            super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").document(product.getColorName()).set(cart);
+            ProductsClickCardDatabaseUtils.databaseAddProductToCart(product, cart);
             //update the quantity of the product in the database
             int newQuantity = Integer.parseInt(product.getQuantity()) - Integer.parseInt(quantity.getText().toString());
 
@@ -153,7 +154,7 @@ public class ProductsClickcardActivity extends BaseActivity {
             }
             else {
                 String newQuantityString = String.valueOf(newQuantity);
-                super.getCurrDatabase().collection("Products").document(product.getColorName()).update("quantity", newQuantityString);
+                ProductsClickCardDatabaseUtils.databaseUpdateQuantity(product, newQuantityString);
                 Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(ProductsClickcardActivity.this, ProductsMainActivity.class));
             }
