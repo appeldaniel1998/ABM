@@ -5,12 +5,12 @@ A project for the Software Engineering course - university 3rd year
 <!-- First we add the desired plugins and dependecies, such as facebook, google, maven, etc. 
 We added more different dependencies of google to enable the user access to 'smart log-in'. 
 We enable the user to log-in the app in 3 ways: 1.Facebook account 2.Google account 3.Email account -->
-### About   
+### Abstract   
 
 The main goal of our project is to construct an application to help manage a business of a cosmetologist, to assist with different services that include appointment management, management of product orders and stock, as well as client database, profits and expenses of business (statistics and analytics).
 
 ---
-### Description of the System
+### Description of the Application
 
 ![Slide1](https://user-images.githubusercontent.com/93086649/211581360-27793200-9921-4f8b-a9b3-ab6db7717216.JPG)
 ![Slide2](https://user-images.githubusercontent.com/93086649/211581363-a72038f6-b92d-4f99-bdf3-f315f108e7bb.JPG)
