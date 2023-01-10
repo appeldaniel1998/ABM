@@ -12,13 +12,22 @@ The main goal of our project is to construct an application to help manage a bus
 ---
 ### Description of the System
 
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/93086649/211576934-b48e2976-4bb4-4d22-a265-cd0f94173316.png">
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/93086649/211577085-700b43f0-5c0a-485f-bb02-bb536ab90fe3.png">
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/93086649/211577333-b2c460c0-9419-472a-bf06-dba76c438055.png">
-<img width="800" alt="image" src="https://user-images.githubusercontent.com/93086649/211579007-3411951d-c975-458a-96f3-36db1d2cbcc6.png">
+![Slide1](https://user-images.githubusercontent.com/93086649/211581360-27793200-9921-4f8b-a9b3-ab6db7717216.JPG)
+![Slide2](https://user-images.githubusercontent.com/93086649/211581363-a72038f6-b92d-4f99-bdf3-f315f108e7bb.JPG)
+![Slide3](https://user-images.githubusercontent.com/93086649/211581366-c78147d0-a357-411f-b60f-43644bcc0140.JPG)
+![Slide4](https://user-images.githubusercontent.com/93086649/211581368-1267bd03-7229-4055-aa27-a5c246f2407e.JPG)
+![Slide5](https://user-images.githubusercontent.com/93086649/211581371-5259a1e5-871d-43e9-9c80-9d70fbb4ad38.JPG)
+![Slide6](https://user-images.githubusercontent.com/93086649/211581374-b5944d12-a3a1-4601-9efd-166c5b9da0aa.JPG)
+![Slide7](https://user-images.githubusercontent.com/93086649/211581375-5c0cc9ae-c890-447a-85c1-729f2be25245.JPG)
+![Slide8](https://user-images.githubusercontent.com/93086649/211581378-6e590940-d5b7-4fd0-8fa1-2045ac281ac0.JPG)
+![Slide9](https://user-images.githubusercontent.com/93086649/211581380-24a6c49f-16e5-447b-b95a-6f939a15fa2c.JPG)
+![Slide10](https://user-images.githubusercontent.com/93086649/211581383-56cab695-05bc-471a-9e03-f32d914e2095.JPG)
+![Slide11](https://user-images.githubusercontent.com/93086649/211581389-a3640500-8d6d-4007-ba84-ecfa9f14d3ae.JPG)
+![Slide12](https://user-images.githubusercontent.com/93086649/211581392-507dbc25-31b9-40d5-b0a9-e2f9b2354512.JPG)
+![Slide13](https://user-images.githubusercontent.com/93086649/211581399-ff55faa5-2e2a-425b-a389-04d1046a86be.JPG)
+![Slide14](https://user-images.githubusercontent.com/93086649/211581402-c71834ca-0f3b-40c2-b7b4-c2a777f2592a.JPG)
 
-
-
+ <!--
 
  <!-- ### Explanation about the classes 
 
