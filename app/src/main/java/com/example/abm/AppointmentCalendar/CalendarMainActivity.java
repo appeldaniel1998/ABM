@@ -45,7 +45,8 @@ public class CalendarMainActivity extends BaseActivity implements CalendarAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointments_calender_main);//5.55 in the video: https://www.youtube.com/watch?v=Ba0Q-cK1fJo
         super.initMenuSideBar();
-        EventDatabaseUtils.Retrivel(this);
+        ProgressDialog progressDialog = ProgressDialog.show(this, "Appointments", "Loading, please wait....", true);
+        EventDatabaseUtils.Retrival(this,progressDialog);
 
 
     }
@@ -57,7 +58,6 @@ public class CalendarMainActivity extends BaseActivity implements CalendarAdapte
         //start to show the monthly calendar from current date
         CalendarUtils.selectedDate = LocalDate.now();//current date
         obj.setMonthView();
-        progressDialog = ProgressDialog.show(obj, "Appointments", "Loading, please wait....", true);
         getAppointmentsFromDB(-1, -1, database, auth.getCurrentUser(), progressDialog); // update appointments in the Event.eventList
 
     }
