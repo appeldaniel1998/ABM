@@ -1,5 +1,9 @@
 package com.example.abm.AppointmentCalendar;
 
+import static com.example.abm.AppointmentCalendar.EventDatabaseUtils.databaseAppointmentsRetrieval;
+import static com.example.abm.AppointmentCalendar.EventDatabaseUtils.docRefFunc;
+import static com.example.abm.AppointmentCalendar.EventDatabaseUtils.getData;
+
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -13,13 +17,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
-import com.example.abm.Clients.Client;
 import com.example.abm.R;
 import com.example.abm.Utils.DatePicker;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 
 import java.time.LocalTime;
@@ -33,24 +34,24 @@ public class EventAddActivity extends BaseActivity {
     ////Activity_appointments_calender_event_add
     //Add new event , Time picker functions, and drop down lists
 
-    private TextView appointmentType;//event Name Edit Text
+    private static TextView appointmentType;//event Name Edit Text
     //    private TextView appointmentType;//event Name Edit Text
-    private TextView ClientName;//Client Name Edit Text
+    private static TextView ClientName;//Client Name Edit Text
     private TextView eventDateTV, eventTimeTV; //2 text views
     private LocalTime time;
     int hour, minute;//time picker
     private ProgressDialog progressDialog;
 
-    ArrayList<String> appointmentTypes;//drop down list of types
-    ArrayList<String> clientNames;//drop down list of clients names
+    static ArrayList<String> appointmentTypes;//drop down list of types
+    static ArrayList<String> clientNames;//drop down list of clients names
 
     AutoCompleteTextView appointmentTypeAutoCompleteTxt;//drop down list of Clients
     ArrayAdapter<String> adapterItems;//drop down list of types
 
-    FirebaseFirestore database;
-    FirebaseAuth auth;
+//    FirebaseFirestore database;
+//    FirebaseAuth auth;
     private Button Savebutton;
-    private String appointmentID;
+    String appointmentID;
 
     private TextInputLayout clientsWrapper;
     private TextInputLayout appointmentTypeWrapper;
@@ -64,23 +65,23 @@ public class EventAddActivity extends BaseActivity {
         setContentView(R.layout.activity_appointments_calender_event_add);
         super.initMenuSideBar();
 
-        database = super.getCurrDatabase();
+        //database = super.getCurrDatabase();
         ProgressDialog progressDialogAppointmentTypes = ProgressDialog.show(this, "Add Appointment", "Loading, please wait....", true);
         ProgressDialog progressDialogClientNames = ProgressDialog.show(this, "Add Appointment", "Loading, please wait....", true);
-        appointmentTypes = CalendarDatabaseUtils.getAppointmentTypesFromDB(database, progressDialogAppointmentTypes); // get appointment types from database to present in the dropdown list
-        clientNames = CalendarDatabaseUtils.getClientNamesFromDB(progressDialogClientNames); // get client names to present in the dropdown list
-
-        ProgressDialog progressDialog = ProgressDialog.show(this, "Add Appointment", "Loading, please wait....", true);
-        auth = super.getCurrFirebaseAuth();
-        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
-            Client currUser = documentSnapshot.toObject(Client.class);
-            if (!currUser.getManager()) { // user is a client
-                findViewById(R.id.clientsWrapper).setVisibility(View.GONE);
-                findViewById(R.id.clientname).setVisibility(View.GONE);
-            }
-            progressDialog.dismiss();
-        });
-
+//        appointmentTypes = CalendarDatabaseUtils.getAppointmentTypesFromDB(database, progressDialogAppointmentTypes); // get appointment types from database to present in the dropdown list
+//        clientNames = CalendarDatabaseUtils.getClientNamesFromDB(progressDialogClientNames); // get client names to present in the dropdown list
+//
+//        ProgressDialog progressDialog = ProgressDialog.show(this, "Add Appointment", "Loading, please wait....", true);
+//        //auth = super.getCurrFirebaseAuth();
+//        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
+//            Client currUser = documentSnapshot.toObject(Client.class);
+//            if (!currUser.getManager()) { // user is a client
+//                findViewById(R.id.clientsWrapper).setVisibility(View.GONE);
+//                findViewById(R.id.clientname).setVisibility(View.GONE);
+//            }
+//            progressDialog.dismiss();
+//        });
+        EventDatabaseUtils.getAppType(this,progressDialogAppointmentTypes,progressDialogClientNames);
         initWidgets();//find all views by their id
         time = LocalTime.now();//display current time before change it due to time picker
 
@@ -114,7 +115,8 @@ public class EventAddActivity extends BaseActivity {
             deleteButton.setOnClickListener(v -> {
                 Event eventNew = Event.getEvent(appointmentID);
                 String idClientOfAppointment = eventNew.getClientId();
-                DocumentReference docRef = database.collection("Appointments").document(idClientOfAppointment);
+                //DocumentReference docRef = database.collection("Appointments").document(idClientOfAppointment);
+                DocumentReference docRef =docRefFunc(idClientOfAppointment);
                 docRef.collection("Client Appointments").document(appointmentID).delete();
                 startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to week view display
                 finish();//close the activity
@@ -127,6 +129,11 @@ public class EventAddActivity extends BaseActivity {
 
     }
 
+    void findView()
+    {
+        findViewById(R.id.clientsWrapper).setVisibility(View.GONE);
+        findViewById(R.id.clientname).setVisibility(View.GONE);
+    }
     private void initValuesOfLayout(Event eventNew) {
         clientsWrapper = findViewById(R.id.clientsWrapper);
         appointmentTypeWrapper = findViewById(R.id.appointmentTypeWrapper);
@@ -186,29 +193,11 @@ public class EventAddActivity extends BaseActivity {
         timePickerDialog.show();
     }
 
-    public void deleteEventAction(View view)
-    //by pressing delete button this will delete th event from DB and from the weekly display list of event.
-    {
-        String cliName = ClientName.getText().toString();//get the client name
-        String IDclient = WeekViewActivity.getKey(cliName);//(cliName);
-
-        database.collection("Appointments")
-                .document(IDclient)
-                .collection("Client Appointments")
-                .document(this.appointmentID)
-                .delete()
-                .addOnSuccessListener(unused -> {
-                    Toast.makeText(this, "Event was deleted!", Toast.LENGTH_SHORT).show();
-                    EventAddActivity.this.startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to the week view display
-                    finish();//close the activity
-                });
-    }
-
     //save the event the user created
-    public void saveNewEventAction(View view) {
-        database.collection("Clients").document(auth.getCurrentUser().getUid()).get().addOnSuccessListener(documentSnapshot -> {
-            Map<String, Object> data = documentSnapshot.getData();
-            boolean isManager = (boolean) data.get("manager");
+    //public void saveNewEventAction(View view)
+        public void saveNewEventAction(View view)
+    {
+            boolean isManager= EventDatabaseUtils.saveData();
             //Converting fields to text
             String eventName = appointmentType.getText().toString();//get the name of the event
             String cliName;
@@ -223,24 +212,26 @@ public class EventAddActivity extends BaseActivity {
 
             String uuid;
             Event newEvent;
-            if (EventAddActivity.this.appointmentID.equals("-1")) { // adding new event
+            if (this.appointmentID.equals("-1")) { // adding new event
                 uuid = UUID.randomUUID().toString().replace("-", "");//Create a random UID for the new event
                 newEvent = new Event(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()), IDclient);//create new event
                 Event.eventsList.add(newEvent);//add event to the list of events in this day-For displaying
             } else { //editing existing event
-                uuid = EventAddActivity.this.appointmentID;
+                uuid = this.appointmentID;
                 newEvent = Event.getEvent(EventAddActivity.this.appointmentID);
-
-                database.collection("Appointments")
-                        .document(newEvent.getClientId())
-                        .collection("Client Appointments")
-                        .document(EventAddActivity.this.appointmentID)
-                        .delete();
+                databaseAppointmentsRetrieval(newEvent,this);
+//                database.collection("Appointments")
+//                        .document(newEvent.getClientId())
+//                        .collection("Client Appointments")
+//                        .document(EventAddActivity.this.appointmentID)
+//                        .delete();
 
                 newEvent.setEvent(uuid, eventName, cliName, Event.localDateToInt(CalendarUtils.selectedDate), Event.timeStringToInt(eventTimeTV.getText().toString()), IDclient);
             }
 
-            DocumentReference docRef = database.collection("Appointments").document(IDclient);
+            //DocumentReference docRef = database.collection("Appointments").document(IDclient);
+
+            DocumentReference docRef=getData(IDclient);
             Map<String, Object> newEventMap = new HashMap<>();
             newEventMap.put("appointmentId", newEvent.getAppointmentId());
             newEventMap.put("appointmentType", newEvent.getAppointmentType());
@@ -255,6 +246,18 @@ public class EventAddActivity extends BaseActivity {
             }); //adding event data_temp to database
             EventAddActivity.this.startActivity(new Intent(EventAddActivity.this, WeekViewActivity.class));//back to week view display
             finish();//close the activity
-        });
+        }
     }
-}
+//    public static void convertingFielsToText(boolean isManager)
+//    {
+////        String eventName = appointmentType.getText().toString();//get the name of the event
+//        String cliName;
+//        String IDclient;
+//        if (isManager) { //if user is manager
+//            cliName = ClientName.getText().toString();//get the client name
+//            IDclient = WeekViewActivity.getKey(cliName);
+//        } else { //if user is client
+//            cliName = clientNames.get(0);
+//            IDclient = getCurrFirebaseAuth().getUid();
+//        }
+//    }

@@ -55,8 +55,13 @@ public class Order implements ClientActivities{
 
     @Override
     public String getClientName() {
-        Client currClient = CalendarMainActivity.clients.get(this.clientId);
-        assert currClient != null;
-        return currClient.getFirstName() + " " + currClient.getLastName();
+        if (this.clientId.contains(" ")) {
+            return this.clientId;
+        }
+        else {
+            Client currClient = CalendarMainActivity.clients.get(this.clientId);
+            assert currClient != null;
+            return currClient.getFirstName() + " " + currClient.getLastName();
+        }
     }
 }

@@ -37,4 +37,5 @@ public class EventAdapter extends ArrayAdapter<Event> {
         eventCellTV.setText(eventTitle);
         return convertView;
     }
+
 }
