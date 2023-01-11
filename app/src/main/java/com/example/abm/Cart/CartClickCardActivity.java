@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.example.abm.BaseActivity;
 import com.example.abm.Products.Product;
+import com.example.abm.Products.ProductsClickCardDatabaseUtils;
 import com.example.abm.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -38,57 +39,35 @@ public class CartClickCardActivity extends BaseActivity {
         // what we get from the last activity
         Intent intent = getIntent();
         String productPositon = intent.getStringExtra("Product");
+        CartClickCartDatabaseUtils.databaseSetSingleProduct(productPositon, progressDialog, this);
 
 
-        super.getCurrDatabase().collection("Products").document(productPositon)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        product = documentSnapshot.toObject(Product.class);
-                        initValuesOfLayout();
-                        progressDialog.dismiss();
-                    }
-
-
-                });
         deleteFromCart = findViewById(R.id.deleteFromCart);
         deleteFromCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteProduct();
+                CartClickCartDatabaseUtils.databaseDeleteProductFromCart(product, CartClickCardActivity.this);
+
             }
         });
-    }
-
-    private void deleteProduct() {
-        super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).
-                collection("Products").document(product.getColorName()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(CartClickCardActivity.this, "Product deleted from cart", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(CartClickCardActivity.this, CartMainActivity.class);
-                        startActivity(intent);
-                    }
-                });
 
     }
+    public void SetProduct(Product product){
+        this.product = product;
+    }
 
-    private void initValuesOfLayout() {
+
+    public void SetQuantity(String quantity){
+        this.quantity.setText(quantity);
+    }
+
+    public void initValuesOfLayout() {
         addToCartButton = findViewById(R.id.addToCart);
         productImage = findViewById(R.id.Polish1);
         productColor = findViewById(R.id.PolishDetalis);
         setPrice = findViewById(R.id.SetPrice);
         quantity = findViewById(R.id.quantity);
-        super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).
-                collection("Products").document(product.getColorName()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        Cart cart = documentSnapshot.toObject(Cart.class);
-                        String q = String.valueOf(cart.getQuantity());
-                        quantity.setText(q);
-                    }
-                });
+        CartClickCartDatabaseUtils.databaseSetQuantity(product,this);
         productColor.setText(product.getColorName());
         productImage.setImageResource(product.getImage());
         setPrice.setText(product.getPrice());
@@ -137,7 +116,7 @@ public class CartClickCardActivity extends BaseActivity {
                 //set cart's price
                 int totalPrice = Integer.parseInt(quantity.getText().toString()) * Integer.parseInt(product.getPrice());
                 Cart cart = new Cart(product.getColorName(),product.getImage(), Integer.parseInt(quantity.getText().toString()),totalPrice);
-                super.getCurrDatabase().collection("Cart").document(super.getCurrFirebaseAuth().getCurrentUser().getUid()).collection("Products").document(product.getColorName()).set(cart);
+                ProductsClickCardDatabaseUtils.databaseAddProductToCart(product, cart);
                 //update the quantity of the product in the database
                 int newQuantity = Integer.parseInt(product.getQuantity()) - Integer.parseInt(quantity.getText().toString());
 
@@ -149,7 +128,7 @@ public class CartClickCardActivity extends BaseActivity {
                 }
                 else {
                     String newQuantityString = String.valueOf(newQuantity);
-                    super.getCurrDatabase().collection("Products").document(product.getColorName()).update("quantity", newQuantityString);
+                    ProductsClickCardDatabaseUtils.databaseUpdateQuantity(product, newQuantityString);
                     Toast.makeText(this, "Added to cart", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(CartClickCardActivity.this, CartMainActivity.class));
                 }

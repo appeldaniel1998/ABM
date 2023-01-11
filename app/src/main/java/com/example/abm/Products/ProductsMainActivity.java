@@ -38,7 +38,7 @@ public class ProductsMainActivity extends BaseActivity implements NavigationView
         setContentView(R.layout.activity_products_main);
         super.initMenuSideBar();
         initValues();
-        //getProductFromDatabase();
+
 
 
         //loading
