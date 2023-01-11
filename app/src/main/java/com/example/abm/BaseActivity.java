@@ -118,19 +118,18 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-    public void postRequestOnSuccess(@NonNull final Response response, CallbackInterface callBack) {
+    public void postRequestOnSuccess(@NonNull final Response response, CallbackInterface callBack, JSONArray jsonArray) {
         runOnUiThread(() -> {
-            boolean success = false;
-            while (!success) {
+//            boolean success = false;
+//            while (!success) {
                 try {
-                    String jsonString = response.body().string();
-                    JSONArray jsonArray = new JSONArray(jsonString);
                     BackendHandling.handleServerResponses(jsonArray);
                     callBack.onCall();
-                    success = true;
-                } catch (Exception ignored) {
+//                    success = true;
+                } catch (Exception e) {
+                    callBack.onCall();
                 }
-            }
+//            }
         });
     }
 

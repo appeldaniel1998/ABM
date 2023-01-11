@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.example.abm.BaseActivity;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.io.IOException;
 
@@ -19,7 +20,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 
 public class MainDatabaseUtils {
-    private static final String url = "http://192.168.1.246:5000";
+    private static final String url = "http://10.0.0.17:5000";
 
     private static RequestBody buildRequestBody(String msg) {
         MediaType mediaType = MediaType.parse("text/plain");
@@ -37,7 +38,14 @@ public class MainDatabaseUtils {
             }
             @Override
             public void onResponse(@NonNull Call call, @NonNull final Response response) {
-                baseActivity.postRequestOnSuccess(response, callBack);
+                JSONArray jsonArray = null;
+                try {
+                    String jsonString = response.body().string();
+                    jsonArray = new JSONArray(jsonString);
+                } catch (JSONException | IOException e) {
+                    e.printStackTrace();
+                }
+                baseActivity.postRequestOnSuccess(response, callBack, jsonArray);
             }
         });
     }

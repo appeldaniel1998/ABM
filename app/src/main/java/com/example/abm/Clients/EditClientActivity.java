@@ -103,7 +103,7 @@ public class EditClientActivity extends BaseActivity {
         doneEditingButton.setOnClickListener(v -> {
             Client userToAdd = new Client(firstName.getText().toString(), lastName.getText().toString(), email.getText().toString(),
                     phoneNumber.getText().toString(), address.getText().toString(),
-                    DatePicker.stringToInt(birthday.getText().toString()), clientUID); //creating a new user
+                    DatePicker.stringToInt(birthday.getText().toString()), clientUID, client.getManager()); //creating a new user
             ClientsDatabaseUtils.addClientToFirebase(userToAdd, clientUID);
 
             Intent myIntent = new Intent(EditClientActivity.this, SingleClientViewActivity.class);
