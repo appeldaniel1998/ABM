@@ -55,9 +55,8 @@ public class EditProduct extends BaseActivity {
                 String quantity = txtProductQuantity.getText().toString();
                 String description = txtProductDescription.getText().toString();
                 Product product = new Product(color, description, productImage, price, quantity);
-                //Product product = new Product(color, price, quantity, description,productImage);
                 EditProduct.super.getCurrDatabase().collection("Products").document(product.getColorName()).set(product);
-                Toast.makeText(EditProduct.this, "Adding new product!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProduct.this, "Finished editing!", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(EditProduct.this, ProductsMainActivity.class));
                 finish();
             }

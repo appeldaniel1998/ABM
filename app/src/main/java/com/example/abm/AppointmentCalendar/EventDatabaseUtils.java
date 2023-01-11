@@ -17,6 +17,8 @@ public class EventDatabaseUtils {
     static FirebaseFirestore database;
     static FirebaseAuth auth;
 
+
+
     public static void Retrival(CalendarMainActivity calendarMainActivity,ProgressDialog progressDialog) {
         database = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();

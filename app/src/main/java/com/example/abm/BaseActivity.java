@@ -28,6 +28,7 @@ import com.example.abm.LoginAndRegistration.LoginOrRegisterActivity;
 import com.example.abm.Products.ProductsMainActivity;
 import com.example.abm.Utils.BackendHandling;
 import com.example.abm.Utils.CallbackInterface;
+import com.example.abm.Utils.MainDatabaseUtils;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -53,7 +54,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     private FirebaseAuth auth;
     private FirebaseFirestore database;
     private StorageReference storageReference;
-    private final String url = "http://192.168.1.246:5000";
     public final int IMG_REQUEST_CODE_GALLERY = 10;
     public FirebaseAuth getCurrFirebaseAuth() {
         return auth;
@@ -72,43 +72,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         this.database = FirebaseFirestore.getInstance();
         this.storageReference = FirebaseStorage.getInstance().getReference();
     }
-
-    private RequestBody buildRequestBody(String msg) {
-        MediaType mediaType = MediaType.parse("text/plain");
-        return RequestBody.create(msg, mediaType);
-    }
-
-    public void postRequest(String message, CallbackInterface callBack) {
-        RequestBody requestBody = buildRequestBody(message);
-        OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().post(requestBody).url(url).build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull final Call call, @NonNull final IOException e) {
-                runOnUiThread(() -> {
-                    Toast.makeText(BaseActivity.this, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    call.cancel();
-                });
-            }
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull final Response response) {
-                runOnUiThread(() -> {
-                    boolean success = false;
-                    while (!success) {
-                        try {
-                            String jsonString = response.body().string();
-                            JSONArray jsonArray = new JSONArray(jsonString);
-                            BackendHandling.handleServerResponses(jsonArray);
-                            callBack.onCall();
-                            success = true;
-                        } catch (Exception ignored) {
-                        }
-                    }
-                });
-            }
-        });
-    }
-
 
     //On click listener: what to do when each button is clicked
     @Override
@@ -142,6 +105,33 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             startActivity(new Intent(this, LoginOrRegisterActivity.class));
             return true;
         } else return false;
+    }
+
+    public void postRequest(String message, CallbackInterface callBack) {
+        MainDatabaseUtils.postRequestDataBase(message, callBack, this);
+    }
+
+    public void postRequestOnFailure(@NonNull final Call call, @NonNull final IOException e) {
+        runOnUiThread(() -> {
+            Toast.makeText(BaseActivity.this, "Something went wrong:" + " " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            call.cancel();
+        });
+    }
+
+    public void postRequestOnSuccess(@NonNull final Response response, CallbackInterface callBack) {
+        runOnUiThread(() -> {
+            boolean success = false;
+            while (!success) {
+                try {
+                    String jsonString = response.body().string();
+                    JSONArray jsonArray = new JSONArray(jsonString);
+                    BackendHandling.handleServerResponses(jsonArray);
+                    callBack.onCall();
+                    success = true;
+                } catch (Exception ignored) {
+                }
+            }
+        });
     }
 
     @SuppressLint("SetTextI18n")
